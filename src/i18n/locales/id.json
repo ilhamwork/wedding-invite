@@ -1,0 +1,125 @@
+{
+  "cover": {
+    "invitedTo": "Kepada Bpk/Ibu/Sdr/i",
+    "fallbackGuest": "Tamu Undangan",
+    "eyebrow": "Undangan Pernikahan",
+    "cta": "Buka Undangan"
+  },
+  "hero": {
+    "eyebrow": "Kami Akan Menikah",
+    "willMarry": "Akan Melangsungkan Pernikahan"
+  },
+  "couple": {
+    "eyebrow": "Mempelai",
+    "groom": "Mempelai Pria",
+    "bride": "Mempelai Wanita"
+  },
+  "story": {
+    "eyebrow": "Kisah Kami",
+    "title": "Perjalanan Cinta Kami"
+  },
+  "countdown": {
+    "eyebrow": "Hitung Mundur",
+    "title": "Menuju Hari Bahagia",
+    "days": "Hari",
+    "hours": "Jam",
+    "minutes": "Menit",
+    "seconds": "Detik",
+    "addToCalendar": "Tambah ke Kalender",
+    "happening": "Hari yang dinanti telah tiba!"
+  },
+  "event": {
+    "eyebrow": "Detail Acara",
+    "title": "Waktu & Tempat",
+    "viewMap": "Lihat di Maps",
+    "date": "Tanggal",
+    "time": "Waktu",
+    "venue": "Tempat"
+  },
+  "gallery": {
+    "eyebrow": "Galeri",
+    "title": "Momen Kami"
+  },
+  "rsvp": {
+    "eyebrow": "Konfirmasi Kehadiran",
+    "title": "RSVP",
+    "name": "Nama",
+    "namePlaceholder": "Nama lengkap",
+    "attendance": "Konfirmasi Kehadiran",
+    "attending": "Hadir",
+    "notAttending": "Tidak Hadir",
+    "maybe": "Ragu-ragu",
+    "guestCount": "Jumlah Tamu",
+    "message": "Pesan (opsional)",
+    "messagePlaceholder": "Tulis pesan untuk kami...",
+    "submit": "Kirim RSVP",
+    "submitting": "Mengirim...",
+    "successTitle": "Terima kasih!",
+    "successBody": "Konfirmasi kehadiran Anda telah kami terima.",
+    "errorBody": "Maaf, terjadi kesalahan saat mengirim RSVP. Silakan coba lagi.",
+    "errors": {
+      "nameRequired": "Nama wajib diisi",
+      "attendanceRequired": "Silakan pilih status kehadiran",
+      "guestCountInvalid": "Jumlah tamu tidak valid"
+    }
+  },
+  "wishes": {
+    "eyebrow": "Ucapan & Doa",
+    "title": "Kirim Ucapan",
+    "name": "Nama",
+    "namePlaceholder": "Nama Anda",
+    "message": "Ucapan",
+    "messagePlaceholder": "Tulis ucapan dan doa Anda...",
+    "submit": "Kirim Ucapan",
+    "submitting": "Mengirim...",
+    "loadMore": "Muat Lebih Banyak",
+    "empty": "Jadilah yang pertama mengirim ucapan!",
+    "errorBody": "Maaf, ucapan gagal terkirim. Silakan coba lagi.",
+    "errors": {
+      "nameRequired": "Nama wajib diisi",
+      "messageRequired": "Ucapan wajib diisi"
+    }
+  },
+  "gift": {
+    "eyebrow": "Amplop Digital",
+    "title": "Tanda Kasih",
+    "description": "Doa restu Anda adalah karunia terindah. Namun jika ingin memberi tanda kasih, kami sediakan opsi berikut.",
+    "copy": "Salin Nomor",
+    "copied": "Tersalin!"
+  },
+  "closing": {
+    "thankYou": "Terima Kasih",
+    "message": "Atas doa restu dan kehadiran Anda, kami ucapkan terima kasih yang setulus-tulusnya."
+  },
+  "music": {
+    "play": "Putar musik",
+    "pause": "Jeda musik"
+  },
+  "checkin": {
+    "title": "QR Check-in Anda",
+    "subtitle": "Tunjukkan kode ini kepada petugas saat tiba di lokasi acara",
+    "guestName": "Nama Tamu"
+  },
+  "admin": {
+    "loginTitle": "Admin Check-in",
+    "password": "Kata Sandi",
+    "login": "Masuk",
+    "loginError": "Kata sandi salah",
+    "dashboard": "Dasbor",
+    "totalRsvp": "Total RSVP",
+    "attending": "Hadir",
+    "notAttending": "Tidak Hadir",
+    "maybe": "Ragu-ragu",
+    "totalWishes": "Total Ucapan",
+    "scanTitle": "Pindai QR Tamu",
+    "scanHint": "Arahkan kamera ke kode QR tamu",
+    "checkedIn": "Berhasil check-in",
+    "alreadyCheckedIn": "Tamu ini sudah check-in sebelumnya",
+    "guestNotFound": "Data tamu tidak ditemukan"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "retry": "Coba lagi"
+  }
+}

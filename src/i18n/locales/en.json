@@ -1,0 +1,125 @@
+{
+  "cover": {
+    "invitedTo": "Dear",
+    "fallbackGuest": "Honored Guest",
+    "eyebrow": "Wedding Invitation",
+    "cta": "Open Invitation"
+  },
+  "hero": {
+    "eyebrow": "We Are Getting Married",
+    "willMarry": "Request the Honor of Your Presence"
+  },
+  "couple": {
+    "eyebrow": "The Couple",
+    "groom": "The Groom",
+    "bride": "The Bride"
+  },
+  "story": {
+    "eyebrow": "Our Story",
+    "title": "Our Journey Together"
+  },
+  "countdown": {
+    "eyebrow": "Countdown",
+    "title": "Counting Down to the Big Day",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "addToCalendar": "Add to Calendar",
+    "happening": "The day we've been waiting for is here!"
+  },
+  "event": {
+    "eyebrow": "Event Details",
+    "title": "Date & Venue",
+    "viewMap": "View on Maps",
+    "date": "Date",
+    "time": "Time",
+    "venue": "Venue"
+  },
+  "gallery": {
+    "eyebrow": "Gallery",
+    "title": "Our Moments"
+  },
+  "rsvp": {
+    "eyebrow": "RSVP",
+    "title": "RSVP",
+    "name": "Name",
+    "namePlaceholder": "Full name",
+    "attendance": "Attendance",
+    "attending": "Attending",
+    "notAttending": "Not Attending",
+    "maybe": "Maybe",
+    "guestCount": "Number of Guests",
+    "message": "Message (optional)",
+    "messagePlaceholder": "Write a message for us...",
+    "submit": "Send RSVP",
+    "submitting": "Sending...",
+    "successTitle": "Thank you!",
+    "successBody": "Your RSVP has been received.",
+    "errorBody": "Sorry, something went wrong sending your RSVP. Please try again.",
+    "errors": {
+      "nameRequired": "Name is required",
+      "attendanceRequired": "Please select your attendance status",
+      "guestCountInvalid": "Invalid guest count"
+    }
+  },
+  "wishes": {
+    "eyebrow": "Wishes & Prayers",
+    "title": "Leave a Wish",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "message": "Wish",
+    "messagePlaceholder": "Write your wish and prayers...",
+    "submit": "Send Wish",
+    "submitting": "Sending...",
+    "loadMore": "Load More",
+    "empty": "Be the first to leave a wish!",
+    "errorBody": "Sorry, your wish failed to send. Please try again.",
+    "errors": {
+      "nameRequired": "Name is required",
+      "messageRequired": "Wish message is required"
+    }
+  },
+  "gift": {
+    "eyebrow": "Digital Envelope",
+    "title": "Wedding Gift",
+    "description": "Your presence and prayers mean the world to us. If you'd like to send a gift, here are our details.",
+    "copy": "Copy Number",
+    "copied": "Copied!"
+  },
+  "closing": {
+    "thankYou": "Thank You",
+    "message": "For your prayers and presence, we offer our most heartfelt thanks."
+  },
+  "music": {
+    "play": "Play music",
+    "pause": "Pause music"
+  },
+  "checkin": {
+    "title": "Your QR Check-in",
+    "subtitle": "Show this code to the usher when you arrive at the venue",
+    "guestName": "Guest Name"
+  },
+  "admin": {
+    "loginTitle": "Admin Check-in",
+    "password": "Password",
+    "login": "Log In",
+    "loginError": "Incorrect password",
+    "dashboard": "Dashboard",
+    "totalRsvp": "Total RSVPs",
+    "attending": "Attending",
+    "notAttending": "Not Attending",
+    "maybe": "Maybe",
+    "totalWishes": "Total Wishes",
+    "scanTitle": "Scan Guest QR",
+    "scanHint": "Point the camera at the guest's QR code",
+    "checkedIn": "Checked in successfully",
+    "alreadyCheckedIn": "This guest has already checked in",
+    "guestNotFound": "Guest record not found"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry"
+  }
+}
