@@ -74,6 +74,7 @@
     "messagePlaceholder": "Write your wish and prayers...",
     "submit": "Send Wish",
     "submitting": "Sending...",
+    "successBody": "Your wish has been sent 🎉",
     "loadMore": "Load More",
     "empty": "Be the first to leave a wish!",
     "errorBody": "Sorry, your wish failed to send. Please try again.",

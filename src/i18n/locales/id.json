@@ -6,11 +6,13 @@
     "cta": "Buka Undangan"
   },
   "hero": {
-    "eyebrow": "Hari Pernikahan Kami",
+    "eyebrow": "Undangan Pernikahan",
+    "title": "Hari Pernikahan Kami",
     "willMarry": "Akan Melangsungkan Pernikahan"
   },
   "couple": {
     "eyebrow": "Mempelai",
+    "title": "Pernikahan",
     "groom": "Mempelai Pria",
     "bride": "Mempelai Wanita"
   },
@@ -72,6 +74,7 @@
     "messagePlaceholder": "Tulis ucapan dan doa Anda...",
     "submit": "Kirim Ucapan",
     "submitting": "Mengirim...",
+    "successBody": "Ucapan Anda telah terkirim 🎉",
     "loadMore": "Muat Lebih Banyak",
     "empty": "Jadilah yang pertama mengirim ucapan!",
     "errorBody": "Maaf, ucapan gagal terkirim. Silakan coba lagi.",
