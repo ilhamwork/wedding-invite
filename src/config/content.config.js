@@ -10,17 +10,17 @@ export const content = {
       fullName: 'Mohamad Ilham Firdaus',
       nickname: 'Ilham',
       instagram: '@ilham.firdaus',
-      photo: '/assets/groom.JPG',
+      photo: '/assets/groom.jpg',
       parents: {
         id: 'Putra dari\nBpk. Iwan Ridwan\n&\nIbu Alm. Sopiah',
-        en: 'Precious Son of\nIwan Ridwan\n&\nAlm. Sopiah]',
+        en: 'Precious Son of\nIwan Ridwan\n&\nAlm. Sopiah',
       },
     },
     bride: {
       fullName: 'Prita Sekar Primadiani',
       nickname: 'Prita',
       instagram: '@prita.sekar',
-      photo: '/assets/bride.JPG',
+      photo: '/assets/bride.jpg',
       parents: {
         id: 'Putri dari\nBpk. Ilham Philipinaryo\n&\nIbu Dian Novianti Dwitasari',
         en: 'Lovely Daughter of\nIlham Philipinaryo\n&\nDian Novianti Dwitasari',
@@ -63,11 +63,9 @@ export const content = {
   },
 
   story: [
-    // Each item: photo (path in /public), year, title, caption (short text shown in carousel)
-    // TODO: replace placeholder story with the couple's real story & photos
     {
       year: '2019',
-      photo: '/assets/gallery/PC002529.JPG',
+      photo: '/assets/gallery/PRITA & ILHAM-4.jpg',
       title: { id: 'Pertama Bertemu', en: 'First Meeting' },
       caption: {
         id: 'Placeholder — ceritakan bagaimana kalian pertama kali bertemu.',
@@ -76,7 +74,7 @@ export const content = {
     },
     {
       year: '2022',
-      photo: '/assets/gallery/PC002846.JPG',
+      photo: '/assets/gallery/PRITA & ILHAM-37.jpg',
       title: { id: 'Menjadi Dekat', en: 'Growing Close' },
       caption: {
         id: 'Placeholder — ceritakan momen yang membuat kalian semakin dekat.',
@@ -85,7 +83,7 @@ export const content = {
     },
     {
       year: '2025',
-      photo: '/assets/gallery/PC003196.JPG',
+      photo: '/assets/gallery/PRITA & ILHAM-96.jpg',
       title: { id: 'Lamaran', en: 'The Proposal' },
       caption: {
         id: 'Placeholder — ceritakan momen lamaran kalian.',
@@ -95,11 +93,11 @@ export const content = {
   ],
 
   gallery: [
-    { src: '/assets/gallery/PC002529.JPG', alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PC002688.JPG', alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PC002846.JPG', alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PC003105.JPG', alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PC003196.JPG', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PRITA & ILHAM-4.jpg',  alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PRITA & ILHAM-16.jpg', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PRITA & ILHAM-37.jpg', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PRITA & ILHAM-53.jpg', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PRITA & ILHAM-96.jpg', alt: 'Ilham & Prita' },
   ],
 
   gifts: [
