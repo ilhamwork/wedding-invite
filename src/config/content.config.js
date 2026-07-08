@@ -9,7 +9,7 @@ export const content = {
     groom: {
       fullName: 'Mohamad Ilham Firdaus',
       nickname: 'Ilham',
-      instagram: '@ilham.firdaus',
+      instagram: '@ilhamfirdaa',
       photo: '/assets/groom.jpg',
       parents: {
         id: 'Putra dari\nBpk. Iwan Ridwan\n&\nIbu Alm. Sopiah',
@@ -19,7 +19,7 @@ export const content = {
     bride: {
       fullName: 'Prita Sekar Primadiani',
       nickname: 'Prita',
-      instagram: '@prita.sekar',
+      instagram: '@pritaskr',
       photo: '/assets/bride.jpg',
       parents: {
         id: 'Putri dari\nBpk. Ilham Philipinaryo\n&\nIbu Dian Novianti Dwitasari',
@@ -28,37 +28,23 @@ export const content = {
     },
   },
 
-  hero: {
-    // TODO: verify wording of the opening quote before production use.
-    // This is placeholder devotional/neutral copy, not confirmed final text.
-    quote: {
-      id: '"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya."',
-      en: '"And among His signs is that He created for you spouses from among yourselves, so that you may find tranquility in them."',
-      source: 'QS. Ar-Rum: 21 — TODO: verify citation',
-    },
-  },
-
   event: {
-    // ISO datetime strings, WIB = UTC+7
     akad: {
       dateISO: '2026-09-05T15:30:00+07:00',
-      label: { id: 'Akad Nikah', en: 'Solemnization' },
-      venueName: 'Gedung BKKBN',
-      // TODO: replace with exact full address before going live
-      address: 'Gedung BKKBN, Jl. Permata No. 1, Halim, Jakarta Timur — TODO: exact address',
+      label: { id: 'Akad Nikah', en: 'Akad Nikah' },
+      venueName: 'Auditorium BKKBN',
+      address: 'Auditorium BKKBN, Jl. Permata No.1, RT.4/RW.5, Kb. Pala, Kec. Makasar, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta',
     },
     resepsi: {
       dateISO: '2026-09-05T18:30:00+07:00',
-      label: { id: 'Resepsi', en: 'Reception' },
-      venueName: 'Gedung BKKBN',
-      address: 'Gedung BKKBN, Jl. Permata No. 1, Halim, Jakarta Timur — TODO: exact address',
+      label: { id: 'Resepsi', en: 'Resepsi' },
+      venueName: 'Auditorium BKKBN',
+      address: 'Auditorium BKKBN, Jl. Permata No.1, RT.4/RW.5, Kb. Pala, Kec. Makasar, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta',
     },
-    // TODO: replace with exact coordinates for Gedung BKKBN, Jakarta Timur.
-    // Approximate placeholder centered on Halim, Jakarta Timur area.
     map: {
       lat: -6.2655,
       lng: 106.8917,
-      googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Gedung+BKKBN+Jakarta+Timur',
+      googleMapsUrl: 'https://maps.app.goo.gl/gbX8ddCzavcxkmqY8',
     },
   },
 
@@ -101,25 +87,23 @@ export const content = {
   ],
 
   gifts: [
-    // TODO: replace with real bank/e-wallet details before going live
     {
       type: 'bank',
-      bankName: 'BCA',           // auto-matched → shows BCA logo
-      accountNumber: '0000000000',
+      bankName: 'BCA',
+      accountNumber: '5405 1730 66',
       accountHolder: 'Mohamad Ilham Firdaus',
     },
     {
       type: 'bank',
       bankName: 'BCA',
-      accountNumber: '0000000000',
+      accountNumber: '6220 5050 47',
       accountHolder: 'Prita Sekar Primadiani',
     },
   ],
 
   music: {
-    // TODO: replace with a real, licensed audio file in /public/audio
-    src: '/audio/background-music.mp3',
-    title: 'Placeholder Track',
+    src: '/audio/Akad_PayungTeduh.mp3',
+    title: 'Akad',
   },
 
   admin: {
