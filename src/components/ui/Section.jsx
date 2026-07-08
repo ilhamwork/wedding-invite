@@ -30,18 +30,12 @@ export function Eyebrow({ children }) {
   return <p className="section-label text-center mb-3">{children}</p>
 }
 
-export default function Section({ id, className = '', ornament = true, children }) {
+export default function Section({ id, className = '', children }) {
   return (
     <section
       id={id}
       className={`relative px-6 py-20 sm:py-24 max-w-xl mx-auto ${className}`}
     >
-      {ornament && (
-        <>
-          <CornerSprig className="absolute top-4 left-2 w-14 h-14 opacity-70" />
-          <CornerSprig className="absolute top-4 right-2 w-14 h-14 opacity-70" flip />
-        </>
-      )}
       {children}
     </section>
   )

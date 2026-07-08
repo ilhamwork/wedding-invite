@@ -24,7 +24,7 @@ function AdminLoginForm({ onAuthed }) {
 
   return (
     <div className="paper-texture min-h-screen flex items-center justify-center p-6">
-      <form onSubmit={handleSubmit} className="max-w-xs w-full rounded-3xl border hairline bg-paper/60 p-8">
+      <form onSubmit={handleSubmit} className="max-w-xs w-full rounded-3xl border hairline bg-pebble/60 p-8">
         <h1 className="font-display text-2xl text-ink text-center mb-6">{t('admin.loginTitle')}</h1>
         <input
           type="password"
@@ -34,12 +34,12 @@ function AdminLoginForm({ onAuthed }) {
             setError(false)
           }}
           placeholder={t('admin.password')}
-          className="w-full rounded-xl border hairline bg-cream px-4 py-2.5 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-rust/40"
+          className="w-full rounded-xl border hairline bg-mist px-4 py-2.5 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-sea-light/40"
         />
-        {error && <p className="text-xs text-rust mb-3">{t('admin.loginError')}</p>}
+        {error && <p className="text-xs text-sea-light mb-3">{t('admin.loginError')}</p>}
         <button
           type="submit"
-          className="w-full mt-3 py-2.5 rounded-full bg-ink text-cream text-xs tracking-[0.2em] uppercase hover:bg-rust transition-colors"
+          className="w-full mt-3 py-2.5 rounded-full bg-sea text-cream text-xs tracking-[0.2em] uppercase hover:bg-sea-mid transition-colors"
         >
           {t('admin.login')}
         </button>
@@ -50,8 +50,8 @@ function AdminLoginForm({ onAuthed }) {
 
 function StatCard({ label, value }) {
   return (
-    <div className="rounded-2xl border hairline bg-paper/50 p-4 text-center">
-      <p className="font-display text-2xl text-rust">{value}</p>
+    <div className="rounded-2xl border hairline bg-pebble/50 p-4 text-center">
+      <p className="font-display text-2xl text-sea-light">{value}</p>
       <p className="text-[10px] uppercase tracking-widest text-ink-soft/60 mt-1">{label}</p>
     </div>
   )

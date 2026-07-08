@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import useGuestName from '../hooks/useGuestName'
 import Cover from '../components/Cover'
@@ -24,26 +25,39 @@ export default function Home() {
     <div className="paper-texture min-h-screen">
       {!isOpen && <Cover guestName={guestName} onOpen={() => setIsOpen(true)} />}
 
-      {isOpen && (
-        <>
-          <div className="fixed top-5 right-5 z-40">
-            <LanguageToggle />
-          </div>
-          <main>
-            <Hero />
-            <Couple />
-            <OurStory />
-            <Countdown />
-            <EventDetails />
-            <Gallery />
-            <RSVP guestName={guestName} />
-            <Wishes />
-            <GiftEnvelope />
-            <Closing />
-          </main>
-          <MusicToggle />
-        </>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="main-content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.div
+              className="fixed top-5 right-5 z-40"
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <LanguageToggle />
+            </motion.div>
+            <main>
+              {/* Sections alternate between section-alt-a and section-alt-b */}
+              <div className="section-alt-a"><Hero /></div>
+              <div className="section-alt-b"><Couple /></div>
+              <div className="section-alt-a"><OurStory /></div>
+              <div className="section-alt-b"><Countdown /></div>
+              <div className="section-alt-a"><EventDetails /></div>
+              <div className="section-alt-b"><Gallery /></div>
+              <div className="section-alt-a"><RSVP guestName={guestName} /></div>
+              <div className="section-alt-b"><Wishes /></div>
+              <div className="section-alt-a"><GiftEnvelope /></div>
+              <div className="section-alt-b"><Closing /></div>
+            </main>
+            <MusicToggle />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

@@ -108,7 +108,6 @@ export default function Wishes() {
   return (
     <Section id="wishes">
       <Reveal>
-        <Eyebrow>{t('wishes.eyebrow')}</Eyebrow>
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('wishes.title')}</h2>
 
         <form onSubmit={handleSubmit} noValidate className="space-y-4 mb-10">
@@ -118,9 +117,9 @@ export default function Wishes() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t('wishes.namePlaceholder')}
-              className="w-full rounded-xl border hairline bg-paper/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rust/40"
+              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40"
             />
-            {errors.name && <p className="text-xs text-rust mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-xs text-sea-light mt-1">{errors.name}</p>}
           </div>
           <div>
             <textarea
@@ -128,14 +127,14 @@ export default function Wishes() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={t('wishes.messagePlaceholder')}
-              className="w-full rounded-xl border hairline bg-paper/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rust/40 resize-none"
+              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40 resize-none"
             />
-            {errors.message && <p className="text-xs text-rust mt-1">{errors.message}</p>}
+            {errors.message && <p className="text-xs text-sea-light mt-1">{errors.message}</p>}
           </div>
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3 rounded-full bg-ink text-cream text-xs tracking-[0.25em] uppercase hover:bg-rust transition-colors disabled:opacity-60"
+            className="w-full py-3 rounded-full bg-sea text-cream text-xs tracking-[0.25em] uppercase hover:bg-sea-mid transition-colors disabled:opacity-60"
           >
             {submitting ? t('wishes.submitting') : t('wishes.submit')}
           </button>
@@ -144,13 +143,13 @@ export default function Wishes() {
         <div className="space-y-4">
           {loading && <p className="text-center text-sm text-ink-soft/60">{t('common.loading')}</p>}
           {!loading && loadError && (
-            <p className="text-center text-sm text-rust">{t('common.error')}</p>
+            <p className="text-center text-sm text-sea-light">{t('common.error')}</p>
           )}
           {!loading && !loadError && wishes.length === 0 && (
             <p className="text-center text-sm text-ink-soft/60">{t('wishes.empty')}</p>
           )}
           {wishes.map((w) => (
-            <div key={w.id} className="rounded-2xl border hairline bg-paper/40 p-4">
+            <div key={w.id} className="rounded-2xl border hairline bg-pebble/40 p-4">
               <div className="flex items-baseline justify-between mb-1">
                 <p className="font-display text-base text-ink">{w.name}</p>
                 <p className="text-[10px] text-ink-soft/50">
@@ -166,7 +165,7 @@ export default function Wishes() {
           <button
             type="button"
             onClick={loadMore}
-            className="w-full mt-6 py-2.5 rounded-full border hairline text-xs tracking-[0.2em] uppercase text-ink-soft hover:bg-sand/50 transition-colors"
+            className="w-full mt-6 py-2.5 rounded-full border hairline text-xs tracking-[0.2em] uppercase text-ink-soft hover:bg-sky/50 transition-colors"
           >
             {t('wishes.loadMore')}
           </button>

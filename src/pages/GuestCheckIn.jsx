@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient'
-import { LeafMonogram } from '../components/ui/Ornaments'
+
+const ease = [0.22, 1, 0.36, 1]
 
 export default function GuestCheckIn() {
   const { id } = useParams()
@@ -40,26 +42,34 @@ export default function GuestCheckIn() {
 
   return (
     <div className="paper-texture min-h-screen flex items-center justify-center p-6">
-      <div className="max-w-sm w-full text-center rounded-3xl border hairline bg-paper/60 p-8">
-        <LeafMonogram className="w-12 h-12 mx-auto mb-5" />
+      <motion.div
+        className="max-w-sm w-full text-center rounded-3xl border hairline bg-pebble/60 p-8"
+        initial={{ opacity: 0, y: 32, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.7, ease }}
+      >
         <p className="section-label mb-1">{t('checkin.title')}</p>
         <p className="text-xs text-ink-soft/60 mb-6">{t('checkin.subtitle')}</p>
 
         {status === 'loading' && <p className="text-sm text-ink-soft/60">{t('common.loading')}</p>}
-        {status === 'error' && <p className="text-sm text-rust">{t('admin.guestNotFound')}</p>}
+        {status === 'error' && <p className="text-sm text-sea-light">{t('admin.guestNotFound')}</p>}
 
         {status === 'found' && (
-          <>
-            <div className="bg-cream inline-block p-4 rounded-2xl border hairline mb-5">
-              <QRCodeSVG value={guest.id} size={180} fgColor="#1F2D3D" bgColor="#FAF6EE" />
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.2 }}
+          >
+            <div className="bg-mist inline-block p-4 rounded-2xl border hairline mb-5">
+              <QRCodeSVG value={guest.id} size={180} fgColor="#0D2B45" bgColor="#EDF6FD" />
             </div>
             <p className="text-xs uppercase tracking-widest text-ink-soft/60 mb-1">
               {t('checkin.guestName')}
             </p>
             <p className="font-display text-xl text-ink">{guest.guest_name}</p>
-          </>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }

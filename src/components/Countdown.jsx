@@ -37,14 +37,13 @@ export default function Countdown() {
   return (
     <Section id="countdown">
       <Reveal className="text-center">
-        <Eyebrow>{t('countdown.eyebrow')}</Eyebrow>
         <h2 className="font-display text-2xl text-ink mb-8">{t('countdown.title')}</h2>
 
         {total > 0 ? (
           <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm mx-auto mb-8">
             {units.map((u) => (
-              <div key={u.label} className="rounded-2xl border hairline py-4 bg-paper/60">
-                <p className="font-display text-2xl sm:text-3xl text-rust tabular-nums">
+              <div key={u.label} className="rounded-2xl border hairline py-4 bg-pebble/60">
+                <p className="font-display text-2xl sm:text-3xl text-sea-light tabular-nums">
                   {pad(u.value)}
                 </p>
                 <p className="text-[10px] uppercase tracking-widest text-ink-soft/70 mt-1">
@@ -54,14 +53,14 @@ export default function Countdown() {
             ))}
           </div>
         ) : (
-          <p className="font-display text-xl text-rust mb-8">{t('countdown.happening')}</p>
+          <p className="font-display text-xl text-sea-light">{t('countdown.happening')}</p>
         )}
 
         <a
           href={buildGoogleCalendarUrl()}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block px-6 py-2.5 rounded-full border hairline text-ink text-xs tracking-[0.2em] uppercase hover:bg-ink hover:text-cream transition-colors"
+          className="inline-block px-6 py-2.5 rounded-full border hairline text-ink text-xs tracking-[0.2em] uppercase hover:bg-sea hover:text-cream transition-colors"
         >
           {t('countdown.addToCalendar')}
         </a>
