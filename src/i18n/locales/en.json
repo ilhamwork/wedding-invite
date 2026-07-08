@@ -2,15 +2,17 @@
   "cover": {
     "invitedTo": "Dear",
     "fallbackGuest": "Honored Guest",
-    "eyebrow": "Wedding Invitation",
+    "eyebrow": "We invite you to The Wedding of",
     "cta": "Open Invitation"
   },
   "hero": {
-    "eyebrow": "We Are Getting Married",
+    "eyebrow": "Wedding Invitation",
+    "title": "Our Wedding Day",
     "willMarry": "Request the Honor of Your Presence"
   },
   "couple": {
     "eyebrow": "The Couple",
+    "title": "The Wedding Of",
     "groom": "The Groom",
     "bride": "The Bride"
   },
