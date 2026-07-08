@@ -21,16 +21,8 @@ function PersonCard({ person, align = 'left', lang }) {
 
   return (
     <div className={`flex flex-col ${isRight ? 'items-end text-right' : 'items-start text-left'}`}>
-      {/* Oval photo with mountain ornament background */}
+      {/* Oval photo */}
       <div className="relative w-full mb-6">
-        {/* Mountain ornament behind photo */}
-        <img
-          src="/assets/ornament/mountain-sea.png"
-          alt=""
-          aria-hidden="true"
-          className={`absolute top-0 w-full h-28 object-cover object-bottom opacity-40 select-none pointer-events-none ${isRight ? 'scale-x-[-1]' : ''}`}
-        />
-
         {/* Oval photo */}
         <div className={`relative mx-auto w-56 h-72 rounded-[50%] overflow-hidden border-2 border-white/60 shadow-lg bg-sky/40 ${isRight ? 'mr-0 ml-auto' : 'ml-0 mr-auto'}`}>
           <img
@@ -74,7 +66,7 @@ export default function Couple() {
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
 
   return (
-    <Section id="couple">
+    <Section id="couple" bg="texture" flip={false} fadeTop="#EDF6FD" fadeBottom="#CBE8F8">
       <Reveal>
         <h2 className="font-display text-2xl text-center text-ink mb-8">
           {t('couple.title')}

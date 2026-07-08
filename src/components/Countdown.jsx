@@ -35,7 +35,7 @@ export default function Countdown() {
   ]
 
   return (
-    <Section id="countdown">
+    <Section id="countdown" bg="sky" fadeTop="#CBE8F8" fadeBottom="#EDF6FD">
       <Reveal className="text-center">
         <h2 className="font-display text-2xl text-ink mb-8">{t('countdown.title')}</h2>
 

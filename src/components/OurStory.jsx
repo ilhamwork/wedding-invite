@@ -18,7 +18,7 @@ export default function OurStory() {
   const item = items[current]
 
   return (
-    <Section id="story">
+    <Section id="story" bg="sky" fadeTop="#CBE8F8" fadeBottom="#CBE8F8">
       <h2 className="font-display text-2xl text-center text-ink mb-8">
         {t('story.title')}
       </h2>

@@ -16,12 +16,31 @@ export default function Hero() {
   return (
     <section id="hero" className="relative w-full overflow-hidden" style={{ minHeight: '100svh' }}>
 
-      {/* Background gradient */}
+      {/* Background texture */}
       <div
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(175deg, #CBE8F8 0%, #EDF6FD 45%, #B8DCEF 100%)',
+          backgroundImage: "url('/assets/bg-texture.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
+        aria-hidden="true"
+      />
+
+      {/* Tinted scrim over texture */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(175deg, rgba(203,232,248,0.78) 0%, rgba(237,246,253,0.72) 45%, rgba(184,220,239,0.80) 100%)',
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Bottom fade — bleeds into Couple section (mist) */}
+      <div
+        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+        style={{ height: '96px', background: 'linear-gradient(to top, #EDF6FD, transparent)', zIndex: 3 }}
         aria-hidden="true"
       />
 

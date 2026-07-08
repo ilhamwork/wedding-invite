@@ -41,7 +41,7 @@ export default function EventDetails() {
   const { lat, lng } = content.event.map
 
   return (
-    <Section id="event">
+    <Section id="event" bg="texture" flip={false} fadeTop="#EDF6FD" fadeBottom="#EDF6FD">
       <Reveal>
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('event.title')}</h2>
 

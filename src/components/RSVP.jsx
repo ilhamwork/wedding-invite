@@ -53,7 +53,7 @@ export default function RSVP({ guestName }) {
 
   if (status === 'success') {
     return (
-      <Section id="rsvp">
+      <Section id="rsvp" bg="texture" flip={false} fadeTop="#EDF6FD" fadeBottom="#CBE8F8">
         <Reveal className="text-center">
           <h2 className="font-display text-2xl text-sea mb-2">{t('rsvp.successTitle')}</h2>
           <p className="text-sm text-ink-soft/80">{t('rsvp.successBody')}</p>
@@ -63,7 +63,7 @@ export default function RSVP({ guestName }) {
   }
 
   return (
-    <Section id="rsvp">
+    <Section id="rsvp" bg="texture" flip={false} fadeTop="#EDF6FD" fadeBottom="#CBE8F8">
       <Reveal>
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('rsvp.title')}</h2>
 
