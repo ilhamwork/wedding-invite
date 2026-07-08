@@ -9,20 +9,23 @@ export const content = {
     groom: {
       fullName: 'Mohamad Ilham Firdaus',
       nickname: 'Ilham',
-      // TODO: replace with real Instagram handle or remove this field
       instagram: '@ilham.firdaus',
-      // TODO: replace with real photo path in /src/assets
-      photo: '/assets/groom-placeholder.jpg',
+      photo: '/assets/groom.JPG',
+      parents: {
+        id: 'Putra dari\nBpk. Iwan Ridwan\n&\nIbu Alm. Sopiah',
+        en: 'Precious Son of\nIwan Ridwan\n&\nAlm. Sopiah]',
+      },
     },
     bride: {
       fullName: 'Prita Sekar Primadiani',
       nickname: 'Prita',
-      // TODO: replace with real Instagram handle or remove this field
       instagram: '@prita.sekar',
-      // TODO: replace with real photo path in /src/assets
-      photo: '/assets/bride-placeholder.jpg',
+      photo: '/assets/bride.JPG',
+      parents: {
+        id: 'Putri dari\nBpk. Ilham Philipinaryo\n&\nIbu Dian Novianti Dwitasari',
+        en: 'Lovely Daughter of\nIlham Philipinaryo\n&\nDian Novianti Dwitasari',
+      },
     },
-    // No parents' names shown, per couple's request.
   },
 
   hero: {
@@ -60,27 +63,31 @@ export const content = {
   },
 
   story: [
+    // Each item: photo (path in /public), year, title, caption (short text shown in carousel)
     // TODO: replace placeholder story with the couple's real story & photos
     {
       year: '2019',
+      photo: '/assets/gallery/PC002529.JPG',
       title: { id: 'Pertama Bertemu', en: 'First Meeting' },
-      text: {
+      caption: {
         id: 'Placeholder — ceritakan bagaimana kalian pertama kali bertemu.',
         en: 'Placeholder — tell how you first met.',
       },
     },
     {
       year: '2022',
+      photo: '/assets/gallery/PC002846.JPG',
       title: { id: 'Menjadi Dekat', en: 'Growing Close' },
-      text: {
+      caption: {
         id: 'Placeholder — ceritakan momen yang membuat kalian semakin dekat.',
         en: 'Placeholder — describe the moment that brought you closer.',
       },
     },
     {
       year: '2025',
+      photo: '/assets/gallery/PC003196.JPG',
       title: { id: 'Lamaran', en: 'The Proposal' },
-      text: {
+      caption: {
         id: 'Placeholder — ceritakan momen lamaran kalian.',
         en: 'Placeholder — describe your proposal moment.',
       },
@@ -88,26 +95,24 @@ export const content = {
   ],
 
   gallery: [
-    // TODO: replace with real photos
-    { src: '/assets/gallery-1.jpg', alt: 'TODO: replace with real photo' },
-    { src: '/assets/gallery-2.jpg', alt: 'TODO: replace with real photo' },
-    { src: '/assets/gallery-3.jpg', alt: 'TODO: replace with real photo' },
-    { src: '/assets/gallery-4.jpg', alt: 'TODO: replace with real photo' },
-    { src: '/assets/gallery-5.jpg', alt: 'TODO: replace with real photo' },
-    { src: '/assets/gallery-6.jpg', alt: 'TODO: replace with real photo' },
+    { src: '/assets/gallery/PC002529.JPG', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PC002688.JPG', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PC002846.JPG', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PC003105.JPG', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PC003196.JPG', alt: 'Ilham & Prita' },
   ],
 
   gifts: [
     // TODO: replace with real bank/e-wallet details before going live
     {
       type: 'bank',
-      bankName: 'Bank Placeholder',
+      bankName: 'BCA',           // auto-matched → shows BCA logo
       accountNumber: '0000000000',
       accountHolder: 'Mohamad Ilham Firdaus',
     },
     {
-      type: 'ewallet',
-      bankName: 'E-Wallet Placeholder',
+      type: 'bank',
+      bankName: 'BCA',
       accountNumber: '0000000000',
       accountHolder: 'Prita Sekar Primadiani',
     },
