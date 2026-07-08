@@ -60,21 +60,21 @@ export default function Hero() {
 
           <motion.h2
             className="font-display text-6xl sm:text-5xl text-sea leading-tight"
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } }}
+            variants={{ hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 0, transition: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } } }}
           >
             {content.couple.groom.nickname}
           </motion.h2>
 
           <motion.p
             className="font-script text-3xl text-sky-deep my-2"
-            variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+            variants={{ hidden: { opacity: 0, scale: 0.75 }, visible: { opacity: 1, scale: 1, transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] } } }}
           >
             &amp;
           </motion.p>
 
           <motion.h2
             className="font-display text-6xl sm:text-5xl text-sea leading-tight mb-6"
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } }}
+            variants={{ hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 0, transition: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } } }}
           >
             {content.couple.bride.nickname}
           </motion.h2>

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import useGuestName from '../hooks/useGuestName'
 import Cover from '../components/Cover'
 import Hero from '../components/Hero'
+import QuoteVerse from '../components/QuoteVerse'
 import Couple from '../components/Couple'
 import OurStory from '../components/OurStory'
 import Countdown from '../components/Countdown'
@@ -44,7 +45,8 @@ export default function Home() {
             <main>
               {/* Sections alternate between section-alt-a and section-alt-b */}
               <div className="section-alt-a"><Hero /></div>
-              <div className="section-alt-b"><Couple /></div>
+              <div className="section-alt-b"><QuoteVerse /></div>
+              <div className="section-alt-a"><Couple /></div>
               <div className="section-alt-a"><OurStory /></div>
               <div className="section-alt-b"><Countdown /></div>
               <div className="section-alt-a"><EventDetails /></div>

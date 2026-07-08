@@ -6,7 +6,7 @@ export default function Closing() {
   const { t } = useTranslation()
   return (
     <Section id="closing" className="pb-28" bg="sky" fadeTop="#CBE8F8">
-      <Reveal className="text-center">
+      <Reveal variant="fadeIn" className="text-center">
         <p className="section-label mb-3">{t('closing.thankYou')}</p>
         <h2 className="font-script text-4xl text-ink mb-4">
           {content.couple.groom.nickname} &amp; {content.couple.bride.nickname}

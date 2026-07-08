@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 import { content } from '../config/content.config'
 import useCountdown from '../hooks/useCountdown'
-import Section, { Reveal, Eyebrow } from './ui/Section'
+import Section, { Reveal } from './ui/Section'
 
 function pad(n) {
   return String(n).padStart(2, '0')
@@ -40,18 +41,31 @@ export default function Countdown() {
         <h2 className="font-display text-2xl text-ink mb-8">{t('countdown.title')}</h2>
 
         {total > 0 ? (
-          <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm mx-auto mb-8">
+          <motion.div
+            className="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm mx-auto mb-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.33 }}
+            variants={{ visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } }}
+          >
             {units.map((u) => (
-              <div key={u.label} className="rounded-2xl border hairline py-4 bg-pebble/60">
+              <motion.div
+                key={u.label}
+                className="rounded-2xl border hairline py-4 bg-pebble/60"
+                variants={{
+                  hidden: { opacity: 0, y: 40, scale: 0.88 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 2.0, ease: [0.22, 1, 0.36, 1] } },
+                }}
+              >
                 <p className="font-display text-2xl sm:text-3xl text-sea-light tabular-nums">
                   {pad(u.value)}
                 </p>
                 <p className="text-[10px] uppercase tracking-widest text-ink-soft/70 mt-1">
                   {u.label}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           <p className="font-display text-xl text-sea-light">{t('countdown.happening')}</p>
         )}

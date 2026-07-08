@@ -74,17 +74,17 @@ export default function Couple() {
       </Reveal>
 
       {/* Groom */}
-      <Reveal delay={0.05} className="mt-6">
+      <Reveal delay={0.08} variant="slideRight" className="mt-6">
         <PersonCard person={content.couple.groom} align="left" lang={lang} />
       </Reveal>
 
       {/* Ampersand divider */}
-      <Reveal delay={0.1} className="text-center my-2">
+      <Reveal delay={0.14} variant="fadeIn" className="text-center my-2">
         <span className="font-script text-5xl text-sea-light leading-none select-none">&amp;</span>
       </Reveal>
 
       {/* Bride */}
-      <Reveal delay={0.15}>
+      <Reveal delay={0.2} variant="slideLeft">
         <PersonCard person={content.couple.bride} align="right" lang={lang} />
       </Reveal>
     </Section>

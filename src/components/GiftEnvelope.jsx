@@ -39,8 +39,7 @@ export default function GiftEnvelope() {
 
   return (
     <Section id="gift" bg="texture" flip={false} fadeTop="#CBE8F8" fadeBottom="#CBE8F8">
-      <Reveal className="text-center">
-        <Eyebrow>{t('gift.eyebrow')}</Eyebrow>
+      <Reveal variant="scaleUp" className="text-center">
         <h2 className="font-display text-2xl text-ink mb-3">{t('gift.title')}</h2>
         <p className="text-sm text-ink-soft/75 leading-relaxed max-w-xs mx-auto mb-8">
           {t('gift.description')}

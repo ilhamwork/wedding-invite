@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { content } from '../config/content.config'
-import Section, { Reveal, Eyebrow } from './ui/Section'
+import Section, { Reveal } from './ui/Section'
 
 function EventCard({ event, label }) {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
   const date = new Date(event.dateISO)
   const dateFormatted = date.toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {
@@ -15,6 +15,7 @@ function EventCard({ event, label }) {
   const timeFormatted = date.toLocaleTimeString(lang === 'id' ? 'id-ID' : 'en-US', {
     hour: '2-digit',
     minute: '2-digit',
+    hour12: false,
   })
 
   return (
@@ -22,15 +23,7 @@ function EventCard({ event, label }) {
       <p className="section-label mb-3">{label}</p>
       <p className="font-display text-xl text-ink mb-1">{dateFormatted}</p>
       <p className="font-display text-lg text-sea-light mb-4">{timeFormatted} WIB</p>
-      <p className="text-sm text-ink-soft/80 leading-relaxed mb-4">{event.address}</p>
-      <a
-        href={content.event.map.googleMapsUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block px-5 py-2 rounded-full bg-sea text-cream text-xs tracking-[0.2em] uppercase hover:bg-sea-mid transition-colors"
-      >
-        {t('event.viewMap')}
-      </a>
+      <p className="text-sm text-ink-soft/80 leading-relaxed">{event.address}</p>
     </div>
   )
 }
@@ -38,16 +31,27 @@ function EventCard({ event, label }) {
 export default function EventDetails() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
-  const { lat, lng } = content.event.map
 
   return (
     <Section id="event" bg="texture" flip={false} fadeTop="#EDF6FD" fadeBottom="#EDF6FD">
-      <Reveal>
+      <Reveal variant="slideLeft">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('event.title')}</h2>
 
-        <div className="space-y-6">
+        <div className="space-y-6 mb-8">
           <EventCard event={content.event.akad} label={content.event.akad.label[lang]} />
           <EventCard event={content.event.resepsi} label={content.event.resepsi.label[lang]} />
+        </div>
+
+        {/* Single map button for both events — same venue */}
+        <div className="text-center">
+          <a
+            href={content.event.map.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-8 py-3 rounded-full bg-sea text-cream text-xs tracking-[0.2em] uppercase hover:bg-sea-mid transition-colors"
+          >
+            {t('event.viewMap')}
+          </a>
         </div>
       </Reveal>
     </Section>

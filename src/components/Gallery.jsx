@@ -41,12 +41,11 @@ export default function Gallery() {
 
   return (
     <Section id="gallery" bg="mist" fadeTop="#EDF6FD" fadeBottom="#EDF6FD">
-      <Reveal>
-        <Eyebrow>{t('gallery.eyebrow')}</Eyebrow>
+      <Reveal variant="scaleUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('gallery.title')}</h2>
       </Reveal>
 
-      <Reveal>
+      <Reveal variant="scaleUp" delay={0.1}>
         <div className="flex flex-col gap-2">
           {collageRows.map((row, rowIdx) => (
             <div

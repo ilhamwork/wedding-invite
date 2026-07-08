@@ -10,16 +10,63 @@ const revealVariants = {
   },
 }
 
-export function Reveal({ children, className = '', delay = 0, as = 'div' }) {
+/**
+ * variant options:
+ *  'fadeUp'    (default) — opacity + y slide up
+ *  'fadeIn'    — opacity only, no movement
+ *  'slideLeft' — slide in from right
+ *  'slideRight'— slide in from left
+ *  'scaleUp'   — fade + scale from slightly smaller
+ */
+const VARIANTS = {
+  fadeUp: {
+    hidden: { opacity: 0, y: 60 },
+    visible: (delay) => ({
+      opacity: 1, y: 0,
+      transition: { duration: 2.2, ease: [0.22, 1, 0.36, 1], delay },
+    }),
+  },
+  fadeIn: {
+    hidden: { opacity: 0 },
+    visible: (delay) => ({
+      opacity: 1,
+      transition: { duration: 2.6, ease: 'easeOut', delay },
+    }),
+  },
+  slideLeft: {
+    hidden: { opacity: 0, x: 80 },
+    visible: (delay) => ({
+      opacity: 1, x: 0,
+      transition: { duration: 2.0, ease: [0.22, 1, 0.36, 1], delay },
+    }),
+  },
+  slideRight: {
+    hidden: { opacity: 0, x: -80 },
+    visible: (delay) => ({
+      opacity: 1, x: 0,
+      transition: { duration: 2.0, ease: [0.22, 1, 0.36, 1], delay },
+    }),
+  },
+  scaleUp: {
+    hidden: { opacity: 0, scale: 0.82 },
+    visible: (delay) => ({
+      opacity: 1, scale: 1,
+      transition: { duration: 2.1, ease: [0.22, 1, 0.36, 1], delay },
+    }),
+  },
+}
+
+export function Reveal({ children, className = '', delay = 0, as = 'div', variant = 'fadeUp' }) {
   const MotionTag = motion[as] ?? motion.div
+  const v = VARIANTS[variant] ?? VARIANTS.fadeUp
   return (
     <MotionTag
       className={className}
+      custom={delay}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.25 }}
-      variants={revealVariants}
-      transition={{ delay }}
+      viewport={{ once: true, amount: 0.33 }}
+      variants={v}
     >
       {children}
     </MotionTag>

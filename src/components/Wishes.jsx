@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient'
-import Section, { Reveal, Eyebrow } from './ui/Section'
+import Section, { Reveal } from './ui/Section'
 
-const PAGE_SIZE = 5
+const PAGE_SIZE = 50
 
 export default function Wishes() {
   const { t, i18n } = useTranslation()
@@ -14,12 +15,11 @@ export default function Wishes() {
   const [message, setMessage] = useState('')
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [justSubmittedId, setJustSubmittedId] = useState(null)
 
   const [wishes, setWishes] = useState([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
-  const [page, setPage] = useState(0)
-  const [hasMore, setHasMore] = useState(true)
 
   const fetchPage = useCallback(async (pageIndex) => {
     if (!isSupabaseConfigured) {
@@ -41,7 +41,6 @@ export default function Wishes() {
       return
     }
     setWishes((prev) => (pageIndex === 0 ? data : [...prev, ...data]))
-    setHasMore((data?.length ?? 0) === PAGE_SIZE)
     setLoading(false)
   }, [])
 
@@ -49,7 +48,7 @@ export default function Wishes() {
     fetchPage(0)
   }, [fetchPage])
 
-  // Optional realtime: prepend new wishes as they arrive.
+  // Realtime: prepend new wishes as they arrive
   useEffect(() => {
     if (!isSupabaseConfigured) return
     const channel = supabase
@@ -65,9 +64,7 @@ export default function Wishes() {
         }
       )
       .subscribe()
-    return () => {
-      supabase.removeChannel(channel)
-    }
+    return () => { supabase.removeChannel(channel) }
   }, [])
 
   function validate() {
@@ -84,13 +81,24 @@ export default function Wishes() {
     setSubmitting(true)
     try {
       if (!isSupabaseConfigured) throw new Error('Supabase not configured')
-      const { error } = await supabase.from('wishes').insert({
-        name: name.trim(),
-        message: message.trim(),
-      })
+      const { data, error } = await supabase
+        .from('wishes')
+        .insert({ name: name.trim(), message: message.trim() })
+        .select('id, name, message, created_at')
+        .single()
       if (error) throw error
+
+      // Prepend optimistically (realtime might be slightly delayed)
+      setWishes((prev) => {
+        if (prev.some((w) => w.id === data.id)) return prev
+        return [data, ...prev]
+      })
+      setJustSubmittedId(data.id)
+      setTimeout(() => setJustSubmittedId(null), 3000)
+
       setName('')
       setMessage('')
+      toast.success(t('wishes.successBody'))
     } catch (err) {
       console.error(err)
       toast.error(t('wishes.errorBody'))
@@ -99,15 +107,9 @@ export default function Wishes() {
     }
   }
 
-  function loadMore() {
-    const next = page + 1
-    setPage(next)
-    fetchPage(next)
-  }
-
   return (
     <Section id="wishes" bg="sky" fadeTop="#CBE8F8" fadeBottom="#CBE8F8">
-      <Reveal>
+      <Reveal variant="fadeUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('wishes.title')}</h2>
 
         <form onSubmit={handleSubmit} noValidate className="space-y-4 mb-10">
@@ -140,7 +142,12 @@ export default function Wishes() {
           </button>
         </form>
 
-        <div className="space-y-4">
+        {/* Wishes list — fixed height, scrollable inside a rounded container */}
+        <div className="rounded-3xl border hairline bg-white/60 p-4">
+          <div
+            className="wishes-scroll space-y-4 overflow-y-auto pr-2"
+            style={{ maxHeight: '420px' }}
+          >
           {loading && <p className="text-center text-sm text-ink-soft/60">{t('common.loading')}</p>}
           {!loading && loadError && (
             <p className="text-center text-sm text-sea-light">{t('common.error')}</p>
@@ -148,29 +155,36 @@ export default function Wishes() {
           {!loading && !loadError && wishes.length === 0 && (
             <p className="text-center text-sm text-ink-soft/60">{t('wishes.empty')}</p>
           )}
-          {wishes.map((w) => (
-            <div key={w.id} className="rounded-2xl border hairline bg-pebble/40 p-4">
-              <div className="flex items-baseline justify-between mb-1">
-                <p className="font-display text-base text-ink">{w.name}</p>
-                <p className="text-[10px] text-ink-soft/50">
-                  {new Date(w.created_at).toLocaleDateString(lang, { day: 'numeric', month: 'short' })}
-                </p>
-              </div>
-              <p className="text-sm text-ink-soft/85 leading-relaxed">{w.message}</p>
-            </div>
-          ))}
+
+          <AnimatePresence initial={false}>
+            {wishes.map((w) => (
+              <motion.div
+                key={w.id}
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className={`rounded-xl p-4 transition-colors duration-700 ${
+                  w.id === justSubmittedId
+                    ? 'bg-sky/60'
+                    : 'bg-transparent'
+                }`}
+              >
+                <div className="flex items-baseline justify-between mb-1">
+                  <p className="font-display text-base text-ink">{w.name}</p>
+                  <p className="text-[10px] text-ink-soft/50">
+                    {new Date(w.created_at).toLocaleDateString(lang, { day: 'numeric', month: 'short' })}
+                  </p>
+                </div>
+                <p className="text-sm text-ink-soft/85 leading-relaxed">{w.message}</p>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+          </div>
         </div>
 
-        {!loading && !loadError && hasMore && wishes.length > 0 && (
-          <button
-            type="button"
-            onClick={loadMore}
-            className="w-full mt-6 py-2.5 rounded-full border hairline text-xs tracking-[0.2em] uppercase text-ink-soft hover:bg-sky/50 transition-colors"
-          >
-            {t('wishes.loadMore')}
-          </button>
-        )}
       </Reveal>
     </Section>
   )
 }
+

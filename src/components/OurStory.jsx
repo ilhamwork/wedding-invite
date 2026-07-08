@@ -19,11 +19,13 @@ export default function OurStory() {
 
   return (
     <Section id="story" bg="sky" fadeTop="#CBE8F8" fadeBottom="#CBE8F8">
-      <h2 className="font-display text-2xl text-center text-ink mb-8">
-        {t('story.title')}
-      </h2>
+      <Reveal>
+        <h2 className="font-display text-2xl text-center text-ink mb-8">
+          {t('story.title')}
+        </h2>
+      </Reveal>
 
-      <Reveal className="relative select-none">
+      <Reveal variant="scaleUp" delay={0.1} className="relative select-none">
         {/* Card */}
         <div className="rounded-2xl overflow-hidden border border-sea-light/30 bg-mist/60 shadow-md">
           {/* Photo */}
