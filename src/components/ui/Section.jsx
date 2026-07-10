@@ -90,9 +90,9 @@ export function Eyebrow({ children }) {
  */
 
 const BG_COLORS = {
-  mist:   '#EDF6FD',
-  sky:    '#CBE8F8',
-  pebble: '#D4EDFA',
+  mist:   '#F4F1EA',
+  sky:    '#EAE5D8',
+  pebble: '#EAE5D8',
 }
 
 /**
@@ -106,41 +106,25 @@ function edgeGradients(fadeTop, fadeBottom) {
   return g
 }
 
-export default function Section({ id, className = '', bg, flip = false, fadeTop, fadeBottom, children }) {
+export default function Section({ id, className = '', bg, fadeTop, fadeBottom, children }) {
   const overlays = edgeGradients(fadeTop, fadeBottom)
 
   return (
     <section id={id} className="relative">
 
-      {/* ── Texture bg ────────────────────────────────────── */}
+      {/* ── Texture bg → now plain flat color ─────────────────────────────── */}
       {bg === 'texture' && (
-        <>
-          {/* Rotatable image layer */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage: "url('/assets/bg-texture.jpg')",
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              transform: flip ? 'rotate(180deg)' : 'none',
-              zIndex: 0,
-            }}
-            aria-hidden="true"
-          />
-          {/* Scrim + edge fades as a single layered gradient on top of image */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage: [
-                ...overlays,
-                'linear-gradient(180deg, rgba(237,246,253,0.75) 0%, rgba(203,232,248,0.70) 100%)',
-              ].join(', '),
-              zIndex: 1,
-            }}
-            aria-hidden="true"
-          />
-        </>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: overlays.length
+              ? [...overlays, 'linear-gradient(#F4F1EA, #F4F1EA)'].join(', ')
+              : undefined,
+            backgroundColor: overlays.length ? undefined : '#F4F1EA',
+            zIndex: 0,
+          }}
+          aria-hidden="true"
+        />
       )}
 
       {/* ── Solid-color bg ────────────────────────────────── */}

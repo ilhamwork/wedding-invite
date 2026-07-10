@@ -2,34 +2,34 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Langit × Laut ────────────────────────────────────────────────────── */
-  /* Laut dalam — teks utama & aksen gelap */
-  --color-ink: #0D2B45;
-  --color-ink-soft: #1D5478;
+  /* ── Parchment × Teal ─────────────────────────────────────────────────── */
+  /* Teks utama & aksen gelap — teal dalam */
+  --color-ink: #0D3438;
+  --color-ink-soft: #11575F;
 
-  /* Aksen — biru tengah sebagai pengganti earth/rust */
-  --color-rust: #1D6FA4;
-  --color-rust-soft: #3A8EC0;
+  /* Aksen — teal tengah */
+  --color-rust: #11575F;
+  --color-rust-soft: #1E7A85;
 
-  /* Langit — background lembut & elemen terang */
-  --color-sand: #CBE8F8;
-  --color-sage: #2E80B0;
-  --color-sage-deep: #1A5F8A;
-  --color-cream: #EDF6FD;
-  --color-paper: #D4EDFA;
+  /* Background — krem hangat & elemen terang */
+  --color-sand: #EAE5D8;
+  --color-sage: #1E7A85;
+  --color-sage-deep: #11575F;
+  --color-cream: #F4F1EA;
+  --color-paper: #EAE5D8;
 
   /* Extended palette */
-  --color-sea: #0D2B45;
-  --color-sea-mid: #1D5478;
-  --color-sea-light: #3A8EC0;
-  --color-sky: #CBE8F8;
-  --color-sky-deep: #7DC0E8;
-  --color-mist: #EDF6FD;
-  --color-forest: #2E80B0;
-  --color-forest-deep: #1A5F8A;
-  --color-earth: #1D6FA4;
-  --color-earth-soft: #3A8EC0;
-  --color-pebble: #D4EDFA;
+  --color-sea: #11575F;
+  --color-sea-mid: #1E7A85;
+  --color-sea-light: #2A9CAA;
+  --color-sky: #EAE5D8;
+  --color-sky-deep: #D5CCBA;
+  --color-mist: #F4F1EA;
+  --color-forest: #1E7A85;
+  --color-forest-deep: #11575F;
+  --color-earth: #11575F;
+  --color-earth-soft: #1E7A85;
+  --color-pebble: #EAE5D8;
 
   --font-display: "Cormorant Garamond", serif;
   --font-script: "Great Vibes", cursive;
@@ -84,18 +84,18 @@
     inset: 0;
     pointer-events: none;
     background-image:
-      radial-gradient(ellipse 80% 60% at 15% 20%, rgba(29,111,164,0.10) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 70% at 85% 15%, rgba(58,142,192,0.11) 0%, transparent 58%),
-      radial-gradient(ellipse 50% 50% at 70% 75%, rgba(13, 43, 69,0.07) 0%, transparent 55%);
+      radial-gradient(ellipse 80% 60% at 15% 20%, rgba(17,87,95,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 70% at 85% 15%, rgba(30,122,133,0.09) 0%, transparent 58%),
+      radial-gradient(ellipse 50% 50% at 70% 75%, rgba(17,87,95,0.05) 0%, transparent 55%);
   }
 
 
   /* ── Alternating section backgrounds ─────────────────────────────────── */
   .section-alt-a {
-    background-color: var(--color-mist); /* #EDF6FD — lightest sky */
+    background-color: var(--color-mist); /* #F4F1EA — warm cream */
   }
   .section-alt-b {
-    background-color: var(--color-sky); /* #CBE8F8 — soft blue */
+    background-color: var(--color-sky); /* #EAE5D8 — warm parchment */
   }
 
   .hairline {
