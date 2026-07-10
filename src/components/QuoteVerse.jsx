@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import Section, { Reveal } from './ui/Section'
+import { Reveal } from './ui/Section'
 
 const QUOTE = {
   ar: 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً',
@@ -13,43 +13,51 @@ export default function QuoteVerse() {
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
 
   return (
-    <Section id="verse" bg="texture" flip={true} fadeTop="#EDF6FD" fadeBottom="#EDF6FD">
-      <div className="text-center max-w-sm mx-auto py-4">
+    <section id="verse" className="relative" style={{ backgroundColor: '#0D3438' }}>
+      <div className="relative px-6 py-20 sm:py-24 max-w-xl mx-auto text-center">
+        <div className="max-w-sm mx-auto py-4">
 
-        {/* Arabic */}
-        <Reveal variant="fadeIn">
-          <p
-            className="font-display text-xl text-sea leading-loose mb-6 tracking-wide"
-            style={{ direction: 'rtl' }}
-          >
-            {QUOTE.ar}
-          </p>
-        </Reveal>
+          {/* Arabic */}
+          <Reveal variant="fadeIn">
+            <p
+              className="font-display text-xl leading-loose mb-6 tracking-wide"
+              style={{ direction: 'rtl', color: '#F4F1EA' }}
+            >
+              {QUOTE.ar}
+            </p>
+          </Reveal>
 
-        {/* Divider */}
-        <Reveal delay={0.15} variant="fadeIn">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <span className="block w-10 h-px bg-sea-light/40" />
-            <span className="block w-1.5 h-1.5 rounded-full bg-sea-light/50" />
-            <span className="block w-10 h-px bg-sea-light/40" />
-          </div>
-        </Reveal>
+          {/* Divider */}
+          <Reveal delay={0.15} variant="fadeIn">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="block w-10 h-px" style={{ backgroundColor: 'rgba(244,241,234,0.35)' }} />
+              <span className="block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgba(244,241,234,0.45)' }} />
+              <span className="block w-10 h-px" style={{ backgroundColor: 'rgba(244,241,234,0.35)' }} />
+            </div>
+          </Reveal>
 
-        {/* Translation */}
-        <Reveal delay={0.3} variant="fadeIn">
-          <p className="font-serif-light italic text-base text-ink-soft/90 leading-relaxed mb-5">
-            {QUOTE[lang]}
-          </p>
-        </Reveal>
+          {/* Translation */}
+          <Reveal delay={0.3} variant="fadeIn">
+            <p
+              className="font-serif-light italic text-base leading-relaxed mb-5"
+              style={{ color: 'rgba(244,241,234,0.85)' }}
+            >
+              {QUOTE[lang]}
+            </p>
+          </Reveal>
 
-        {/* Source */}
-        <Reveal delay={0.45} variant="fadeIn">
-          <p className="font-body text-xs tracking-[0.25em] uppercase text-sea-light/80">
-            {QUOTE.source}
-          </p>
-        </Reveal>
+          {/* Source */}
+          <Reveal delay={0.45} variant="fadeIn">
+            <p
+              className="font-body text-xs tracking-[0.25em] uppercase"
+              style={{ color: 'rgba(244,241,234,0.65)' }}
+            >
+              {QUOTE.source}
+            </p>
+          </Reveal>
 
+        </div>
       </div>
-    </Section>
+    </section>
   )
 }
