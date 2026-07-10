@@ -79,30 +79,51 @@ export const content = {
   ],
 
   gallery: [
-    { src: '/assets/gallery/PRITA & ILHAM-4.jpg',  alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PRITA & ILHAM-16.jpg', alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PRITA & ILHAM-37.jpg', alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PRITA & ILHAM-53.jpg', alt: 'Ilham & Prita' },
-    { src: '/assets/gallery/PRITA & ILHAM-96.jpg', alt: 'Ilham & Prita' },
+    { src: '/assets/gallery/PRITA & ILHAM-4.jpg',  alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/PRITA & ILHAM-16.jpg', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/PRITA & ILHAM-37.jpg', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/PRITA & ILHAM-53.jpg', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/PRITA & ILHAM-96.jpg', alt: 'Prita & Ilham' },
   ],
 
   gifts: [
     {
       type: 'bank',
       bankName: 'BCA',
-      accountNumber: '5405 1730 66',
-      accountHolder: 'Mohamad Ilham Firdaus',
+      accountNumber: '6220 5050 47',
+      accountHolder: 'Prita Sekar Primadiani',
     },
     {
       type: 'bank',
       bankName: 'BCA',
-      accountNumber: '6220 5050 47',
-      accountHolder: 'Prita Sekar Primadiani',
+      accountNumber: '5405 1730 66',
+      accountHolder: 'Mohamad Ilham Firdaus',
     },
   ],
 
+  giftAddress: {
+    recipient: 'Prita Sekar Primadiani',
+    phone: '0813-8977-6363',
+    address: 'Jl. Hijau Daun Blok C1 No 9, RT 011/RW 010, Kelapa Gading Timur, Kelapa Gading, Jakarta Utara, DKI Jakarta',
+  },
+
+  cover: {
+    // Mobile (portrait) — tall/square crop works best
+    photo: '/assets/gallery/PRITA & ILHAM-96.jpg',
+    // Desktop (landscape) — wide crop works best; falls back to photo if not set
+    photoDesktop: '/assets/gallery/PRITA & ILHAM-53.jpg',
+  },
+
+  countdown: {
+    // Background for the countdown section.
+    // Supports GIF, JPG, PNG, or WebP — just drop the file in /public/assets/ and update the path.
+    // For animated effect, use a .gif file.
+    // Falls back to a gallery photo if not set.
+    backgroundGif: '/assets/countdown-motion.gif', // ← replace with your .gif
+  },
+
   music: {
-    src: '/audio/Akad_PayungTeduh.mp3',
+    src: '/audio/coldplay_all-my-love.mp3',
     title: 'Akad',
   },
 
