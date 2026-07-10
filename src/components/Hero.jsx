@@ -16,31 +16,17 @@ export default function Hero() {
   return (
     <section id="hero" className="relative w-full overflow-hidden" style={{ minHeight: '100svh' }}>
 
-      {/* Background texture */}
+      {/* Flat background */}
       <div
         className="absolute inset-0"
-        style={{
-          backgroundImage: "url('/assets/bg-texture.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Tinted scrim over texture */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(175deg, rgba(203,232,248,0.78) 0%, rgba(237,246,253,0.72) 45%, rgba(184,220,239,0.80) 100%)',
-        }}
+        style={{ background: '#F4F1EA' }}
         aria-hidden="true"
       />
 
       {/* Bottom fade — bleeds into Couple section (mist) */}
       <div
         className="absolute bottom-0 left-0 right-0 pointer-events-none"
-        style={{ height: '96px', background: 'linear-gradient(to top, #EDF6FD, transparent)', zIndex: 3 }}
+        style={{ height: '96px', background: 'linear-gradient(to top, #F4F1EA, transparent)', zIndex: 3 }}
         aria-hidden="true"
       />
 
@@ -62,7 +48,7 @@ export default function Hero() {
             className="font-display text-6xl sm:text-5xl text-sea leading-tight"
             variants={{ hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 0, transition: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } } }}
           >
-            {content.couple.groom.nickname}
+            {content.couple.bride.nickname}
           </motion.h2>
 
           <motion.p
@@ -76,7 +62,7 @@ export default function Hero() {
             className="font-display text-6xl sm:text-5xl text-sea leading-tight mb-6"
             variants={{ hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 0, transition: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } } }}
           >
-            {content.couple.bride.nickname}
+            {content.couple.groom.nickname}
           </motion.h2>
 
           <motion.div
