@@ -87,7 +87,12 @@
     "eyebrow": "Digital Envelope",
     "title": "Wedding Gift",
     "description": "Your presence and prayers mean the world to us. If you'd like to send a gift, here are our details.",
-    "copy": "Copy Number",
+    "bankTransfer": "Bank Transfer",
+    "shippingAddress": "Send a Gift",
+    "recipient": "Recipient",
+    "phone": "Phone",
+    "address": "Address",
+    "copy": "Copy",
     "copied": "Copied!"
   },
   "closing": {

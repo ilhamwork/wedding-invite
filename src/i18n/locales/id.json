@@ -87,7 +87,12 @@
     "eyebrow": "Amplop Digital",
     "title": "Tanda Kasih",
     "description": "Doa restu Anda adalah karunia terindah. Namun jika ingin memberi tanda kasih, kami sediakan opsi berikut.",
-    "copy": "Salin Nomor",
+    "bankTransfer": "Transfer Bank",
+    "shippingAddress": "Kirim Hadiah",
+    "recipient": "Penerima",
+    "phone": "No. Telepon",
+    "address": "Alamat",
+    "copy": "Salin",
     "copied": "Tersalin!"
   },
   "closing": {
