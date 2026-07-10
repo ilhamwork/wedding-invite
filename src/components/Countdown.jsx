@@ -2,7 +2,13 @@ import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { content } from '../config/content.config'
 import useCountdown from '../hooks/useCountdown'
-import Section, { Reveal } from './ui/Section'
+
+const ease = [0.22, 1, 0.36, 1]
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 1.6, ease, delay },
+})
 
 function pad(n) {
   return String(n).padStart(2, '0')
@@ -12,7 +18,6 @@ function buildGoogleCalendarUrl() {
   const start = new Date(content.event.akad.dateISO)
   const end = new Date(content.event.resepsi.dateISO)
   end.setHours(end.getHours() + 2)
-
   const fmt = (d) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
   const params = new URLSearchParams({
     action: 'TEMPLATE',
@@ -25,60 +30,153 @@ function buildGoogleCalendarUrl() {
 }
 
 export default function Countdown() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { total, days, hours, minutes, seconds } = useCountdown(content.event.akad.dateISO)
 
   const units = [
-    { label: t('countdown.days'), value: days },
-    { label: t('countdown.hours'), value: hours },
+    { label: t('countdown.days'),    value: days },
+    { label: t('countdown.hours'),   value: hours },
     { label: t('countdown.minutes'), value: minutes },
     { label: t('countdown.seconds'), value: seconds },
   ]
 
+  // Format wedding date — e.g. "05 September 2026"
+  const weddingDate = new Date(content.event.akad.dateISO)
+  const dateLabel = weddingDate.toLocaleDateString(
+    i18n.language === 'id' ? 'id-ID' : 'en-GB',
+    { day: '2-digit', month: 'long', year: 'numeric' }
+  )
+
+  const bgSrc = content.countdown?.backgroundGif ?? content.cover.photo
+
   return (
-    <Section id="countdown" bg="sky" fadeTop="#CBE8F8" fadeBottom="#EDF6FD">
-      <Reveal className="text-center">
-        <h2 className="font-display text-2xl text-ink mb-8">{t('countdown.title')}</h2>
+    <section
+      id="countdown"
+      className="relative w-full overflow-hidden"
+      style={{ minHeight: '100svh' }}
+    >
+      {/* ── Background media (GIF / image) ── */}
+      <img
+        src={bgSrc}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+        // images animate as GIF natively; no extra handling needed
+      />
 
-        {total > 0 ? (
-          <motion.div
-            className="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm mx-auto mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.33 }}
-            variants={{ visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } }}
-          >
-            {units.map((u) => (
-              <motion.div
-                key={u.label}
-                className="rounded-2xl border hairline py-4 bg-pebble/60"
-                variants={{
-                  hidden: { opacity: 0, y: 40, scale: 0.88 },
-                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 2.0, ease: [0.22, 1, 0.36, 1] } },
-                }}
-              >
-                <p className="font-display text-2xl sm:text-3xl text-sea-light tabular-nums">
-                  {pad(u.value)}
-                </p>
-                <p className="text-[10px] uppercase tracking-widest text-ink-soft/70 mt-1">
-                  {u.label}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <p className="font-display text-xl text-sea-light">{t('countdown.happening')}</p>
-        )}
+      {/* ── Dark overlay ── */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.85) 100%)',
+        }}
+      />
 
-        <a
-          href={buildGoogleCalendarUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-6 py-2.5 rounded-full border hairline text-ink text-xs tracking-[0.2em] uppercase hover:bg-sea hover:text-cream transition-colors"
+      {/* ── Main content — "The Wedding Of" + Names ── */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
+           style={{ minHeight: '100svh', paddingTop: '0', paddingBottom: '35vh' }}>
+
+        <motion.p
+          className="font-body text-[10px] sm:text-xs tracking-[0.30em] uppercase text-white/60 mb-4"
+          {...fadeUp(0.3)}
         >
-          {t('countdown.addToCalendar')}
-        </a>
-      </Reveal>
-    </Section>
+          {t('cover.eyebrow')}
+        </motion.p>
+
+        <motion.h1
+          className="font-display text-5xl sm:text-6xl md:text-7xl text-white leading-tight drop-shadow-lg"
+          {...fadeUp(0.5)}
+        >
+          {content.couple.bride.nickname}
+          <span className="font-script text-4xl sm:text-5xl text-amber-200/80 mx-3">&amp;</span>
+          {content.couple.groom.nickname}
+        </motion.h1>
+
+        {/* Thin divider */}
+        <motion.div
+          className="flex items-center gap-3 my-6"
+          {...fadeUp(0.7)}
+        >
+          <div className="h-px w-10 bg-white/30" />
+          <div className="w-1.5 h-1.5 rounded-full bg-amber-200/60" />
+          <div className="h-px w-10 bg-white/30" />
+        </motion.div>
+
+        <motion.p
+          className="font-body text-sm text-white/60 tracking-widest"
+          {...fadeUp(0.85)}
+        >
+          {dateLabel}
+        </motion.p>
+      </div>
+
+      {/* ── Countdown bar — 3/4 down the screen ── */}
+      <motion.div
+        className="absolute left-4 right-4 z-20"
+        style={{ top: '75%', transform: 'translateY(-50%)' }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease, delay: 1.0 }}
+      >
+        {/* Frosted glass card */}
+        <div
+          className="w-full rounded-2xl overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.30)',
+          }}
+        >
+          <div className="max-w-lg mx-auto px-5 py-4 flex flex-col items-center gap-3">
+
+            {/* Save the date + date label — top row */}
+            <div className="flex items-center gap-3">
+              <p className="font-body text-[9px] tracking-[0.20em] uppercase text-white/50 whitespace-nowrap">
+                Save the date
+              </p>
+              <div className="w-px h-3 bg-white/20" />
+              <p className="font-display text-sm text-white whitespace-nowrap">
+                {dateLabel}
+              </p>
+              <div className="w-px h-3 bg-white/20" />
+              <a
+                href={buildGoogleCalendarUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-body text-[9px] tracking-[0.12em] uppercase text-amber-200/70 hover:text-amber-200 transition-colors whitespace-nowrap"
+              >
+                + {t('countdown.addToCalendar')}
+              </a>
+            </div>
+
+            {/* Thin separator */}
+            <div className="w-full h-px bg-white/10" />
+
+            {/* Countdown units — bottom row */}
+            {total > 0 ? (
+              <div className="flex gap-5 sm:gap-8">
+                {units.map((u) => (
+                  <div key={u.label} className="text-center">
+                    <p className="font-display text-3xl sm:text-4xl text-white tabular-nums leading-none">
+                      {pad(u.value)}
+                    </p>
+                    <p className="font-body text-[9px] tracking-[0.15em] uppercase text-white/50 mt-1">
+                      {u.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="font-display text-base text-amber-200">
+                {t('countdown.happening')}
+              </p>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </section>
   )
 }
