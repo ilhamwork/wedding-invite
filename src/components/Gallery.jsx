@@ -40,7 +40,7 @@ export default function Gallery() {
   ]
 
   return (
-    <Section id="gallery" bg="mist" fadeTop="#EDF6FD" fadeBottom="#EDF6FD">
+    <Section id="gallery" bg="mist" fadeTop="#F4F1EA" fadeBottom="#F4F1EA">
       <Reveal variant="scaleUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('gallery.title')}</h2>
       </Reveal>
@@ -85,7 +85,7 @@ export default function Gallery() {
         <AnimatePresence>
           <motion.div
             className="fixed inset-0 flex items-center justify-center"
-            style={{ zIndex: 9999, backgroundColor: 'rgba(13,43,69,0.96)' }}
+            style={{ zIndex: 9999, backgroundColor: 'rgba(17,87,95,0.96)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

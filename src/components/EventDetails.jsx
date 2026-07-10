@@ -33,7 +33,7 @@ export default function EventDetails() {
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
 
   return (
-    <Section id="event" bg="texture" flip={false} fadeTop="#EDF6FD" fadeBottom="#EDF6FD">
+    <Section id="event" bg="texture" flip={false} fadeTop="#F4F1EA" fadeBottom="#F4F1EA">
       <Reveal variant="slideLeft">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('event.title')}</h2>
 

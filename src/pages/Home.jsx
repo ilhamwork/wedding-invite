@@ -3,15 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import useGuestName from '../hooks/useGuestName'
 import Cover from '../components/Cover'
-import Hero from '../components/Hero'
 import QuoteVerse from '../components/QuoteVerse'
 import Couple from '../components/Couple'
 import OurStory from '../components/OurStory'
 import Countdown from '../components/Countdown'
 import EventDetails from '../components/EventDetails'
 import Gallery from '../components/Gallery'
-import RSVP from '../components/RSVP'
-import Wishes from '../components/Wishes'
+import RSVPWishes from '../components/RSVPWishes'
 import GiftEnvelope from '../components/GiftEnvelope'
 import Closing from '../components/Closing'
 import MusicToggle from '../components/MusicToggle'
@@ -44,16 +42,14 @@ export default function Home() {
             </motion.div>
             <main>
               {/* Sections alternate between section-alt-a and section-alt-b */}
-              <div className="section-alt-a"><Hero /></div>
+              <Countdown />
               <div className="section-alt-b"><QuoteVerse /></div>
               <div className="section-alt-a"><Couple /></div>
-              <div className="section-alt-a"><OurStory /></div>
-              <div className="section-alt-b"><Countdown /></div>
               <div className="section-alt-a"><EventDetails /></div>
+              <div className="section-alt-a"><OurStory /></div>
               <div className="section-alt-b"><Gallery /></div>
-              <div className="section-alt-a"><RSVP guestName={guestName} /></div>
-              <div className="section-alt-b"><Wishes /></div>
               <div className="section-alt-a"><GiftEnvelope /></div>
+              <div className="section-alt-b"><RSVPWishes guestName={guestName} /></div>
               <div className="section-alt-b"><Closing /></div>
             </main>
             <MusicToggle />

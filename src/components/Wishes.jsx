@@ -108,7 +108,7 @@ export default function Wishes() {
   }
 
   return (
-    <Section id="wishes" bg="sky" fadeTop="#CBE8F8" fadeBottom="#CBE8F8">
+    <Section id="wishes" bg="sky" fadeTop="#EAE5D8" fadeBottom="#EAE5D8">
       <Reveal variant="fadeUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('wishes.title')}</h2>
 
