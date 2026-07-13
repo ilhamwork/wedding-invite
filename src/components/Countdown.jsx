@@ -134,9 +134,6 @@ export default function Countdown() {
 
             {/* Save the date + date label — top row */}
             <div className="flex items-center gap-3">
-              <p className="font-body text-[9px] tracking-[0.20em] uppercase text-white/50 whitespace-nowrap">
-                Save the date
-              </p>
               <div className="w-px h-3 bg-white/20" />
               <p className="font-display text-sm text-white whitespace-nowrap">
                 {dateLabel}
