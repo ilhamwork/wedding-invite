@@ -11,7 +11,7 @@ export default function MusicToggle() {
       type="button"
       onClick={toggle}
       aria-label={isPlaying ? t('music.pause') : t('music.play')}
-      className="fixed bottom-5 right-5 z-40 w-11 h-11 rounded-full bg-sea text-cream shadow-lg shadow-sea/20 flex items-center justify-center hover:bg-sea-mid transition-colors"
+      className="fixed bottom-5 right-5 z-40 w-11 h-11 rounded-full bg-accent text-cream shadow-lg shadow-accent/20 flex items-center justify-center hover:bg-accent-mid transition-colors"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}

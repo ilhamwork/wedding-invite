@@ -48,7 +48,7 @@ export default function EventDetails() {
             href={content.event.map.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 rounded-full bg-sea text-cream text-xs tracking-[0.2em] uppercase hover:bg-sea-mid transition-colors"
+            className="inline-block px-8 py-3 rounded-full bg-accent text-cream text-xs tracking-[0.2em] uppercase hover:bg-accent-mid transition-colors"
           >
             {t('event.viewMap')}
           </a>

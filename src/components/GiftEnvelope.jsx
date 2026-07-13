@@ -168,7 +168,7 @@ export default function GiftEnvelope() {
                     <button
                       type="button"
                       onClick={() => handleCopy(gift.accountNumber, i)}
-                      className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border hairline text-xs tracking-widest uppercase hover:bg-sea hover:text-cream transition-colors"
+                      className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border hairline text-xs tracking-widest uppercase hover:bg-accent hover:text-cream transition-colors"
                     >
                       <CopyIcon />
                       {copiedIndex === i ? t('gift.copied') : t('gift.copy')}
@@ -189,21 +189,21 @@ export default function GiftEnvelope() {
             {addr ? (
               <div className="rounded-xl border hairline bg-white/50 p-4 space-y-3">
                 <div>
-                  <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(17,87,95,0.55)' }}>
+                  <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(44,36,32,0.5)' }}>
                     {t('gift.recipient') ?? 'Penerima'}
                   </p>
                   <p className="text-sm text-ink font-medium">{addr.recipient}</p>
                 </div>
                 {addr.phone && (
                   <div>
-                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(17,87,95,0.55)' }}>
+                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(44,36,32,0.5)' }}>
                       {t('gift.phone') ?? 'No. Telepon'}
                     </p>
                     <p className="text-sm text-ink">{addr.phone}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(17,87,95,0.55)' }}>
+                  <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(44,36,32,0.5)' }}>
                     {t('gift.address') ?? 'Alamat'}
                   </p>
                   <p className="text-sm text-ink leading-relaxed">{addr.address}</p>
@@ -211,7 +211,7 @@ export default function GiftEnvelope() {
                 <button
                   type="button"
                   onClick={() => handleCopy(`${addr.recipient}\n${addr.phone ?? ''}\n${addr.address}`, 'addr')}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border hairline text-xs tracking-widest uppercase hover:bg-sea hover:text-cream transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border hairline text-xs tracking-widest uppercase hover:bg-accent hover:text-cream transition-colors"
                 >
                   <CopyIcon />
                   {copiedIndex === 'addr' ? t('gift.copied') : t('gift.copy')}

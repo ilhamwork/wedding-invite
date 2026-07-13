@@ -2,36 +2,39 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Parchment × Teal ─────────────────────────────────────────────────── */
-  /* Teks utama & aksen gelap — teal dalam */
-  --color-ink: #0D3438;
-  --color-ink-soft: #11575F;
+  /* ── Parchment × Dark Charcoal ────────────────────────────────────────── */
+  /* Teks utama & aksen gelap — charcoal hangat */
+  --color-ink: #1C1917;
+  --color-ink-soft: #3D3530;
 
-  /* Aksen — teal tengah */
-  --color-rust: #11575F;
-  --color-rust-soft: #1E7A85;
+  /* Aksen */
+  --color-rust: #3D3530;
+  --color-rust-soft: #5C534C;
 
   /* Background — krem hangat & elemen terang */
   --color-sand: #EAE5D8;
-  --color-sage: #1E7A85;
-  --color-sage-deep: #11575F;
+  --color-sage: #5C534C;
+  --color-sage-deep: #3D3530;
   --color-cream: #F4F1EA;
   --color-paper: #EAE5D8;
 
   /* Extended palette */
-  --color-sea: #11575F;
-  --color-sea-mid: #1E7A85;
-  --color-sea-light: #2A9CAA;
+  --color-sea: #2C2420;
+  --color-sea-mid: #3D3530;
+  --color-sea-light: #5C534C;
   --color-sky: #EAE5D8;
   --color-sky-deep: #D5CCBA;
   --color-mist: #F4F1EA;
-  --color-forest: #1E7A85;
-  --color-forest-deep: #11575F;
-  --color-earth: #11575F;
-  --color-earth-soft: #1E7A85;
+  --color-forest: #5C534C;
+  --color-forest-deep: #3D3530;
+  --color-earth: #3D3530;
+  --color-earth-soft: #5C534C;
   --color-pebble: #EAE5D8;
 
-  --font-display: "Cormorant Garamond", serif;
+  /* Button / CTA accent — teal tetap */
+  --color-accent: #11575F;
+  --color-accent-mid: #1E7A85;
+  --color-accent-light: #2A9CAA;
   --font-script: "Great Vibes", cursive;
   --font-body: "Jost", sans-serif;
   --font-serif-light: "Lora", serif;
@@ -84,9 +87,9 @@
     inset: 0;
     pointer-events: none;
     background-image:
-      radial-gradient(ellipse 80% 60% at 15% 20%, rgba(17,87,95,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 70% at 85% 15%, rgba(30,122,133,0.09) 0%, transparent 58%),
-      radial-gradient(ellipse 50% 50% at 70% 75%, rgba(17,87,95,0.05) 0%, transparent 55%);
+      radial-gradient(ellipse 80% 60% at 15% 20%, rgba(44,36,32,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 70% at 85% 15%, rgba(61,53,48,0.06) 0%, transparent 58%),
+      radial-gradient(ellipse 50% 50% at 70% 75%, rgba(44,36,32,0.03) 0%, transparent 55%);
   }
 
 

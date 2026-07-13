@@ -85,7 +85,7 @@ export default function Gallery() {
         <AnimatePresence>
           <motion.div
             className="fixed inset-0 flex items-center justify-center"
-            style={{ zIndex: 9999, backgroundColor: 'rgba(17,87,95,0.96)' }}
+            style={{ zIndex: 9999, backgroundColor: 'rgba(28,25,23,0.96)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

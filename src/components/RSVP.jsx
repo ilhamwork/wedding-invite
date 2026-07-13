@@ -78,9 +78,9 @@ export default function RSVP({ guestName }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t('rsvp.namePlaceholder')}
-              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40"
+              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
             />
-            {errors.name && <p className="text-xs text-sea-light mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-xs text-ink-soft/70 mt-1">{errors.name}</p>}
           </div>
 
           <div>
@@ -92,14 +92,14 @@ export default function RSVP({ guestName }) {
                   type="button"
                   onClick={() => setAttendance(opt.value)}
                   className={`rounded-xl border hairline py-2 text-xs transition-colors ${
-                    attendance === opt.value ? 'bg-sea text-cream' : 'text-ink-soft hover:bg-sky/50'
+                    attendance === opt.value ? 'bg-accent text-cream' : 'text-ink-soft hover:bg-sky/50'
                   }`}
                 >
                   {t(opt.labelKey)}
                 </button>
               ))}
             </div>
-            {errors.attendance && <p className="text-xs text-sea-light mt-1">{errors.attendance}</p>}
+            {errors.attendance && <p className="text-xs text-ink-soft/70 mt-1">{errors.attendance}</p>}
           </div>
 
           <div>
@@ -113,9 +113,9 @@ export default function RSVP({ guestName }) {
               max={10}
               value={guestCount}
               onChange={(e) => setGuestCount(Number(e.target.value))}
-              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40"
+              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
             />
-            {errors.guestCount && <p className="text-xs text-sea-light mt-1">{errors.guestCount}</p>}
+            {errors.guestCount && <p className="text-xs text-ink-soft/70 mt-1">{errors.guestCount}</p>}
           </div>
 
           <div>
@@ -128,14 +128,14 @@ export default function RSVP({ guestName }) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={t('rsvp.messagePlaceholder')}
-              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40 resize-none"
+              className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 resize-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="w-full py-3 rounded-full bg-sea text-cream text-xs tracking-[0.25em] uppercase hover:bg-sea-mid transition-colors disabled:opacity-60"
+            className="w-full py-3 rounded-full bg-accent text-cream text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60"
           >
             {status === 'submitting' ? t('rsvp.submitting') : t('rsvp.submit')}
           </button>

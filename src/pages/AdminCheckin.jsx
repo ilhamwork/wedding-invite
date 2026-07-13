@@ -39,7 +39,7 @@ function AdminLoginForm({ onAuthed }) {
         {error && <p className="text-xs text-sea-light mb-3">{t('admin.loginError')}</p>}
         <button
           type="submit"
-          className="w-full mt-3 py-2.5 rounded-full bg-sea text-cream text-xs tracking-[0.2em] uppercase hover:bg-sea-mid transition-colors"
+          className="w-full mt-3 py-2.5 rounded-full bg-accent text-cream text-xs tracking-[0.2em] uppercase hover:bg-accent-mid transition-colors"
         >
           {t('admin.login')}
         </button>

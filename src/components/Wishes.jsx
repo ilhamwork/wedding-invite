@@ -121,7 +121,7 @@ export default function Wishes() {
               placeholder={t('wishes.namePlaceholder')}
               className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40"
             />
-            {errors.name && <p className="text-xs text-sea-light mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-xs text-ink-soft/70 mt-1">{errors.name}</p>}
           </div>
           <div>
             <textarea
@@ -131,12 +131,12 @@ export default function Wishes() {
               placeholder={t('wishes.messagePlaceholder')}
               className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40 resize-none"
             />
-            {errors.message && <p className="text-xs text-sea-light mt-1">{errors.message}</p>}
+            {errors.message && <p className="text-xs text-ink-soft/70 mt-1">{errors.message}</p>}
           </div>
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3 rounded-full bg-sea text-cream text-xs tracking-[0.25em] uppercase hover:bg-sea-mid transition-colors disabled:opacity-60"
+            className="w-full py-3 rounded-full bg-accent text-cream text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60"
           >
             {submitting ? t('wishes.submitting') : t('wishes.submit')}
           </button>
@@ -150,7 +150,7 @@ export default function Wishes() {
           >
           {loading && <p className="text-center text-sm text-ink-soft/60">{t('common.loading')}</p>}
           {!loading && loadError && (
-            <p className="text-center text-sm text-sea-light">{t('common.error')}</p>
+            <p className="text-center text-sm text-ink-soft/70">{t('common.error')}</p>
           )}
           {!loading && !loadError && wishes.length === 0 && (
             <p className="text-center text-sm text-ink-soft/60">{t('wishes.empty')}</p>

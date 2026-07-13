@@ -119,8 +119,8 @@ export default function RSVPWishes({ guestName }) {
         {status === 'success' ? (
           <Reveal variant="fadeIn">
             <div className="text-center py-8">
-              <p className="font-display text-xl text-sea mb-2">{t('rsvp.successTitle')}</p>
-              <p className="text-sm" style={{ color: 'rgba(17,87,95,0.7)' }}>{t('rsvp.successBody')}</p>
+              <p className="font-display text-xl text-ink mb-2">{t('rsvp.successTitle')}</p>
+              <p className="text-sm text-ink-soft/70">{t('rsvp.successBody')}</p>
             </div>
           </Reveal>
         ) : (
@@ -129,7 +129,7 @@ export default function RSVPWishes({ guestName }) {
 
               {/* Name */}
               <div>
-                <label htmlFor="rf-name" className="block text-xs uppercase tracking-widest mb-1.5" style={{ color: 'rgba(17,87,95,0.6)' }}>
+                <label htmlFor="rf-name" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
                   {t('rsvp.name')}
                 </label>
                 <input
@@ -138,14 +138,14 @@ export default function RSVPWishes({ guestName }) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder={t('rsvp.namePlaceholder')}
-                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40"
+                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
                 />
-                {errors.name && <p className="text-xs text-sea-light mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-xs text-ink-soft/70 mt-1">{errors.name}</p>}
               </div>
 
               {/* Attendance */}
               <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5" style={{ color: 'rgba(17,87,95,0.6)' }}>
+                <p className="text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
                   {t('rsvp.attendance')}
                 </p>
                 <div className="grid grid-cols-3 gap-2">
@@ -155,19 +155,19 @@ export default function RSVPWishes({ guestName }) {
                       type="button"
                       onClick={() => setAttendance(opt.value)}
                       className={`rounded-xl border hairline py-2 text-xs transition-colors ${
-                        attendance === opt.value ? 'bg-sea text-cream' : 'text-ink-soft hover:bg-sky/50'
+                        attendance === opt.value ? 'bg-accent text-cream' : 'text-ink-soft hover:bg-sky/50'
                       }`}
                     >
                       {t(opt.labelKey)}
                     </button>
                   ))}
                 </div>
-                {errors.attendance && <p className="text-xs text-sea-light mt-1">{errors.attendance}</p>}
+                {errors.attendance && <p className="text-xs text-ink-soft/70 mt-1">{errors.attendance}</p>}
               </div>
 
               {/* Number of guests */}
               <div>
-                <label htmlFor="rf-count" className="block text-xs uppercase tracking-widest mb-1.5" style={{ color: 'rgba(17,87,95,0.6)' }}>
+                <label htmlFor="rf-count" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
                   {t('rsvp.guestCount')}
                 </label>
                 <input
@@ -177,14 +177,14 @@ export default function RSVPWishes({ guestName }) {
                   max={10}
                   value={guestCount}
                   onChange={(e) => setGuestCount(Number(e.target.value))}
-                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40"
+                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
                 />
-                {errors.guestCount && <p className="text-xs text-sea-light mt-1">{errors.guestCount}</p>}
+                {errors.guestCount && <p className="text-xs text-ink-soft/70 mt-1">{errors.guestCount}</p>}
               </div>
 
               {/* Wishes / Message */}
               <div>
-                <label htmlFor="rf-message" className="block text-xs uppercase tracking-widest mb-1.5" style={{ color: 'rgba(17,87,95,0.6)' }}>
+                <label htmlFor="rf-message" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
                   {t('wishes.title')}
                 </label>
                 <textarea
@@ -193,7 +193,7 @@ export default function RSVPWishes({ guestName }) {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder={t('wishes.messagePlaceholder')}
-                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40 resize-none"
+                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 resize-none"
                 />
               </div>
 
@@ -201,7 +201,7 @@ export default function RSVPWishes({ guestName }) {
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="w-full py-3 rounded-full bg-sea text-cream text-xs tracking-[0.25em] uppercase hover:bg-sea-mid transition-colors disabled:opacity-60"
+                className="w-full py-3 rounded-full bg-accent text-cream text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60"
               >
                 {status === 'submitting' ? t('rsvp.submitting') : t('rsvp.submit')}
               </button>
@@ -214,13 +214,13 @@ export default function RSVPWishes({ guestName }) {
         {wishes.length > 0 && (
           <Reveal variant="fadeIn" delay={0.2}>
             <div className="mt-12">
-              <p className="text-xs uppercase tracking-[0.3em] text-center mb-6" style={{ color: 'rgba(17,87,95,0.5)' }}>
+              <p className="text-xs uppercase tracking-[0.3em] text-center text-ink-soft/60 mb-6">
                 {t('wishes.title')}
               </p>
               <div className="rounded-3xl border hairline bg-white/60 p-4">
                 <div className="wishes-scroll space-y-4 overflow-y-auto pr-2" style={{ maxHeight: '360px' }}>
-                  {loading && <p className="text-center text-sm" style={{ color: 'rgba(17,87,95,0.5)' }}>{t('common.loading')}</p>}
-                  {!loading && loadError && <p className="text-center text-sm text-sea-light">{t('common.error')}</p>}
+                  {loading && <p className="text-center text-sm text-ink-soft/60">{t('common.loading')}</p>}
+                  {!loading && loadError && <p className="text-center text-sm text-ink-soft/70">{t('common.error')}</p>}
                   <AnimatePresence initial={false}>
                     {wishes.map((w) => (
                       <motion.div
@@ -233,11 +233,11 @@ export default function RSVPWishes({ guestName }) {
                       >
                         <div className="flex items-baseline justify-between mb-1">
                           <p className="font-display text-base text-ink">{w.name}</p>
-                          <p className="text-[10px]" style={{ color: 'rgba(17,87,95,0.45)' }}>
+                          <p className="text-[10px] text-ink-soft/50">
                             {new Date(w.created_at).toLocaleDateString(lang, { day: 'numeric', month: 'short' })}
                           </p>
                         </div>
-                        <p className="text-sm leading-relaxed" style={{ color: 'rgba(17,87,95,0.8)' }}>{w.message}</p>
+                        <p className="text-sm leading-relaxed text-ink-soft/80">{w.message}</p>
                       </motion.div>
                     ))}
                   </AnimatePresence>
