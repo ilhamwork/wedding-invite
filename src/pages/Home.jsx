@@ -32,14 +32,15 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <motion.div
+            {/* Language toggle — hidden */}
+            {/* <motion.div
               className="fixed top-5 right-5 z-40"
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
               <LanguageToggle />
-            </motion.div>
+            </motion.div> */}
             <main>
               {/* Sections alternate between section-alt-a and section-alt-b */}
               <Countdown />

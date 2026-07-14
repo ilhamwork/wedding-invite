@@ -61,10 +61,10 @@ export default function Cover({ guestName, onOpen }) {
           }}
         />
 
-        {/* Language toggle */}
-        <motion.div className="absolute top-5 right-5 z-20" {...fadeIn(1.6)}>
+        {/* Language toggle — hidden */}
+        {/* <motion.div className="absolute top-5 right-5 z-20" {...fadeIn(1.6)}>
           <LanguageToggle />
-        </motion.div>
+        </motion.div> */}
 
         {/* ── Centre content ── */}
         <motion.div
