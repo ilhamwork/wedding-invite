@@ -7,7 +7,7 @@
 export const content = {
   couple: {
     groom: {
-      fullName: 'Mohamad Ilham Firdaus',
+      fullName: 'Mohamad Ilham Firdaus, S.Kom.',
       nickname: 'Ilham',
       instagram: '@ilhamfirdaa',
       photo: '/assets/groom.jpg',
@@ -17,7 +17,7 @@ export const content = {
       },
     },
     bride: {
-      fullName: 'Prita Sekar Primadiani',
+      fullName: 'Prita Sekar Primadiani, S.AB.',
       nickname: 'Prita',
       instagram: '@pritaskr',
       photo: '/assets/bride.jpg',
@@ -51,7 +51,7 @@ export const content = {
   story: [
     {
       year: '2019',
-      photo: '/assets/gallery/PRITA & ILHAM-4.jpg',
+      photo: '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',
       title: { id: 'Pertama Bertemu', en: 'First Meeting' },
       caption: {
         id: 'Placeholder — ceritakan bagaimana kalian pertama kali bertemu.',
@@ -60,7 +60,7 @@ export const content = {
     },
     {
       year: '2022',
-      photo: '/assets/gallery/PRITA & ILHAM-37.jpg',
+      photo: '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp',
       title: { id: 'Menjadi Dekat', en: 'Growing Close' },
       caption: {
         id: 'Placeholder — ceritakan momen yang membuat kalian semakin dekat.',
@@ -69,7 +69,7 @@ export const content = {
     },
     {
       year: '2025',
-      photo: '/assets/gallery/PRITA & ILHAM-96.jpg',
+      photo: '/assets/gallery/optimized/PRITA & ILHAM-96-1200w.webp',
       title: { id: 'Lamaran', en: 'The Proposal' },
       caption: {
         id: 'Placeholder — ceritakan momen lamaran kalian.',
@@ -79,11 +79,11 @@ export const content = {
   ],
 
   gallery: [
-    { src: '/assets/gallery/PRITA & ILHAM-4.jpg',  alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/PRITA & ILHAM-16.jpg', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/PRITA & ILHAM-37.jpg', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/PRITA & ILHAM-53.jpg', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/PRITA & ILHAM-96.jpg', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',  alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-16-1200w.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-53-1200w.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-96-1200w.webp', alt: 'Prita & Ilham' },
   ],
 
   gifts: [
@@ -109,14 +109,14 @@ export const content = {
 
   cover: {
     // Mobile (portrait) — tall/square crop works best
-    photo: '/assets/gallery/PRITA & ILHAM-96.jpg',
+    photo: '/assets/gallery/optimized/PRITA & ILHAM-96-1080w.webp',
     // Desktop (landscape) — wide crop works best; falls back to photo if not set
-    photoDesktop: '/assets/gallery/PRITA & ILHAM-53.jpg',
+    photoDesktop: '/assets/gallery/optimized/PRITA & ILHAM-53-1440w.webp',
   },
 
   closing: {
     // Background photo shown at the bottom of the thank-you section.
-    photo: '/assets/gallery/PRITA & ILHAM-53.jpg',
+    photo: '/assets/gallery/optimized/PRITA & ILHAM-53-1200w.webp',
   },
 
   countdown: {
@@ -124,11 +124,11 @@ export const content = {
     // Falls back to all gallery photos if not set.
     // Tip: add as many photos as you like; order matters.
     images: [
-      '/assets/gallery/PRITA & ILHAM-4.jpg',
-      '/assets/gallery/PRITA & ILHAM-16.jpg',
-      '/assets/gallery/PRITA & ILHAM-37.jpg',
-      '/assets/gallery/PRITA & ILHAM-53.jpg',
-      '/assets/gallery/PRITA & ILHAM-96.jpg',
+      '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',
+      '/assets/gallery/optimized/PRITA & ILHAM-16-1200w.webp',
+      '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp',
+      '/assets/gallery/optimized/PRITA & ILHAM-53-1200w.webp',
+      '/assets/gallery/optimized/PRITA & ILHAM-96-1200w.webp',
     ],
     // How long each slide is visible (milliseconds) before crossfading to the next.
     slideDuration: 3000,

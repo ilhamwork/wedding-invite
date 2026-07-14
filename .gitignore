@@ -2,3 +2,6 @@ node_modules
 dist
 .env
 .DS_Store
+
+# Original high-res gallery images (use /optimized/ versions instead)
+public/assets/gallery/*.jpg
