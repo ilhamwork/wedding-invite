@@ -5,3 +5,7 @@ dist
 
 # Original high-res gallery images (use /optimized/ versions instead)
 public/assets/gallery/*.jpg
+
+# Original portrait JPGs (use .webp versions instead)
+public/assets/bride.jpg
+public/assets/groom.jpg

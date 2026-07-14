@@ -10,7 +10,7 @@ export const content = {
       fullName: 'Mohamad Ilham Firdaus, S.Kom.',
       nickname: 'Ilham',
       instagram: '@ilhamfirdaa',
-      photo: '/assets/groom.jpg',
+      photo: '/assets/groom.webp',
       parents: {
         id: 'Putra dari\nBpk. Iwan Ridwan\n&\nIbu Alm. Sopiah',
         en: 'Precious Son of\nIwan Ridwan\n&\nAlm. Sopiah',
@@ -20,7 +20,7 @@ export const content = {
       fullName: 'Prita Sekar Primadiani, S.AB.',
       nickname: 'Prita',
       instagram: '@pritaskr',
-      photo: '/assets/bride.jpg',
+      photo: '/assets/bride.webp',
       parents: {
         id: 'Putri dari\nBpk. Ilham Philipinaryo\n&\nIbu Dian Novianti Dwitasari',
         en: 'Lovely Daughter of\nIlham Philipinaryo\n&\nDian Novianti Dwitasari',
