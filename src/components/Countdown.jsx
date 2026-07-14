@@ -65,18 +65,18 @@ export default function Countdown() {
       className="relative w-full overflow-hidden"
       style={{ minHeight: '100svh' }}
     >
-      {/* ── Background carousel with fade transition ── */}
-      <AnimatePresence initial={false}>
+      {/* ── Background carousel with fade + scale transition ── */}
+      <AnimatePresence>
         <motion.img
           key={carouselImages[activeIdx]}
           src={carouselImages[activeIdx]}
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: 'easeInOut' }}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 1.4, ease: 'easeInOut' }}
         />
       </AnimatePresence>
 
@@ -94,10 +94,10 @@ export default function Countdown() {
            style={{ minHeight: '100svh', paddingTop: '0', paddingBottom: '35vh' }}>
 
         <motion.p
-          className="font-body text-[10px] sm:text-xs tracking-[0.30em] uppercase text-white/60 mb-4"
+          className="font-body text-[10px] sm:text-xs tracking-[0.30em] uppercase text-white/60 mb-4 leading-relaxed"
           {...fadeUp(0.3)}
         >
-          {t('cover.eyebrow')}
+          We invite you<br />to The Wedding of
         </motion.p>
 
         <motion.h1
@@ -118,13 +118,6 @@ export default function Countdown() {
           <div className="w-1.5 h-1.5 rounded-full bg-amber-200/60" />
           <div className="h-px w-10 bg-white/30" />
         </motion.div>
-
-        <motion.p
-          className="font-body text-sm text-white/60 tracking-widest"
-          {...fadeUp(0.85)}
-        >
-          {dateLabel}
-        </motion.p>
       </div>
 
       {/* ── Countdown bar — 3/4 down the screen ── */}
