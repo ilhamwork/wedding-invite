@@ -22,7 +22,16 @@ export default function Home() {
 
   return (
     <div className="paper-texture min-h-screen">
-      {!isOpen && <Cover guestName={guestName} onOpen={() => setIsOpen(true)} />}
+      <AnimatePresence>
+        {!isOpen && <Cover key="cover" guestName={guestName} onOpen={() => setIsOpen(true)} />}
+      </AnimatePresence>
+
+      {/* Countdown dirender sejak awal (tersembunyi) agar gambar carousel preload saat cover tampil */}
+      {!isOpen && (
+        <div aria-hidden="true" style={{ visibility: 'hidden', position: 'absolute', pointerEvents: 'none', width: '100%' }}>
+          <Countdown />
+        </div>
+      )}
 
       <AnimatePresence>
         {isOpen && (

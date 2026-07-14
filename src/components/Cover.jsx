@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { content } from '../config/content.config'
 import LanguageToggle from './LanguageToggle'
@@ -25,11 +25,10 @@ export default function Cover({ guestName, onOpen }) {
   }
 
   return (
-    <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 z-50 overflow-hidden"
-        exit={{ opacity: 0, transition: { duration: 0.7, delay: 0.2 } }}
-      >
+    <motion.div
+      className="fixed inset-0 z-50 overflow-hidden"
+      exit={{ opacity: 0, transition: { duration: 1, ease } }}
+    >
         {/* ── Full-bleed background photo — mobile uses portrait, desktop uses landscape ── */}
         <style>{`
           .cover-bg {
@@ -43,13 +42,20 @@ export default function Cover({ guestName, onOpen }) {
             }
           }
         `}</style>
-        <div className="cover-bg absolute inset-0" style={{ backgroundSize: 'cover' }} />
+        <motion.div
+          className="cover-bg absolute inset-0"
+          style={{ backgroundSize: 'cover' }}
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.1 }}
+          transition={{ duration: 1.5, ease }}
+        />
 
         {/* ── Dark overlay — bold agar kesan "undangan belum dibuka" ── */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.72) 50%, rgba(0,0,0,0.80) 100%)',
+            background: 'linear-gradient(180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.50) 100%)',
           }}
         />
 
@@ -88,7 +94,7 @@ export default function Cover({ guestName, onOpen }) {
               className="font-body text-[11px] tracking-[0.30em] uppercase text-white/60 mb-5"
               {...fadeIn(0.7)}
             >
-              {t('cover.eyebrow')}
+              We invite you<br />to The Wedding of
             </motion.p>
 
             {/* Names */}
@@ -151,7 +157,6 @@ export default function Cover({ guestName, onOpen }) {
             />
           </motion.div>
         </motion.div>
-      </motion.div>
-    </AnimatePresence>
+    </motion.div>
   )
 }
