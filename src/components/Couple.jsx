@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { content } from '../config/content.config'
 import { Reveal } from './ui/Section'
 
-const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 4'%3E%3Crect width='3' height='4' fill='%23EAE5D8'/%3E%3C/svg%3E"
+const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 4'%3E%3Crect width='3' height='4' fill='%23EEE9DE'/%3E%3C/svg%3E"
 
 /**
  * Decorative rectangular frame with rounded corners.
@@ -14,8 +14,8 @@ function RectFrame({ src, alt }) {
       <div
         className="absolute inset-0 rounded-2xl"
         style={{
-          border: '3px solid rgba(44,36,32,0.25)',
-          boxShadow: '0 0 0 6px rgba(44,36,32,0.07), 0 0 0 10px rgba(44,36,32,0.03)',
+          border: '3px solid rgba(46,58,79,0.20)',
+          boxShadow: '0 0 0 6px rgba(46,58,79,0.06), 0 0 0 10px rgba(46,58,79,0.03)',
         }}
       />
       {/* Second inner ring */}
@@ -23,7 +23,7 @@ function RectFrame({ src, alt }) {
         className="absolute rounded-xl"
         style={{
           inset: 10,
-          border: '1.5px solid rgba(44,36,32,0.18)',
+          border: '1.5px solid rgba(201,169,110,0.30)',
         }}
       />
       {/* Photo */}
@@ -71,12 +71,12 @@ export default function Couple() {
             <div className="flex flex-col items-end text-right pt-8 flex-1">
               <h3
                 className="font-display font-semibold leading-tight mb-4"
-                style={{ fontSize: '1.65rem', color: '#1C1917', letterSpacing: '0.02em' }}
+                style={{ fontSize: '1.65rem', color: '#33302B', letterSpacing: '0.02em' }}
               >
                 {bride.fullName}
               </h3>
               {bride.parents?.[lang] && (
-                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(44,36,32,0.65)' }}>
+                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(46,58,79,0.60)' }}>
                   {bride.parents[lang]}
                 </p>
               )}
@@ -88,7 +88,7 @@ export default function Couple() {
         {/* ── Ampersand connector ─────────────────────────────── */}
         <Reveal variant="fadeIn" delay={0.18}>
           <div className="flex items-center justify-center my-2">
-            <span className="font-script text-5xl leading-none select-none" style={{ color: 'rgba(44,36,32,0.35)' }}>
+            <span className="font-script text-5xl leading-none select-none" style={{ color: 'rgba(201,169,110,0.55)' }}>
               &amp;
             </span>
           </div>
@@ -102,12 +102,12 @@ export default function Couple() {
             <div className="flex flex-col items-start text-left pt-8 flex-1">
               <h3
                 className="font-display font-semibold leading-tight mb-4"
-                style={{ fontSize: '1.65rem', color: '#1C1917', letterSpacing: '0.02em' }}
+                style={{ fontSize: '1.65rem', color: '#33302B', letterSpacing: '0.02em' }}
               >
                 {groom.fullName}
               </h3>
               {groom.parents?.[lang] && (
-                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(44,36,32,0.65)' }}>
+                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(46,58,79,0.60)' }}>
                   {groom.parents[lang]}
                 </p>
               )}

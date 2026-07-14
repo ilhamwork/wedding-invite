@@ -108,7 +108,7 @@ export default function Wishes() {
   }
 
   return (
-    <Section id="wishes" bg="sky" fadeTop="#EAE5D8" fadeBottom="#EAE5D8">
+    <Section id="wishes" bg="sky" fadeTop="#EEE9DE" fadeBottom="#EEE9DE">
       <Reveal variant="fadeUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('wishes.title')}</h2>
 
@@ -136,7 +136,7 @@ export default function Wishes() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3 rounded-full bg-accent text-cream text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60"
+            className="w-full py-3 rounded-full bg-accent text-ink text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60 font-medium"
           >
             {submitting ? t('wishes.submitting') : t('wishes.submit')}
           </button>

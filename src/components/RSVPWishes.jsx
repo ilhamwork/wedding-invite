@@ -106,7 +106,7 @@ export default function RSVPWishes({ guestName }) {
   }
 
   return (
-    <section id="rsvp-wishes" className="relative" style={{ backgroundColor: '#F4F1EA' }}>
+    <section id="rsvp-wishes" className="relative" style={{ backgroundColor: '#F7F4ED' }}>
       <div className="relative px-6 py-20 sm:py-24 max-w-xl mx-auto">
 
         <Reveal variant="fadeIn">
@@ -155,7 +155,7 @@ export default function RSVPWishes({ guestName }) {
                       type="button"
                       onClick={() => setAttendance(opt.value)}
                       className={`rounded-xl border hairline py-2 text-xs transition-colors ${
-                        attendance === opt.value ? 'bg-accent text-cream' : 'text-ink-soft hover:bg-sky/50'
+                        attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-ink-soft hover:bg-sky/50'
                       }`}
                     >
                       {t(opt.labelKey)}
@@ -201,7 +201,7 @@ export default function RSVPWishes({ guestName }) {
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="w-full py-3 rounded-full bg-accent text-cream text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60"
+                className="w-full py-3 rounded-full bg-accent text-ink text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60 font-medium"
               >
                 {status === 'submitting' ? t('rsvp.submitting') : t('rsvp.submit')}
               </button>

@@ -33,7 +33,7 @@ export default function EventDetails() {
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
 
   return (
-    <Section id="event" bg="texture" flip={false} fadeTop="#F4F1EA" fadeBottom="#F4F1EA">
+    <Section id="event" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
       <Reveal variant="fadeUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('event.title')}</h2>
 
@@ -48,7 +48,7 @@ export default function EventDetails() {
             href={content.event.map.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 rounded-full bg-accent text-cream text-xs tracking-[0.2em] uppercase hover:bg-accent-mid transition-colors"
+            className="inline-block px-8 py-3 rounded-full bg-accent text-ink text-xs tracking-[0.2em] uppercase hover:bg-accent-mid transition-colors font-medium"
           >
             {t('event.viewMap')}
           </a>

@@ -53,8 +53,7 @@ export default function RSVP({ guestName }) {
 
   if (status === 'success') {
     return (
-      <Section id="rsvp" bg="texture" flip={false} fadeTop="#F4F1EA" fadeBottom="#EAE5D8">
-        <Reveal variant="fadeIn" className="text-center">
+      <Section id="rsvp" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#EEE9DE">
           <h2 className="font-display text-2xl text-sea mb-2">{t('rsvp.successTitle')}</h2>
           <p className="text-sm text-ink-soft/80">{t('rsvp.successBody')}</p>
         </Reveal>
@@ -63,7 +62,7 @@ export default function RSVP({ guestName }) {
   }
 
   return (
-    <Section id="rsvp" bg="texture" flip={false} fadeTop="#F4F1EA" fadeBottom="#EAE5D8">
+    <Section id="rsvp" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#EEE9DE">
       <Reveal variant="slideRight">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('rsvp.title')}</h2>
 
@@ -92,7 +91,7 @@ export default function RSVP({ guestName }) {
                   type="button"
                   onClick={() => setAttendance(opt.value)}
                   className={`rounded-xl border hairline py-2 text-xs transition-colors ${
-                    attendance === opt.value ? 'bg-accent text-cream' : 'text-ink-soft hover:bg-sky/50'
+                    attendance === opt.value ? 'bg-accent text-ink' : 'text-ink-soft hover:bg-sky/50'
                   }`}
                 >
                   {t(opt.labelKey)}
@@ -135,7 +134,7 @@ export default function RSVP({ guestName }) {
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="w-full py-3 rounded-full bg-accent text-cream text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60"
+            className="w-full py-3 rounded-full bg-accent text-ink text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60 font-medium"
           >
             {status === 'submitting' ? t('rsvp.submitting') : t('rsvp.submit')}
           </button>

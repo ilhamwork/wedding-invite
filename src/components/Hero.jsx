@@ -19,14 +19,14 @@ export default function Hero() {
       {/* Flat background */}
       <div
         className="absolute inset-0"
-        style={{ background: '#F4F1EA' }}
+        style={{ background: '#F7F4ED' }}
         aria-hidden="true"
       />
 
       {/* Bottom fade — bleeds into Couple section (mist) */}
       <div
         className="absolute bottom-0 left-0 right-0 pointer-events-none"
-        style={{ height: '96px', background: 'linear-gradient(to top, #F4F1EA, transparent)', zIndex: 3 }}
+        style={{ height: '96px', background: 'linear-gradient(to top, #F7F4ED, transparent)', zIndex: 3 }}
         aria-hidden="true"
       />
 

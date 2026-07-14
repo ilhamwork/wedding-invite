@@ -90,9 +90,9 @@ export function Eyebrow({ children }) {
  */
 
 const BG_COLORS = {
-  mist:   '#F4F1EA',
-  sky:    '#EAE5D8',
-  pebble: '#EAE5D8',
+  mist:   '#F7F4ED',
+  sky:    '#EEE9DE',
+  pebble: '#EEE9DE',
 }
 
 /**
@@ -118,9 +118,9 @@ export default function Section({ id, className = '', bg, fadeTop, fadeBottom, c
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage: overlays.length
-              ? [...overlays, 'linear-gradient(#F4F1EA, #F4F1EA)'].join(', ')
+              ? [...overlays, 'linear-gradient(#F7F4ED, #F7F4ED)'].join(', ')
               : undefined,
-            backgroundColor: overlays.length ? undefined : '#F4F1EA',
+            backgroundColor: overlays.length ? undefined : '#F7F4ED',
             zIndex: 0,
           }}
           aria-hidden="true"

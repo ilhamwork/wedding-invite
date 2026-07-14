@@ -40,7 +40,7 @@ export default function Gallery() {
   ]
 
   return (
-    <Section id="gallery" bg="mist" fadeTop="#F4F1EA" fadeBottom="#F4F1EA">
+    <Section id="gallery" bg="mist" fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
       <Reveal variant="scaleUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('gallery.title')}</h2>
       </Reveal>

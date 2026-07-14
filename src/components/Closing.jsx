@@ -7,7 +7,7 @@ export default function Closing() {
   return (
     <div id="closing">
       {/* ── Text content inside normal Section padding ── */}
-      <Section className="pb-4" bg="sky" fadeTop="#EAE5D8">
+      <Section className="pb-4" bg="sky" fadeTop="#EEE9DE">
         <Reveal variant="fadeIn" className="text-center">
           <p className="section-label mb-3">{t('closing.thankYou')}</p>
           <h2 className="font-script text-4xl text-ink mb-4">
@@ -23,7 +23,7 @@ export default function Closing() {
       {content.closing?.photo && (
         <div
           className="relative w-full overflow-hidden"
-          style={{ height: '55vw', maxHeight: 400, backgroundColor: '#EAE5D8' }}
+          style={{ height: '55vw', maxHeight: 400, backgroundColor: '#EEE9DE' }}
         >
           <img
             src={content.closing.photo}
@@ -35,7 +35,7 @@ export default function Closing() {
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'linear-gradient(to bottom, #EAE5D8 0%, rgba(234,229,216,0.5) 35%, transparent 100%)',
+              background: 'linear-gradient(to bottom, #EEE9DE 0%, rgba(238,233,222,0.5) 35%, transparent 100%)',
             }}
           />
         </div>
