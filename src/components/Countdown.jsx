@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { content } from '../config/content.config'
 import useCountdown from '../hooks/useCountdown'
 
@@ -47,7 +48,16 @@ export default function Countdown() {
     { day: '2-digit', month: 'long', year: 'numeric' }
   )
 
-  const bgSrc = content.countdown?.backgroundGif ?? content.cover.photo
+  // Carousel slides: use countdown images array if provided, else fallback to gallery
+  const carouselImages = content.countdown?.images ?? content.gallery.map((g) => g.src)
+  const [activeIdx, setActiveIdx] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % carouselImages.length)
+    }, content.countdown?.slideDuration ?? 3500)
+    return () => clearInterval(interval)
+  }, [carouselImages.length])
 
   return (
     <section
@@ -55,14 +65,20 @@ export default function Countdown() {
       className="relative w-full overflow-hidden"
       style={{ minHeight: '100svh' }}
     >
-      {/* ── Background media (GIF / image) ── */}
-      <img
-        src={bgSrc}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center"
-        // images animate as GIF natively; no extra handling needed
-      />
+      {/* ── Background carousel with fade transition ── */}
+      <AnimatePresence initial={false}>
+        <motion.img
+          key={carouselImages[activeIdx]}
+          src={carouselImages[activeIdx]}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: 'easeInOut' }}
+        />
+      </AnimatePresence>
 
       {/* ── Dark overlay ── */}
       <div
@@ -134,7 +150,6 @@ export default function Countdown() {
 
             {/* Save the date + date label — top row */}
             <div className="flex items-center gap-3">
-              <div className="w-px h-3 bg-white/20" />
               <p className="font-display text-sm text-white whitespace-nowrap">
                 {dateLabel}
               </p>

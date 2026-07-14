@@ -115,11 +115,18 @@ export const content = {
   },
 
   countdown: {
-    // Background for the countdown section.
-    // Supports GIF, JPG, PNG, or WebP — just drop the file in /public/assets/ and update the path.
-    // For animated effect, use a .gif file.
-    // Falls back to a gallery photo if not set.
-    backgroundGif: '/assets/countdown-motion.gif', // ← replace with your .gif
+    // Images for the auto-play carousel background (fade-in/out, no controls).
+    // Falls back to all gallery photos if not set.
+    // Tip: add as many photos as you like; order matters.
+    images: [
+      '/assets/gallery/PRITA & ILHAM-4.jpg',
+      '/assets/gallery/PRITA & ILHAM-16.jpg',
+      '/assets/gallery/PRITA & ILHAM-37.jpg',
+      '/assets/gallery/PRITA & ILHAM-53.jpg',
+      '/assets/gallery/PRITA & ILHAM-96.jpg',
+    ],
+    // How long each slide is visible (milliseconds) before crossfading to the next.
+    slideDuration: 3000,
   },
 
   music: {
