@@ -114,6 +114,11 @@ export const content = {
     photoDesktop: '/assets/gallery/PRITA & ILHAM-53.jpg',
   },
 
+  closing: {
+    // Background photo shown at the bottom of the thank-you section.
+    photo: '/assets/gallery/PRITA & ILHAM-53.jpg',
+  },
+
   countdown: {
     // Images for the auto-play carousel background (fade-in/out, no controls).
     // Falls back to all gallery photos if not set.

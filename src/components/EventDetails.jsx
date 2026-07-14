@@ -34,7 +34,7 @@ export default function EventDetails() {
 
   return (
     <Section id="event" bg="texture" flip={false} fadeTop="#F4F1EA" fadeBottom="#F4F1EA">
-      <Reveal variant="slideLeft">
+      <Reveal variant="fadeUp">
         <h2 className="font-display text-2xl text-center text-ink mb-8">{t('event.title')}</h2>
 
         <div className="space-y-6 mb-8">
