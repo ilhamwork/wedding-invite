@@ -7,7 +7,7 @@ import Section, { Reveal } from './ui/Section'
 
 // Bank logo registry
 const BANK_LOGOS = {
-  bca: <img src="/assets/bca.webp" alt="BCA" className="h-10 w-auto object-contain" />,
+  bca: <img src="/assets/bca.webp" alt="BCA" className="h-6 w-auto object-contain" />,
 }
 
 function getBankLogo(gift) {
@@ -157,7 +157,7 @@ export default function GiftEnvelope() {
                   <div key={i} className="rounded-xl border hairline bg-white/50 p-4">
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <div className="flex-1">
-                        <p className="font-display text-xl text-ink tracking-wider">{gift.accountNumber}</p>
+                        <p className="font-display text-xl text-ink tracking-wider whitespace-nowrap">{gift.accountNumber}</p>
                         <p className="text-xs text-ink-soft/70 mt-0.5">{gift.accountHolder}</p>
                       </div>
                       {logo
