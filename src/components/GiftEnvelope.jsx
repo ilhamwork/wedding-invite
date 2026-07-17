@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
@@ -17,52 +18,6 @@ function getBankLogo(gift) {
   return null
 }
 
-// Chevron icon
-function ChevronIcon({ open }) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-4 h-4 shrink-0"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      animate={{ rotate: open ? 180 : 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      aria-hidden="true"
-    >
-      <polyline points="6 9 12 15 18 9" />
-    </motion.svg>
-  )
-}
-
-// Wallet icon
-function WalletIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="2" y="5" width="20" height="14" rx="2" />
-      <path d="M2 10h20" />
-      <circle cx="17" cy="15" r="1" fill="currentColor" stroke="none" />
-    </svg>
-  )
-}
-
-// Gift box icon
-function GiftBoxIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="10" width="18" height="11" rx="1" />
-      <path d="M3 10V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2" />
-      <path d="M12 6V21" />
-      <path d="M12 6C12 6 9 3 7 4s-1 4 5 2" />
-      <path d="M12 6C12 6 15 3 17 4s1 4-5 2" />
-    </svg>
-  )
-}
-
-// Copy icon
 function CopyIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -72,53 +27,10 @@ function CopyIcon() {
   )
 }
 
-// Accordion item wrapper
-function AccordionItem({ icon, label, isOpen, onToggle, children }) {
-  return (
-    <div className="rounded-2xl border hairline overflow-hidden bg-pebble/40">
-      <button
-        type="button"
-        onClick={onToggle}
-        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left"
-        aria-expanded={isOpen}
-      >
-        <div className="flex items-center gap-3 text-sea">
-          {icon}
-          <span className="font-body text-sm tracking-wide text-ink">{label}</span>
-        </div>
-        <span className="text-sea-light/70">
-          <ChevronIcon open={isOpen} />
-        </span>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            style={{ overflow: 'hidden' }}
-          >
-            <div className="px-5 pb-5">
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  )
-}
-
-export default function GiftEnvelope() {
+function GiftModal({ onClose }) {
   const { t } = useTranslation()
-  const [openPanel, setOpenPanel] = useState(null) // null | 'bank' | 'address'
   const [copiedIndex, setCopiedIndex] = useState(null)
-
-  function toggle(panel) {
-    setOpenPanel((prev) => (prev === panel ? null : panel))
-  }
+  const addr = content.giftAddress
 
   async function handleCopy(text, index) {
     try {
@@ -131,30 +43,54 @@ export default function GiftEnvelope() {
     }
   }
 
-  const addr = content.giftAddress
+  return createPortal(
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-0 sm:px-4"
+        style={{ backgroundColor: 'rgba(28,25,23,0.65)', backdropFilter: 'blur(4px)' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      >
+        <motion.div
+          className="relative w-full sm:max-w-md bg-cream rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl"
+          style={{ maxHeight: '90svh', overflowY: 'auto' }}
+          initial={{ y: '100%', opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: '100%', opacity: 0 }}
+          transition={{ type: 'spring', damping: 28, stiffness: 260 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Handle bar */}
+          <div className="flex justify-center pt-3 pb-1">
+            <div className="w-10 h-1 rounded-full bg-ink/20" />
+          </div>
 
-  return (
-    <Section id="gift" bg="texture" flip={false} fadeTop="#EEE9DE" fadeBottom="#EEE9DE">
-      <Reveal variant="scaleUp" className="text-center">
-        <h2 className="font-display text-2xl text-ink mb-3">{t('gift.title')}</h2>
-        <p className="text-sm text-ink-soft/75 leading-relaxed max-w-xs mx-auto mb-8">
-          {t('gift.description')}
-        </p>
+          <div className="px-6 pb-8 pt-3">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-display text-xl text-ink">{t('gift.title')}</h3>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="w-8 h-8 flex items-center justify-center rounded-full border hairline text-ink-soft hover:bg-pebble transition-colors text-lg leading-none"
+              >
+                &times;
+              </button>
+            </div>
 
-        <div className="space-y-3 text-left">
+            <p className="text-sm text-ink-soft/75 leading-relaxed mb-6">
+              {t('gift.description')}
+            </p>
 
-          {/* ── Bank transfer ── */}
-          <AccordionItem
-            icon={<WalletIcon />}
-            label={t('gift.bankTransfer') ?? 'Transfer Bank'}
-            isOpen={openPanel === 'bank'}
-            onToggle={() => toggle('bank')}
-          >
-            <div className="space-y-4 pt-1">
+            {/* Bank transfers */}
+            <p className="text-xs uppercase tracking-widest text-ink-soft/60 mb-3">{t('gift.bankTransfer')}</p>
+            <div className="space-y-3 mb-6">
               {content.gifts.map((gift, i) => {
                 const logo = getBankLogo(gift)
                 return (
-                  <div key={i} className="rounded-xl border hairline bg-white/50 p-4">
+                  <div key={i} className="rounded-2xl border hairline bg-pebble/40 p-4">
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <div className="flex-1">
                         <p className="font-display text-xl text-ink tracking-wider whitespace-nowrap">{gift.accountNumber}</p>
@@ -177,51 +113,74 @@ export default function GiftEnvelope() {
                 )
               })}
             </div>
-          </AccordionItem>
 
-          {/* ── Shipping address ── */}
-          <AccordionItem
-            icon={<GiftBoxIcon />}
-            label={t('gift.shippingAddress') ?? 'Kirim Hadiah'}
-            isOpen={openPanel === 'address'}
-            onToggle={() => toggle('address')}
-          >
-            {addr ? (
-              <div className="rounded-xl border hairline bg-white/50 p-4 space-y-3">
-                <div>
-                  <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(46,58,79,0.55)' }}>
-                    {t('gift.recipient') ?? 'Penerima'}
-                  </p>
-                  <p className="text-sm text-ink font-medium">{addr.recipient}</p>
-                </div>
-                {addr.phone && (
+            {/* Shipping address */}
+            {addr && (
+              <>
+                <p className="text-xs uppercase tracking-widest text-ink-soft/60 mb-3">{t('gift.shippingAddress')}</p>
+                <div className="rounded-2xl border hairline bg-pebble/40 p-4 space-y-3">
                   <div>
-                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(46,58,79,0.55)' }}>
-                      {t('gift.phone') ?? 'No. Telepon'}
-                    </p>
-                    <p className="text-sm text-ink">{addr.phone}</p>
+                    <p className="text-xs uppercase tracking-widest mb-1 text-ink-soft/55">{t('gift.recipient')}</p>
+                    <p className="text-sm text-ink font-medium">{addr.recipient}</p>
                   </div>
-                )}
-                <div>
-                  <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(46,58,79,0.55)' }}>
-                    {t('gift.address') ?? 'Alamat'}
-                  </p>
-                  <p className="text-sm text-ink leading-relaxed">{addr.address}</p>
+                  {addr.phone && (
+                    <div>
+                      <p className="text-xs uppercase tracking-widest mb-1 text-ink-soft/55">{t('gift.phone')}</p>
+                      <p className="text-sm text-ink">{addr.phone}</p>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-xs uppercase tracking-widest mb-1 text-ink-soft/55">{t('gift.address')}</p>
+                    <p className="text-sm text-ink leading-relaxed">{addr.address}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(`${addr.recipient}\n${addr.phone ?? ''}\n${addr.address}`, 'addr')}
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border hairline text-xs tracking-widest uppercase hover:bg-accent hover:text-ink transition-colors font-medium"
+                  >
+                    <CopyIcon />
+                    {copiedIndex === 'addr' ? t('gift.copied') : t('gift.copy')}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleCopy(`${addr.recipient}\n${addr.phone ?? ''}\n${addr.address}`, 'addr')}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border hairline text-xs tracking-widest uppercase hover:bg-accent hover:text-ink transition-colors font-medium"
-                >
-                  <CopyIcon />
-                  {copiedIndex === 'addr' ? t('gift.copied') : t('gift.copy')}
-                </button>
-              </div>
-            ) : null}
-          </AccordionItem>
+              </>
+            )}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>,
+    document.body
+  )
+}
 
-        </div>
+export default function GiftEnvelope() {
+  const { t } = useTranslation()
+  const [modalOpen, setModalOpen] = useState(false)
+
+  return (
+    <Section id="gift" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
+      <Reveal variant="scaleUp" className="text-center">
+        <h2 className="font-display text-2xl text-ink mb-3">{t('gift.title')}</h2>
+        <p className="text-sm text-ink-soft/75 leading-relaxed max-w-xs mx-auto mb-8">
+          {t('gift.description')}
+        </p>
+
+        <button
+          type="button"
+          onClick={() => setModalOpen(true)}
+          className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-ink text-xs tracking-[0.22em] uppercase hover:bg-accent-mid transition-colors font-medium"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="10" width="18" height="11" rx="1" />
+            <path d="M3 10V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2" />
+            <path d="M12 6V21" />
+            <path d="M12 6C12 6 9 3 7 4s-1 4 5 2" />
+            <path d="M12 6C12 6 15 3 17 4s1 4-5 2" />
+          </svg>
+          {t('gift.open') ?? 'Lihat Detail'}
+        </button>
       </Reveal>
+
+      {modalOpen && <GiftModal onClose={() => setModalOpen(false)} />}
     </Section>
   )
 }
