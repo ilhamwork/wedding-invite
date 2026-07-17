@@ -10,7 +10,6 @@ const PAGE_SIZE = 50
 const ATTENDANCE_OPTIONS = [
   { value: 'attending',     labelKey: 'rsvp.attending' },
   { value: 'not_attending', labelKey: 'rsvp.notAttending' },
-  { value: 'maybe',         labelKey: 'rsvp.maybe' },
 ]
 
 export default function RSVPWishes({ guestName }) {
@@ -20,7 +19,6 @@ export default function RSVPWishes({ guestName }) {
   // Form state
   const [name, setName]             = useState(guestName || '')
   const [attendance, setAttendance] = useState('')
-  const [guestCount, setGuestCount] = useState(1)
   const [message, setMessage]       = useState('')
   const [errors, setErrors]         = useState({})
   const [status, setStatus]         = useState('idle') // idle | submitting | success
@@ -60,9 +58,8 @@ export default function RSVPWishes({ guestName }) {
 
   function validate() {
     const next = {}
-    if (!name.trim())                                      next.name       = t('rsvp.errors.nameRequired')
-    if (!attendance)                                       next.attendance = t('rsvp.errors.attendanceRequired')
-    if (!guestCount || guestCount < 1 || guestCount > 10) next.guestCount = t('rsvp.errors.guestCountInvalid')
+    if (!name.trim()) next.name       = t('rsvp.errors.nameRequired')
+    if (!attendance)  next.attendance = t('rsvp.errors.attendanceRequired')
     setErrors(next)
     return Object.keys(next).length === 0
   }
@@ -78,7 +75,6 @@ export default function RSVPWishes({ guestName }) {
       const { error: rsvpError } = await supabase.from('rsvps').insert({
         guest_name:        name.trim(),
         attendance_status: attendance,
-        guest_count:       guestCount,
         message:           message.trim() || null,
       })
       if (rsvpError) throw rsvpError
@@ -106,7 +102,7 @@ export default function RSVPWishes({ guestName }) {
   }
 
   return (
-    <section id="rsvp-wishes" className="relative" style={{ backgroundColor: '#F7F4ED' }}>
+    <section id="rsvp-wishes" className="relative" style={{ backgroundColor: '#EEE9DE' }}>
       <div className="relative px-6 py-20 sm:py-24 max-w-xl mx-auto">
 
         <Reveal variant="fadeIn">
@@ -148,13 +144,13 @@ export default function RSVPWishes({ guestName }) {
                 <p className="text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
                   {t('rsvp.attendance')}
                 </p>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   {ATTENDANCE_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
                       type="button"
                       onClick={() => setAttendance(opt.value)}
-                      className={`rounded-xl border hairline py-2 text-xs transition-colors ${
+                      className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${
                         attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-ink-soft hover:bg-sky/50'
                       }`}
                     >
@@ -163,23 +159,6 @@ export default function RSVPWishes({ guestName }) {
                   ))}
                 </div>
                 {errors.attendance && <p className="text-xs text-ink-soft/70 mt-1">{errors.attendance}</p>}
-              </div>
-
-              {/* Number of guests */}
-              <div>
-                <label htmlFor="rf-count" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
-                  {t('rsvp.guestCount')}
-                </label>
-                <input
-                  id="rf-count"
-                  type="number"
-                  min={1}
-                  max={10}
-                  value={guestCount}
-                  onChange={(e) => setGuestCount(Number(e.target.value))}
-                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
-                />
-                {errors.guestCount && <p className="text-xs text-ink-soft/70 mt-1">{errors.guestCount}</p>}
               </div>
 
               {/* Wishes / Message */}
@@ -214,11 +193,8 @@ export default function RSVPWishes({ guestName }) {
         {wishes.length > 0 && (
           <Reveal variant="fadeIn" delay={0.2}>
             <div className="mt-12">
-              <p className="text-xs uppercase tracking-[0.3em] text-center text-ink-soft/60 mb-6">
-                {t('wishes.title')}
-              </p>
               <div className="rounded-3xl border hairline bg-white/60 p-4">
-                <div className="wishes-scroll space-y-4 overflow-y-auto pr-2" style={{ maxHeight: '360px' }}>
+                <div className="wishes-scroll overflow-y-auto pr-2" style={{ maxHeight: '360px' }}>
                   {loading && <p className="text-center text-sm text-ink-soft/60">{t('common.loading')}</p>}
                   {!loading && loadError && <p className="text-center text-sm text-ink-soft/70">{t('common.error')}</p>}
                   <AnimatePresence initial={false}>
@@ -229,15 +205,16 @@ export default function RSVPWishes({ guestName }) {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                        className={`rounded-xl p-4 transition-colors duration-700 ${w.id === justSubmittedId ? 'bg-sky/60' : 'bg-transparent'}`}
+                        className={`px-2 py-2.5 transition-colors duration-700 ${w.id === justSubmittedId ? 'bg-sky/60 rounded-xl' : ''}`}
                       >
-                        <div className="flex items-baseline justify-between mb-1">
-                          <p className="font-display text-base text-ink">{w.name}</p>
-                          <p className="text-[10px] text-ink-soft/50">
+                        <div className="flex items-baseline justify-between gap-2 mb-0.5">
+                          <p className="font-display text-sm text-ink">{w.name}</p>
+                          <p className="text-[10px] text-ink-soft/50 shrink-0">
                             {new Date(w.created_at).toLocaleDateString(lang, { day: 'numeric', month: 'short' })}
                           </p>
                         </div>
-                        <p className="text-sm leading-relaxed text-ink-soft/80">{w.message}</p>
+                        <p className="text-xs leading-relaxed text-ink-soft/70">{w.message}</p>
+                        <div className="mt-2.5 h-px bg-ink/6" />
                       </motion.div>
                     ))}
                   </AnimatePresence>
