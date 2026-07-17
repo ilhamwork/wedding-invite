@@ -41,14 +41,13 @@ export default function Countdown() {
     { label: t('countdown.seconds'), value: seconds },
   ]
 
-  // Format wedding date — e.g. "05 September 2026"
+  // Format wedding date
   const weddingDate = new Date(content.event.akad.dateISO)
   const dateLabel = weddingDate.toLocaleDateString(
     i18n.language === 'id' ? 'id-ID' : 'en-GB',
     { day: '2-digit', month: 'long', year: 'numeric' }
   )
 
-  // Carousel slides: use countdown images array if provided, else fallback to gallery
   const carouselImages = content.countdown?.images ?? content.gallery.map((g) => g.src)
   const [activeIdx, setActiveIdx] = useState(0)
 
@@ -65,7 +64,7 @@ export default function Countdown() {
       className="relative w-full overflow-hidden"
       style={{ minHeight: '100svh' }}
     >
-      {/* ── Background carousel with fade + scale transition ── */}
+      {/* ── Background carousel ── */}
       <AnimatePresence>
         <motion.img
           key={carouselImages[activeIdx]}
@@ -89,15 +88,16 @@ export default function Countdown() {
         }}
       />
 
-      {/* ── Main content — "The Wedding Of" + Names ── */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
-           style={{ minHeight: '100svh', paddingTop: '0', paddingBottom: '35vh' }}>
-
+      {/* ── Main content ── */}
+      <div
+        className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
+        style={{ minHeight: '100svh', paddingBottom: '35vh' }}
+      >
         <motion.p
           className="font-body text-[10px] sm:text-xs tracking-[0.30em] uppercase text-white/60 mb-4 leading-relaxed"
           {...fadeUp(0.3)}
         >
-          We invite you<br />to The Wedding of
+          You are invited to witness<br />and celebrate our special day
         </motion.p>
 
         <motion.h1
@@ -110,17 +110,14 @@ export default function Countdown() {
         </motion.h1>
 
         {/* Thin divider */}
-        <motion.div
-          className="flex items-center gap-3 my-6"
-          {...fadeUp(0.7)}
-        >
+        <motion.div className="flex items-center gap-3 my-6" {...fadeUp(0.7)}>
           <div className="h-px w-10 bg-white/30" />
           <div className="w-1.5 h-1.5 rounded-full bg-amber-200/60" />
           <div className="h-px w-10 bg-white/30" />
         </motion.div>
       </div>
 
-      {/* ── Countdown bar — 3/4 down the screen ── */}
+      {/* ── Countdown bar ── */}
       <motion.div
         className="absolute left-4 right-4 z-20"
         style={{ top: '75%', transform: 'translateY(-50%)' }}
@@ -128,7 +125,6 @@ export default function Countdown() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease, delay: 1.0 }}
       >
-        {/* Frosted glass card */}
         <div
           className="w-full rounded-2xl overflow-hidden"
           style={{
@@ -140,12 +136,8 @@ export default function Countdown() {
           }}
         >
           <div className="max-w-lg mx-auto px-5 py-4 flex flex-col items-center gap-3">
-
-            {/* Save the date + date label — top row */}
             <div className="flex items-center gap-3">
-              <p className="font-display text-sm text-white whitespace-nowrap">
-                {dateLabel}
-              </p>
+              <p className="font-display text-sm text-white whitespace-nowrap">{dateLabel}</p>
               <div className="w-px h-3 bg-white/20" />
               <a
                 href={buildGoogleCalendarUrl()}
@@ -157,10 +149,8 @@ export default function Countdown() {
               </a>
             </div>
 
-            {/* Thin separator */}
             <div className="w-full h-px bg-white/10" />
 
-            {/* Countdown units — bottom row */}
             {total > 0 ? (
               <div className="flex gap-5 sm:gap-8">
                 {units.map((u) => (
