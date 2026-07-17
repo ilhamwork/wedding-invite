@@ -2,24 +2,46 @@ import { useTranslation } from 'react-i18next'
 import { content } from '../config/content.config'
 import Section, { Reveal } from './ui/Section'
 
+// Format event date — e.g. "05 September 2026"
+function formatEventDate(isoString) {
+  const date = new Date(isoString)
+  return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })
+}
+
 export default function Closing() {
   const { t } = useTranslation()
+  const eventDate = formatEventDate(content.event.akad.dateISO)
+
   return (
     <div id="closing">
-      {/* ── Text content inside normal Section padding ── */}
       <Section className="pb-4" bg="sky" fadeTop="#EEE9DE">
         <Reveal variant="fadeIn" className="text-center">
-          <p className="section-label mb-3">{t('closing.thankYou')}</p>
-          <h2 className="font-script text-4xl text-ink mb-4">
+          {/* Thank you */}
+          <p className="section-label mb-4">{t('closing.thankYou')}</p>
+
+          {/* Couple names */}
+          <h2 className="font-script text-4xl text-ink mb-3">
             {content.couple.bride.nickname} &amp; {content.couple.groom.nickname}
           </h2>
+
+          {/* Event date */}
+          <p className="font-display text-sm text-sea-light mb-5 tracking-wide">
+            {eventDate}
+          </p>
+
+          {/* Slogan */}
+          <p className="font-body text-xs tracking-[0.22em] uppercase text-ink-soft/60 mb-4">
+            more (s)miles together
+          </p>
+
+          {/* Original closing message */}
           <p className="text-sm text-ink-soft/75 leading-relaxed max-w-xs mx-auto">
             {t('closing.message')}
           </p>
         </Reveal>
       </Section>
 
-      {/* ── Full-bleed half photo with fade top edge ── */}
+      {/* Full-bleed half photo */}
       {content.closing?.photo && (
         <div
           className="relative w-full overflow-hidden"
@@ -31,7 +53,6 @@ export default function Closing() {
             aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
-          {/* Fade from section bg colour → transparent, top ~40% */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
