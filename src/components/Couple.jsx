@@ -1,35 +1,46 @@
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 import { content } from '../config/content.config'
 import { Reveal } from './ui/Section'
 
 const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 4'%3E%3Crect width='3' height='4' fill='%23EEE9DE'/%3E%3C/svg%3E"
 
+const ease = [0.22, 1, 0.36, 1]
+
 /**
- * Decorative rectangular frame with rounded corners.
+ * Oval photo frame with book-page reveal animation.
  */
-function RectFrame({ src, alt }) {
+function OvalFrame({ src, alt, side = 'left' }) {
   return (
-    <div className="relative flex items-center justify-center" style={{ width: 150, height: 200 }}>
+    <motion.div
+      className="relative flex items-center justify-center shrink-0"
+      style={{ width: 150, height: 200 }}
+      initial={{ opacity: 0, rotateY: side === 'left' ? -90 : 90, originX: side === 'left' ? 0 : 1 }}
+      whileInView={{ opacity: 1, rotateY: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.9, ease }}
+    >
       {/* Outer decorative ring */}
       <div
-        className="absolute inset-0 rounded-2xl"
+        className="absolute inset-0"
         style={{
-          border: '3px solid rgba(46,58,79,0.20)',
-          boxShadow: '0 0 0 6px rgba(46,58,79,0.06), 0 0 0 10px rgba(46,58,79,0.03)',
+          borderRadius: '50%',
+          border: '2px solid rgba(201,169,110,0.35)',
         }}
       />
-      {/* Second inner ring */}
+      {/* Inner ring */}
       <div
-        className="absolute rounded-xl"
+        className="absolute"
         style={{
-          inset: 10,
-          border: '1.5px solid rgba(201,169,110,0.30)',
+          inset: 8,
+          borderRadius: '50%',
+          border: '1px solid rgba(201,169,110,0.20)',
         }}
       />
-      {/* Photo */}
+      {/* Photo — no background, just the image clipped to oval */}
       <div
-        className="absolute overflow-hidden rounded-xl"
-        style={{ inset: 6 }}
+        className="absolute overflow-hidden"
+        style={{ inset: 5, borderRadius: '50%' }}
       >
         <img
           src={src ?? PLACEHOLDER}
@@ -37,37 +48,42 @@ function RectFrame({ src, alt }) {
           className="w-full h-full object-cover object-top"
         />
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 export default function Couple() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
-
   const { bride, groom } = content.couple
 
   return (
     <section id="couple" className="relative overflow-hidden">
       <div className="relative px-6 pt-20 pb-16 max-w-lg mx-auto">
 
-        {/* ── Section title ───────────────────────────────────── */}
+        {/* ── Bismillah ── */}
         <Reveal variant="fadeIn">
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-center text-sea-light/70 mb-16">
+          <p
+            className="text-center text-3xl leading-loose mb-4"
+            style={{ fontFamily: 'serif', direction: 'rtl', color: 'rgba(46,58,79,0.75)' }}
+          >
+            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+          </p>
+        </Reveal>
+
+        {/* ── Section title ── */}
+        <Reveal variant="fadeIn" delay={0.08}>
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-center text-sea-light/70 mb-14">
             {t('couple.title')}
           </p>
         </Reveal>
 
-        {/* ── BRIDE ROW: photo left, text right ───────────────── */}
+        {/* ── BRIDE ROW ── */}
         <Reveal variant="fadeIn" delay={0.1}>
           <div className="flex items-start justify-between gap-4 mb-4">
-
-            {/* Rect photo — left side, slightly higher */}
-            <div className="flex-shrink-0 -mt-4">
-              <RectFrame src={bride.photo} alt={bride.fullName} />
+            <div className="shrink-0 -mt-4">
+              <OvalFrame src={bride.photo} alt={bride.fullName} side="left" />
             </div>
-
-            {/* Text — right side */}
             <div className="flex flex-col items-end text-right pt-8 flex-1">
               <h3
                 className="font-display font-semibold leading-tight mb-4"
@@ -81,11 +97,10 @@ export default function Couple() {
                 </p>
               )}
             </div>
-
           </div>
         </Reveal>
 
-        {/* ── Ampersand connector ─────────────────────────────── */}
+        {/* ── Ampersand connector ── */}
         <Reveal variant="fadeIn" delay={0.18}>
           <div className="flex items-center justify-center my-2">
             <span className="font-script text-5xl leading-none select-none" style={{ color: 'rgba(201,169,110,0.55)' }}>
@@ -94,11 +109,9 @@ export default function Couple() {
           </div>
         </Reveal>
 
-        {/* ── GROOM ROW: text left, photo right ───────────────── */}
+        {/* ── GROOM ROW ── */}
         <Reveal variant="fadeIn" delay={0.26}>
           <div className="flex items-start justify-between gap-4 mt-4">
-
-            {/* Text — left side */}
             <div className="flex flex-col items-start text-left pt-8 flex-1">
               <h3
                 className="font-display font-semibold leading-tight mb-4"
@@ -112,12 +125,9 @@ export default function Couple() {
                 </p>
               )}
             </div>
-
-            {/* Rect photo — right side */}
-            <div className="flex-shrink-0 -mt-4">
-              <RectFrame src={groom.photo} alt={groom.fullName} />
+            <div className="shrink-0 -mt-4">
+              <OvalFrame src={groom.photo} alt={groom.fullName} side="right" />
             </div>
-
           </div>
         </Reveal>
 
