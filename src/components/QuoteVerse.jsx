@@ -13,7 +13,7 @@ export default function QuoteVerse() {
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
 
   return (
-    <section id="verse" className="relative" style={{ backgroundColor: '#2E3A4F' }}>
+    <section id="verse" className="relative" style={{ backgroundColor: '#065f46' }}>
       <div className="relative px-6 py-20 sm:py-24 max-w-xl mx-auto text-center">
         <div className="max-w-sm mx-auto py-4">
 
