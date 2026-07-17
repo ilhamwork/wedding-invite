@@ -13,17 +13,17 @@ export const content = {
       photo: '/assets/groom.webp',
       parents: {
         id: 'Putra dari\nBpk. Iwan Ridwan\n&\nIbu Alm. Sopiah',
-        en: 'Precious Son of\nIwan Ridwan\n&\nAlm. Sopiah',
+        en: 'Son of\nIwan Ridwan\n&\nAlm. Sopiah',
       },
     },
     bride: {
-      fullName: 'Prita Sekar Primadiani, S.AB.',
+      fullName: 'Prita Sekar Primadiani, S.AB',
       nickname: 'Prita',
       instagram: '@pritaskr',
       photo: '/assets/bride.webp',
       parents: {
         id: 'Putri dari\nBpk. Ilham Philipinaryo\n&\nIbu Dian Novianti Dwitasari',
-        en: 'Lovely Daughter of\nIlham Philipinaryo\n&\nDian Novianti Dwitasari',
+        en: 'Daughter of\nIlham Philipinaryo\n&\nDian Novianti Dwitasari',
       },
     },
   },
@@ -84,6 +84,12 @@ export const content = {
     { src: '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp', alt: 'Prita & Ilham' },
     { src: '/assets/gallery/optimized/PRITA & ILHAM-53-1200w.webp', alt: 'Prita & Ilham' },
     { src: '/assets/gallery/optimized/PRITA & ILHAM-96-1200w.webp', alt: 'Prita & Ilham' },
+    // Slots 6-10 — replace with additional photos when available
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-96-1080w.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-53-1440w.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-16-1200w.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',  alt: 'Prita & Ilham' },
   ],
 
   gifts: [

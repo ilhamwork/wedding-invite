@@ -58,8 +58,8 @@ export default function Home() {
               <div className="section-alt-a"><EventDetails /></div>
               <div className="section-alt-a"><OurStory /></div>
               <div className="section-alt-b"><Gallery /></div>
-              <div className="section-alt-a"><GiftEnvelope /></div>
               <div className="section-alt-b"><RSVPWishes guestName={guestName} /></div>
+              <div className="section-alt-a"><GiftEnvelope /></div>
               <div className="section-alt-b"><Closing /></div>
             </main>
             <MusicToggle />
