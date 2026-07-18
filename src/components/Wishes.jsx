@@ -110,7 +110,7 @@ export default function Wishes() {
   return (
     <Section id="wishes" bg="sky" fadeTop="#EEE9DE" fadeBottom="#EEE9DE">
       <Reveal variant="fadeUp">
-        <h2 className="font-display text-2xl text-center text-ink mb-8">{t('wishes.title')}</h2>
+        <h2 className="font-display text-2xl text-center text-sea mb-8">{t('wishes.title')}</h2>
 
         <form onSubmit={handleSubmit} noValidate className="space-y-4 mb-10">
           <div>
@@ -121,7 +121,7 @@ export default function Wishes() {
               placeholder={t('wishes.namePlaceholder')}
               className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40"
             />
-            {errors.name && <p className="text-xs text-ink-soft/70 mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-xs text-sea-light/55 mt-1">{errors.name}</p>}
           </div>
           <div>
             <textarea
@@ -131,7 +131,7 @@ export default function Wishes() {
               placeholder={t('wishes.messagePlaceholder')}
               className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sea-light/40 resize-none"
             />
-            {errors.message && <p className="text-xs text-ink-soft/70 mt-1">{errors.message}</p>}
+            {errors.message && <p className="text-xs text-sea-light/55 mt-1">{errors.message}</p>}
           </div>
           <button
             type="submit"
@@ -171,12 +171,12 @@ export default function Wishes() {
                 }`}
               >
                 <div className="flex items-baseline justify-between mb-1">
-                  <p className="font-display text-base text-ink">{w.name}</p>
-                  <p className="text-[10px] text-ink-soft/50">
+                  <p className="font-display text-base text-sea">{w.name}</p>
+                  <p className="text-[10px] text-sea-light/55">
                     {new Date(w.created_at).toLocaleDateString(lang, { day: 'numeric', month: 'short' })}
                   </p>
                 </div>
-                <p className="text-sm text-ink-soft/85 leading-relaxed">{w.message}</p>
+                <p className="text-sm text-sea-light leading-relaxed">{w.message}</p>
               </motion.div>
             ))}
           </AnimatePresence>

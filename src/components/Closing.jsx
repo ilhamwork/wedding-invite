@@ -16,27 +16,19 @@ export default function Closing() {
     <div id="closing">
       <Section className="pb-4" bg="sky" fadeTop="#EEE9DE">
         <Reveal variant="fadeIn" className="text-center">
-          {/* Thank you */}
-          <p className="section-label mb-4">{t('closing.thankYou')}</p>
+          {/* Original closing message */}
+          <p className="text-sm text-sea-light leading-relaxed max-w-xs mx-auto mb-3">
+            {t('closing.message')}
+          </p>
 
           {/* Couple names */}
-          <h2 className="font-script text-4xl text-ink mb-3">
+          <h2 className="font-script text-4xl text-sea mb-3">
             {content.couple.bride.nickname} &amp; {content.couple.groom.nickname}
           </h2>
 
-          {/* Event date */}
-          <p className="font-display text-sm text-sea-light mb-5 tracking-wide">
-            {eventDate}
-          </p>
-
           {/* Slogan */}
-          <p className="font-body text-xs tracking-[0.22em] uppercase text-ink-soft/60 mb-4">
+          <p className="font-body text-xs tracking-[0.22em] uppercase text-sea-light/55">
             more (s)miles together
-          </p>
-
-          {/* Original closing message */}
-          <p className="text-sm text-ink-soft/75 leading-relaxed max-w-xs mx-auto">
-            {t('closing.message')}
           </p>
         </Reveal>
       </Section>

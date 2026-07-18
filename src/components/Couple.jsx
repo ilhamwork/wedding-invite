@@ -71,10 +71,10 @@ export default function Couple() {
           </p>
         </Reveal>
 
-        {/* ── Section title ── */}
-        <Reveal variant="fadeIn" delay={0.08}>
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-center text-sea-light/70 mb-14">
-            {t('couple.title')}
+        {/* ── Invite tagline ── */}
+        <Reveal variant="fadeIn" delay={0.05}>
+          <p className="font-body text-[11px] tracking-widest uppercase text-center mb-20" style={{ color: 'rgba(74,95,122,0.55)' }}>
+            We cordially invite you to our wedding
           </p>
         </Reveal>
 
@@ -87,12 +87,12 @@ export default function Couple() {
             <div className="flex flex-col items-end text-right pt-8 flex-1">
               <h3
                 className="font-display font-semibold leading-tight mb-4"
-                style={{ fontSize: '1.65rem', color: '#33302B', letterSpacing: '0.02em' }}
+                style={{ fontSize: '1.65rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
               >
                 {bride.fullName}
               </h3>
               {bride.parents?.[lang] && (
-                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(46,58,79,0.60)' }}>
+                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(74,95,122,0.85)' }}>
                   {bride.parents[lang]}
                 </p>
               )}
@@ -115,12 +115,12 @@ export default function Couple() {
             <div className="flex flex-col items-start text-left pt-8 flex-1">
               <h3
                 className="font-display font-semibold leading-tight mb-4"
-                style={{ fontSize: '1.65rem', color: '#33302B', letterSpacing: '0.02em' }}
+                style={{ fontSize: '1.65rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
               >
                 {groom.fullName}
               </h3>
               {groom.parents?.[lang] && (
-                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(46,58,79,0.60)' }}>
+                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'rgba(74,95,122,0.85)' }}>
                   {groom.parents[lang]}
                 </p>
               )}

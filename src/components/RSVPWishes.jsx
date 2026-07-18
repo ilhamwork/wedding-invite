@@ -106,7 +106,7 @@ export default function RSVPWishes({ guestName }) {
       <div className="relative px-6 py-20 sm:py-24 max-w-xl mx-auto">
 
         <Reveal variant="fadeIn">
-          <h2 className="font-display text-2xl text-center text-ink mb-10">
+          <h2 className="font-display text-2xl text-center text-sea mb-10">
             {t('rsvp.title')}
           </h2>
         </Reveal>
@@ -115,8 +115,8 @@ export default function RSVPWishes({ guestName }) {
         {status === 'success' ? (
           <Reveal variant="fadeIn">
             <div className="text-center py-8">
-              <p className="font-display text-xl text-ink mb-2">{t('rsvp.successTitle')}</p>
-              <p className="text-sm text-ink-soft/70">{t('rsvp.successBody')}</p>
+              <p className="font-display text-xl text-sea mb-2">{t('rsvp.successTitle')}</p>
+              <p className="text-sm text-sea-light">{t('rsvp.successBody')}</p>
             </div>
           </Reveal>
         ) : (
@@ -125,7 +125,7 @@ export default function RSVPWishes({ guestName }) {
 
               {/* Name */}
               <div>
-                <label htmlFor="rf-name" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
+                <label htmlFor="rf-name" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
                   {t('rsvp.name')}
                 </label>
                 <input
@@ -136,12 +136,12 @@ export default function RSVPWishes({ guestName }) {
                   placeholder={t('rsvp.namePlaceholder')}
                   className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
                 />
-                {errors.name && <p className="text-xs text-ink-soft/70 mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-xs text-sea-light/55 mt-1">{errors.name}</p>}
               </div>
 
               {/* Attendance */}
               <div>
-                <p className="text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
+                <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
                   {t('rsvp.attendance')}
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -151,19 +151,19 @@ export default function RSVPWishes({ guestName }) {
                       type="button"
                       onClick={() => setAttendance(opt.value)}
                       className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${
-                        attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-ink-soft hover:bg-sky/50'
+                        attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
                       }`}
                     >
                       {t(opt.labelKey)}
                     </button>
                   ))}
                 </div>
-                {errors.attendance && <p className="text-xs text-ink-soft/70 mt-1">{errors.attendance}</p>}
+                {errors.attendance && <p className="text-xs text-sea-light/55 mt-1">{errors.attendance}</p>}
               </div>
 
               {/* Wishes / Message */}
               <div>
-                <label htmlFor="rf-message" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
+                <label htmlFor="rf-message" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
                   {t('wishes.title')}
                 </label>
                 <textarea
@@ -208,12 +208,12 @@ export default function RSVPWishes({ guestName }) {
                         className={`px-2 py-2.5 transition-colors duration-700 ${w.id === justSubmittedId ? 'bg-sky/60 rounded-xl' : ''}`}
                       >
                         <div className="flex items-baseline justify-between gap-2 mb-0.5">
-                          <p className="font-display text-sm text-ink">{w.name}</p>
-                          <p className="text-[10px] text-ink-soft/50 shrink-0">
+                          <p className="font-display text-sm text-sea">{w.name}</p>
+                          <p className="text-[10px] text-sea-light/55 shrink-0">
                             {new Date(w.created_at).toLocaleDateString(lang, { day: 'numeric', month: 'short' })}
                           </p>
                         </div>
-                        <p className="text-xs leading-relaxed text-ink-soft/70">{w.message}</p>
+                        <p className="text-xs leading-relaxed text-sea-light">{w.message}</p>
                         <div className="mt-2.5 h-px bg-ink/6" />
                       </motion.div>
                     ))}

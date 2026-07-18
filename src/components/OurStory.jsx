@@ -20,7 +20,7 @@ export default function OurStory() {
   return (
     <Section id="story" bg="sky" fadeTop="#EEE9DE" fadeBottom="#EEE9DE">
       <Reveal>
-        <h2 className="font-display text-2xl text-center text-ink mb-8">
+        <h2 className="font-display text-2xl text-center text-sea mb-8">
           {t('story.title')}
         </h2>
       </Reveal>
@@ -44,8 +44,8 @@ export default function OurStory() {
 
           {/* Caption */}
           <div className="px-5 py-4">
-            <p className="font-display text-base text-ink mb-1">{item.title[lang]}</p>
-            <p className="text-sm text-ink-soft/80 leading-relaxed">{item.caption[lang]}</p>
+            <p className="font-display text-base text-sea mb-1">{item.title[lang]}</p>
+            <p className="text-sm text-sea-light leading-relaxed">{item.caption[lang]}</p>
           </div>
         </div>
 

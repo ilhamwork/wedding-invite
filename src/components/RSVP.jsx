@@ -52,7 +52,7 @@ export default function RSVP({ guestName }) {
       <Section id="rsvp" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#EEE9DE">
         <Reveal variant="fadeIn" className="text-center">
           <h2 className="font-display text-2xl text-sea mb-2">{t('rsvp.successTitle')}</h2>
-          <p className="text-sm text-ink-soft/80">{t('rsvp.successBody')}</p>
+          <p className="text-sm text-sea-light">{t('rsvp.successBody')}</p>
         </Reveal>
       </Section>
     )
@@ -61,12 +61,12 @@ export default function RSVP({ guestName }) {
   return (
     <Section id="rsvp" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#EEE9DE">
       <Reveal variant="slideRight">
-        <h2 className="font-display text-2xl text-center text-ink mb-8">{t('rsvp.title')}</h2>
+        <h2 className="font-display text-2xl text-center text-sea mb-8">{t('rsvp.title')}</h2>
 
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           {/* Name */}
           <div>
-            <label htmlFor="rsvp-name" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
+            <label htmlFor="rsvp-name" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
               {t('rsvp.name')}
             </label>
             <input
@@ -77,12 +77,12 @@ export default function RSVP({ guestName }) {
               placeholder={t('rsvp.namePlaceholder')}
               className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
             />
-            {errors.name && <p className="text-xs text-ink-soft/70 mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-xs text-sea-light/55 mt-1">{errors.name}</p>}
           </div>
 
           {/* Attendance — 2 options only */}
           <div>
-            <p className="text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">{t('rsvp.attendance')}</p>
+            <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">{t('rsvp.attendance')}</p>
             <div className="grid grid-cols-2 gap-2">
               {ATTENDANCE_OPTIONS.map((opt) => (
                 <button
@@ -90,19 +90,19 @@ export default function RSVP({ guestName }) {
                   type="button"
                   onClick={() => setAttendance(opt.value)}
                   className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${
-                    attendance === opt.value ? 'bg-accent text-ink' : 'text-ink-soft hover:bg-sky/50'
+                    attendance === opt.value ? 'bg-accent text-ink' : 'text-sea-light hover:bg-sky/50'
                   }`}
                 >
                   {t(opt.labelKey)}
                 </button>
               ))}
             </div>
-            {errors.attendance && <p className="text-xs text-ink-soft/70 mt-1">{errors.attendance}</p>}
+            {errors.attendance && <p className="text-xs text-sea-light/55 mt-1">{errors.attendance}</p>}
           </div>
 
           {/* Message */}
           <div>
-            <label htmlFor="rsvp-message" className="block text-xs uppercase tracking-widest text-ink-soft/70 mb-1.5">
+            <label htmlFor="rsvp-message" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
               {t('rsvp.message')}
             </label>
             <textarea

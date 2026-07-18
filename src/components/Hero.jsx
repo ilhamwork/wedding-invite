@@ -40,7 +40,7 @@ export default function Hero() {
             visible: { transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
           }}
         >
-          <h2 className="font-display text-2xl text-center text-ink mb-8">
+          <h2 className="font-display text-2xl text-center text-sea mb-8">
             {t('hero.title')}
           </h2>
 

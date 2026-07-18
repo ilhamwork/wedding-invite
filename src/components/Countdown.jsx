@@ -91,26 +91,17 @@ export default function Countdown() {
       {/* ── Main content ── */}
       <div
         className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
-        style={{ minHeight: '100svh', paddingBottom: '35vh' }}
+        style={{ minHeight: '100svh', paddingBottom: '55vh' }}
       >
         <motion.p
-          className="font-body text-[10px] sm:text-xs tracking-[0.30em] uppercase text-white/60 mb-4 leading-relaxed"
+          className="font-body text-[12px] sm:text-xs tracking-widest font-bold uppercase text-white/70 mb-4 leading-relaxed"
           {...fadeUp(0.3)}
         >
           You are invited to witness<br />and celebrate our special day
         </motion.p>
 
-        <motion.h1
-          className="font-display text-5xl sm:text-6xl md:text-7xl text-white leading-tight drop-shadow-lg"
-          {...fadeUp(0.5)}
-        >
-          {content.couple.bride.nickname}
-          <span className="font-script text-4xl sm:text-5xl text-amber-200/80 mx-3">&amp;</span>
-          {content.couple.groom.nickname}
-        </motion.h1>
-
         {/* Thin divider */}
-        <motion.div className="flex items-center gap-3 my-6" {...fadeUp(0.7)}>
+        <motion.div className="flex items-center gap-3" {...fadeUp(0.7)}>
           <div className="h-px w-10 bg-white/30" />
           <div className="w-1.5 h-1.5 rounded-full bg-amber-200/60" />
           <div className="h-px w-10 bg-white/30" />
@@ -155,7 +146,7 @@ export default function Countdown() {
               <div className="flex gap-5 sm:gap-8">
                 {units.map((u) => (
                   <div key={u.label} className="text-center">
-                    <p className="font-display text-3xl sm:text-4xl text-white tabular-nums leading-none">
+                    <p className="font-display text-3xl sm:text-4xl text-white/80 tabular-nums leading-none">
                       {pad(u.value)}
                     </p>
                     <p className="font-body text-[9px] tracking-[0.15em] uppercase text-white/50 mt-1">

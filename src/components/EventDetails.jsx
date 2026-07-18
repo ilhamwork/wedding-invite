@@ -20,13 +20,13 @@ function EventItem({ event, label, note, timeOverride }) {
 
   return (
     <div className="text-center py-2">
-      <p className="section-label mb-2">{label}</p>
+      <p className="section-label text-[14px] tracking-widest mb-2">{label}</p>
       {note && (
-        <p className="font-body text-[10px] tracking-[0.2em] uppercase text-amber-700/70 mb-2">
+        <p className="font-body text-[11px] tracking-widest uppercase text-amber-700 mb-2">
           {note}
         </p>
       )}
-      <p className="font-display text-xl text-ink mb-1">{dateFormatted}</p>
+      <p className="font-display text-xl text-sea mb-1">{dateFormatted}</p>
       <p className="font-display text-lg text-sea-light">{timeFormatted} WIB</p>
     </div>
   )
@@ -39,7 +39,7 @@ export default function EventDetails() {
   return (
     <Section id="event" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
       <Reveal variant="fadeUp">
-        <h2 className="font-display text-2xl text-center text-ink mb-10">{t('event.title')}</h2>
+        <h2 className="font-display text-2xl text-center text-sea mb-10">{t('event.title')}</h2>
 
         {/* Akad */}
         <EventItem
@@ -64,10 +64,10 @@ export default function EventDetails() {
 
         {/* Venue address */}
         <div className="mt-8 mb-8 text-center">
-          <p className="font-body text-[10px] tracking-[0.2em] uppercase text-ink-soft/50 mb-2">
+          <p className="section-label text-[14px] tracking-widest mb-2">
             {lang === 'id' ? 'Lokasi' : 'Venue'}
           </p>
-          <p className="text-sm text-ink-soft/75 leading-relaxed max-w-xs mx-auto">
+          <p className="text-sm text-sea-light leading-relaxed max-w-xs mx-auto">
             {content.event.akad.address}
           </p>
         </div>

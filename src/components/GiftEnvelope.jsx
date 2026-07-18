@@ -69,7 +69,7 @@ function GiftModal({ onClose }) {
 
           <div className="px-6 pb-8 pt-3">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-display text-xl text-ink">{t('gift.title')}</h3>
+              <h3 className="font-display text-xl text-sea">{t('gift.title')}</h3>
               <button
                 type="button"
                 onClick={onClose}
@@ -80,12 +80,12 @@ function GiftModal({ onClose }) {
               </button>
             </div>
 
-            <p className="text-sm text-ink-soft/75 leading-relaxed mb-6">
+            <p className="text-sm text-sea-light leading-relaxed mb-6">
               {t('gift.description')}
             </p>
 
             {/* Bank transfers */}
-            <p className="text-xs uppercase tracking-widest text-ink-soft/60 mb-3">{t('gift.bankTransfer')}</p>
+            <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-3">{t('gift.bankTransfer')}</p>
             <div className="space-y-3 mb-6">
               {content.gifts.map((gift, i) => {
                 const logo = getBankLogo(gift)
@@ -93,8 +93,8 @@ function GiftModal({ onClose }) {
                   <div key={i} className="rounded-2xl border hairline bg-pebble/40 p-4">
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <div className="flex-1">
-                        <p className="font-display text-xl text-ink tracking-wider whitespace-nowrap">{gift.accountNumber}</p>
-                        <p className="text-xs text-ink-soft/70 mt-0.5">{gift.accountHolder}</p>
+                        <p className="font-display text-xl text-sea tracking-wider whitespace-nowrap">{gift.accountNumber}</p>
+                        <p className="text-xs text-sea-light/55 mt-0.5">{gift.accountHolder}</p>
                       </div>
                       {logo
                         ? <div className="shrink-0 flex items-center self-center">{logo}</div>
@@ -120,18 +120,18 @@ function GiftModal({ onClose }) {
                 <p className="text-xs uppercase tracking-widest text-ink-soft/60 mb-3">{t('gift.shippingAddress')}</p>
                 <div className="rounded-2xl border hairline bg-pebble/40 p-4 space-y-3">
                   <div>
-                    <p className="text-xs uppercase tracking-widest mb-1 text-ink-soft/55">{t('gift.recipient')}</p>
-                    <p className="text-sm text-ink font-medium">{addr.recipient}</p>
+                    <p className="text-xs uppercase tracking-widest mb-1 text-sea-light/55">{t('gift.recipient')}</p>
+                    <p className="text-sm text-sea font-medium">{addr.recipient}</p>
                   </div>
                   {addr.phone && (
                     <div>
-                      <p className="text-xs uppercase tracking-widest mb-1 text-ink-soft/55">{t('gift.phone')}</p>
-                      <p className="text-sm text-ink">{addr.phone}</p>
+                      <p className="text-xs uppercase tracking-widest mb-1 text-sea-light/55">{t('gift.phone')}</p>
+                      <p className="text-sm text-sea">{addr.phone}</p>
                     </div>
                   )}
                   <div>
-                    <p className="text-xs uppercase tracking-widest mb-1 text-ink-soft/55">{t('gift.address')}</p>
-                    <p className="text-sm text-ink leading-relaxed">{addr.address}</p>
+                    <p className="text-xs uppercase tracking-widest mb-1 text-sea-light/55">{t('gift.address')}</p>
+                    <p className="text-sm text-sea leading-relaxed">{addr.address}</p>
                   </div>
                   <button
                     type="button"
@@ -159,8 +159,8 @@ export default function GiftEnvelope() {
   return (
     <Section id="gift" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
       <Reveal variant="scaleUp" className="text-center">
-        <h2 className="font-display text-2xl text-ink mb-3">{t('gift.title')}</h2>
-        <p className="text-sm text-ink-soft/75 leading-relaxed max-w-xs mx-auto mb-8">
+        <h2 className="font-display text-2xl text-sea mb-3">{t('gift.title')}</h2>
+        <p className="text-sm text-sea-light leading-relaxed max-w-xs mx-auto mb-8">
           {t('gift.description')}
         </p>
 
