@@ -62,14 +62,15 @@ export default function Couple() {
       <div className="relative px-6 pt-20 pb-16 max-w-lg mx-auto">
 
         {/* ── Bismillah ── */}
-        <Reveal variant="fadeIn">
-          <p
-            className="text-center text-3xl leading-loose mb-4"
-            style={{ fontFamily: 'serif', direction: 'rtl', color: 'rgba(46,58,79,0.75)' }}
-          >
-            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
-          </p>
-        </Reveal>
+        {/* <Reveal variant="fadeIn">
+          <div className="flex justify-center mb-4">
+            <img
+              src="/assets/bismillah.png"
+              alt="Bismillahirrahmanirrahim"
+              className="w-64 opacity-80"
+            />
+          </div>
+        </Reveal> */}
 
         {/* ── Invite tagline ── */}
         <Reveal variant="fadeIn" delay={0.05}>
@@ -102,8 +103,8 @@ export default function Couple() {
 
         {/* ── Ampersand connector ── */}
         <Reveal variant="fadeIn" delay={0.18}>
-          <div className="flex items-center justify-center my-2">
-            <span className="font-script text-5xl leading-none select-none" style={{ color: 'rgba(201,169,110,0.55)' }}>
+          <div className="flex items-center justify-center my-10">
+            <span className="font-script text-5xl leading-none select-none pt-2" style={{ color: 'rgba(201,169,110,0.55)' }}>
               &amp;
             </span>
           </div>
