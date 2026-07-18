@@ -16,14 +16,14 @@ import MusicToggle from '../components/MusicToggle'
 import LanguageToggle from '../components/LanguageToggle'
 
 export default function Home() {
-  const guestName = useGuestName()
+  const { guestName, loading: guestLoading } = useGuestName()
   const [isOpen, setIsOpen] = useState(false)
   useTranslation() // ensures re-render on language change at this level
 
   return (
     <div className="paper-texture min-h-screen">
       <AnimatePresence>
-        {!isOpen && <Cover key="cover" guestName={guestName} onOpen={() => setIsOpen(true)} />}
+        {!isOpen && <Cover key="cover" guestName={guestName} guestLoading={guestLoading} onOpen={() => setIsOpen(true)} />}
       </AnimatePresence>
 
       {/* Countdown dirender sejak awal (tersembunyi) agar gambar carousel preload saat cover tampil */}

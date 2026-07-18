@@ -10,7 +10,7 @@ const fadeUp  = (delay = 0, y = 60)    => ({ initial: { opacity: 0, y },        
 const fadeIn  = (delay = 0, dur = 1.8) => ({ initial: { opacity: 0 },             animate: { opacity: 1 },          transition: { duration: dur,  ease, delay } })
 
 // ─── Cover Component ───────────────────────────────────────────────────────────
-export default function Cover({ guestName, onOpen }) {
+export default function Cover({ guestName, guestLoading, onOpen }) {
   const { t } = useTranslation()
   const [isOpening, setIsOpening] = useState(false)
   const { unlockAndPlay } = useAudio()
@@ -65,22 +65,22 @@ export default function Cover({ guestName, onOpen }) {
 
       {/* ── TOP: "The Wedding of Couple" ── */}
       <motion.div
-        className="absolute top-0 left-0 right-0 z-10 flex flex-col items-center pt-10 px-6 text-center"
+        className="absolute top-0 left-0 right-0 z-10 flex flex-col items-center pt-20 px-6 text-center"
         animate={isOpening ? { y: -30, opacity: 0 } : {}}
         transition={{ duration: 0.8, ease }}
       >
         <motion.p
-          className="font-body text-[10px] tracking-[0.28em] uppercase text-white/55 mb-2"
+          className="font-body text-[12px] tracking-[0.28em] uppercase text-white/60 mb-2"
           {...fadeIn(0.4)}
         >
           The Wedding of
         </motion.p>
         <motion.h2
-          className="font-display text-3xl sm:text-4xl text-white drop-shadow-lg leading-tight"
+          className="font-script text-5xl sm:text-6xl text-white drop-shadow-lg leading-tight"
           {...fadeUp(0.6, 12)}
         >
           {content.couple.bride.nickname}
-          <span className="font-script text-2xl text-amber-200/80 mx-2">&amp;</span>
+          <span className="text-amber-200/60 mx-2">&amp;</span>
           {content.couple.groom.nickname}
         </motion.h2>
       </motion.div>
@@ -93,12 +93,20 @@ export default function Cover({ guestName, onOpen }) {
       >
         {/* Dear guest — always shown, fallback to generic text */}
         <motion.div className="mb-5" {...fadeIn(1.0)}>
-          <p className="font-body text-[10px] tracking-[0.28em] uppercase text-white/50 mb-1">
-            Dear
+          <p className="font-body text-[14px] tracking-widest uppercase text-white/60 mb-1">
+            Dear,
           </p>
-          <p className="font-display text-xl sm:text-2xl text-white/90">
-            {guestName || t('cover.fallbackGuest')}
-          </p>
+          {guestLoading ? (
+            /* Skeleton shimmer while fetching from DB */
+            <div
+              className="mx-auto h-6 rounded-full animate-pulse"
+              style={{ width: '9rem', backgroundColor: 'rgba(255,255,255,0.20)' }}
+            />
+          ) : (
+            <p className="font-display text-xl sm:text-2xl text-white/90">
+              {guestName || t('cover.fallbackGuest')}
+            </p>
+          )}
         </motion.div>
 
         {/* CTA button */}
@@ -106,7 +114,7 @@ export default function Cover({ guestName, onOpen }) {
           type="button"
           onClick={handleOpen}
           disabled={isOpening}
-          className="group relative flex items-center gap-2.5 px-8 py-3.5 rounded-full font-body text-[11px] tracking-[0.22em] uppercase overflow-hidden transition-transform active:scale-95 disabled:opacity-60"
+          className="group relative flex items-center gap-2.5 px-8 py-3.5 rounded-full font-body text-[12px] tracking-[0.22em] uppercase overflow-hidden transition-transform active:scale-95 disabled:opacity-60"
           style={{
             background: 'rgba(255,255,255,0.12)',
             border: '1px solid rgba(255,255,255,0.35)',
