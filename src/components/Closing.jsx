@@ -17,18 +17,18 @@ export default function Closing() {
       <Section className="pb-4" bg="sky" fadeTop="#EEE9DE">
         <Reveal variant="fadeIn" className="text-center">
           {/* Original closing message */}
-          <p className="text-sm text-sea-light leading-relaxed max-w-xs mx-auto mb-3">
-            {t('closing.message')}
+          <p className="text-md text-sea-light leading-relaxed max-w-xs mx-auto mb-3">
+            THANK YOU
           </p>
 
           {/* Couple names */}
-          <h2 className="font-script text-4xl text-sea mb-3">
+          <h2 className="font-script text-4xl text-sea mb-2">
             {content.couple.bride.nickname} &amp; {content.couple.groom.nickname}
           </h2>
 
           {/* Slogan */}
-          <p className="font-body text-xs tracking-[0.22em] uppercase text-sea-light/55">
-            more (s)miles together
+          <p className="font-body text-sm tracking-[0.22em] uppercase text-sea-light">
+            05.09.26
           </p>
         </Reveal>
       </Section>
