@@ -13,7 +13,7 @@ export const content = {
       photo: '/assets/groom.webp',
       parents: {
         id: 'Putra dari\nBpk. Iwan Ridwan\n&\nIbu Alm. Sopiah',
-        en: 'Son of\nIwan Ridwan\n&\nAlm. Sopiah',
+        en: 'Son of\nMr. Iwan Ridwan\n&\nMrs. Sopiah (Almh.)',
       },
     },
     bride: {
@@ -23,7 +23,7 @@ export const content = {
       photo: '/assets/bride.webp',
       parents: {
         id: 'Putri dari\nBpk. Ilham Philipinaryo\n&\nIbu Dian Novianti Dwitasari',
-        en: 'Daughter of\nIlham Philipinaryo\n&\nDian Novianti Dwitasari',
+        en: 'Daughter of\nMr. Ilham Philipinaryo\n&\nMrs. Dian Novianti Dwitasari',
       },
     },
   },
