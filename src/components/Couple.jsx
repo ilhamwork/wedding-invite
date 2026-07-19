@@ -74,9 +74,16 @@ export default function Couple() {
 
         {/* ── Invite tagline ── */}
         <Reveal variant="fadeIn" delay={0.05}>
-          <p className="font-body text-[11px] tracking-widest uppercase text-center mb-20" style={{ color: 'rgba(74,95,122,0.55)' }}>
-            We cordially invite you to our wedding
-          </p>
+          <div className="flex flex-col items-center mb-20">
+            <img
+              src="/assets/bismillah.png"
+              alt="Bismillah"
+              className="w-48 sm:w-56 mb-4 opacity-70"
+            />
+            <p className="font-body text-[11px] tracking-widest uppercase text-center" style={{ color: 'rgba(74,95,122,0.55)' }}>
+              We cordially invite you to our wedding
+            </p>
+          </div>
         </Reveal>
 
         {/* ── BRIDE ROW ── */}
