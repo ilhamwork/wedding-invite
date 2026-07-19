@@ -192,7 +192,7 @@ export default function Gallery() {
             </div>
           </motion.div>
         </AnimatePresence>,
-        document.body
+        document.getElementById('root')
       )}
     </Section>
   )

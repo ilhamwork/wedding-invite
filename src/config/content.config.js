@@ -114,10 +114,8 @@ export const content = {
   },
 
   cover: {
-    // Mobile (portrait) — tall/square crop works best
+    // Portrait photo — fills the full-height mobile cover
     photo: '/assets/gallery/optimized/PRITA & ILHAM-96-1080w.webp',
-    // Desktop (landscape) — wide crop works best; falls back to photo if not set
-    photoDesktop: '/assets/gallery/optimized/PRITA & ILHAM-53-1440w.webp',
   },
 
   closing: {

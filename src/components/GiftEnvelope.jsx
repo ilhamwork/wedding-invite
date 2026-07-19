@@ -46,7 +46,7 @@ function GiftModal({ onClose }) {
   return createPortal(
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-0 sm:px-4"
+        className="fixed inset-0 z-50 flex items-end justify-center px-0"
         style={{ backgroundColor: 'rgba(28,25,23,0.65)', backdropFilter: 'blur(4px)' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -54,7 +54,7 @@ function GiftModal({ onClose }) {
         onClick={onClose}
       >
         <motion.div
-          className="relative w-full sm:max-w-md bg-cream rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl"
+          className="relative w-full bg-cream rounded-t-3xl overflow-hidden shadow-2xl"
           style={{ maxHeight: '90svh', overflowY: 'auto' }}
           initial={{ y: '100%', opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -148,7 +148,7 @@ function GiftModal({ onClose }) {
         </motion.div>
       </motion.div>
     </AnimatePresence>,
-    document.body
+    document.getElementById('root')
   )
 }
 

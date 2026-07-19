@@ -28,21 +28,13 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
       exit={{ opacity: 0, transition: { duration: 1, ease } }}
     >
       {/* ── Full-bleed background photo ── */}
-      <style>{`
-        .cover-bg {
-          background-image: url('${content.cover.photo}');
-          background-position: center top;
-        }
-        @media (min-width: 768px) {
-          .cover-bg {
-            background-image: url('${content.cover.photoDesktop ?? content.cover.photo}');
-            background-position: center center;
-          }
-        }
-      `}</style>
       <motion.div
-        className="cover-bg absolute inset-0"
-        style={{ backgroundSize: 'cover' }}
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url('${content.cover.photo}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+        }}
         initial={{ opacity: 0, scale: 1.1 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 1.1 }}
