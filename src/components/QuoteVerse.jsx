@@ -39,7 +39,7 @@ export default function QuoteVerse() {
           {/* Translation */}
           <Reveal delay={0.3} variant="fadeIn">
             <p
-              className="font-serif-light italic text-base leading-relaxed mb-5"
+              className="font-serif-light italic text-base leading-relaxed mb-5 tracking-tight"
               style={{ color: 'rgba(74,95,122,0.85)' }}
             >
               {QUOTE[lang]}
@@ -49,7 +49,7 @@ export default function QuoteVerse() {
           {/* Source */}
           <Reveal delay={0.45} variant="fadeIn">
             <p
-              className="font-body text-xs tracking-[0.25em] uppercase"
+              className="font-body font-bold text-xs tracking-[0.25em] uppercase"
               style={{ color: 'rgba(201,169,110,0.90)' }}
             >
               {QUOTE.source}

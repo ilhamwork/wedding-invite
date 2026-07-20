@@ -13,7 +13,9 @@ import RSVPWishes from '../components/RSVPWishes'
 import GiftEnvelope from '../components/GiftEnvelope'
 import Closing from '../components/Closing'
 import MusicToggle from '../components/MusicToggle'
-import LanguageToggle from '../components/LanguageToggle'
+import { content } from '../config/content.config'
+
+const countdownImages = content.countdown?.images ?? content.gallery.map((g) => g.src)
 
 export default function Home() {
   const { guestName, loading: guestLoading } = useGuestName()
@@ -22,36 +24,35 @@ export default function Home() {
 
   return (
     <div className="paper-texture min-h-screen">
+      {/* Preload countdown carousel images without affecting layout */}
+      <div aria-hidden="true" style={{ display: 'none' }}>
+        {countdownImages.map((src) => (
+          <img key={src} src={src} alt="" />
+        ))}
+      </div>
+
+      {/* Cover sits on top (z-50) and fades out on dismiss */}
       <AnimatePresence>
-        {!isOpen && <Cover key="cover" guestName={guestName} guestLoading={guestLoading} onOpen={() => setIsOpen(true)} />}
+        {!isOpen && (
+          <Cover
+            key="cover"
+            guestName={guestName}
+            guestLoading={guestLoading}
+            onOpen={() => setIsOpen(true)}
+          />
+        )}
       </AnimatePresence>
 
-      {/* Countdown dirender sejak awal (tersembunyi) agar gambar carousel preload saat cover tampil */}
-      {!isOpen && (
-        <div aria-hidden="true" style={{ visibility: 'hidden', position: 'absolute', pointerEvents: 'none', width: '100%' }}>
-          <Countdown />
-        </div>
-      )}
-
+      {/* Main content — only mounted after cover is dismissed */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             key="main-content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
           >
-            {/* Language toggle — hidden */}
-            {/* <motion.div
-              className="fixed top-5 right-5 z-40"
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <LanguageToggle />
-            </motion.div> */}
             <main>
-              {/* Sections alternate between section-alt-a and section-alt-b */}
               <Countdown />
               <div className="section-alt-b"><QuoteVerse /></div>
               <div className="section-alt-a"><Couple /></div>

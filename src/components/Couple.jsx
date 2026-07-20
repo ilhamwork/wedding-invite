@@ -12,13 +12,25 @@ const ease = [0.22, 1, 0.36, 1]
  */
 function OvalFrame({ src, alt, side = 'left' }) {
   return (
+    // Perspective wrapper — must NOT be the animated element itself
+    <div
+      style={{
+        perspective: 800,
+        width: 150,
+        height: 200,
+        flexShrink: 0,
+      }}
+    >
     <motion.div
-      className="relative flex items-center justify-center shrink-0"
-      style={{ width: 150, height: 200 }}
-      initial={{ opacity: 0, rotateY: side === 'left' ? -90 : 90, originX: side === 'left' ? 0 : 1 }}
-      whileInView={{ opacity: 1, rotateY: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.9, ease }}
+      className="relative flex items-center justify-center w-full h-full"
+      style={{
+        transformOrigin: side === 'left' ? 'right center' : 'left center',
+        transformStyle: 'preserve-3d',
+      }}
+      initial={{ rotateY: side === 'left' ? -110 : 110 }}
+      whileInView={{ rotateY: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 5.0, ease, delay: 0.3 }}
     >
       {/* Outer decorative ring */}
       <div
@@ -49,6 +61,7 @@ function OvalFrame({ src, alt, side = 'left' }) {
         />
       </div>
     </motion.div>
+    </div>
   )
 }
 

@@ -12,18 +12,18 @@ export const content = {
       instagram: '@ilhamfirdaa',
       photo: '/assets/groom.webp',
       parents: {
-        id: 'Putra dari\nBpk. Iwan Ridwan\n&\nIbu Alm. Sopiah',
-        en: 'Son of\nMr. Iwan Ridwan\n&\nMrs. Sopiah (Almh.)',
+        id: 'Putra dari\nBpk. Iwan Ridwan &\nIbu Alm. Sopiah',
+        en: 'Son of\nMr. Iwan Ridwan &\nMrs. Sopiah (Almh.)',
       },
     },
     bride: {
-      fullName: 'Prita Sekar Primadiani, S.AB',
+      fullName: 'Prita Sekar Primadiani, S.AB.',
       nickname: 'Prita',
       instagram: '@pritaskr',
       photo: '/assets/bride.webp',
       parents: {
-        id: 'Putri dari\nBpk. Ilham Philipinaryo\n&\nIbu Dian Novianti Dwitasari',
-        en: 'Daughter of\nMr. Ilham Philipinaryo\n&\nMrs. Dian Novianti Dwitasari',
+        id: 'Putri dari\nBpk. Ilham Philipinaryo &\nIbu Dian Novianti Dwitasari',
+        en: 'Daughter of\nMr. Ilham Philipinaryo &\nMrs. Dian Novianti Dwitasari',
       },
     },
   },
@@ -109,7 +109,7 @@ export const content = {
 
   giftAddress: {
     recipient: 'Prita Sekar Primadiani',
-    phone: '0813-8977-6363',
+    phone: '0853-5317-0137',
     address: 'Jl. Hijau Daun Blok C1 No 9, RT 011/RW 010, Kelapa Gading Timur, Kelapa Gading, Jakarta Utara, DKI Jakarta',
   },
 

@@ -68,7 +68,7 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
           The Wedding of
         </motion.p>
         <motion.h2
-          className="font-script text-5xl sm:text-6xl text-white drop-shadow-lg leading-tight"
+          className="font-script text-4xl sm:text-5xl text-white drop-shadow-lg leading-tight"
           {...fadeUp(0.6, 12)}
         >
           {content.couple.bride.nickname}
@@ -79,13 +79,13 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
 
       {/* ── BOTTOM: Dear guest + Open button ── */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center pb-12 px-6 text-center"
+        className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center pb-12 px-6"
         animate={isOpening ? { y: 30, opacity: 0 } : {}}
         transition={{ duration: 0.8, ease }}
       >
         {/* Dear guest — always shown, fallback to generic text */}
-        <motion.div className="mb-5" {...fadeIn(1.0)}>
-          <p className="font-body text-[14px] tracking-widest uppercase text-white/60 mb-1">
+        <motion.div className="mb-3" {...fadeIn(1.0)}>
+          <p className="font-script italic text-[24px] tracking-widest text-white/80">
             Dear,
           </p>
           {guestLoading ? (
