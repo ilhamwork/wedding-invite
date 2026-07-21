@@ -50,7 +50,6 @@ export default function Home() {
             key="main-content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
           >
             <main>
               <Countdown />

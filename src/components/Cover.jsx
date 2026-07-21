@@ -19,7 +19,7 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
     if (isOpening) return
     setIsOpening(true)
     unlockAndPlay()
-    setTimeout(() => { onOpen() }, 1100)
+    setTimeout(() => { onOpen() }, 500)
   }
 
   return (
@@ -35,10 +35,10 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
         }}
-        initial={{ opacity: 0, scale: 1.1 }}
+        initial={{ opacity: 0, scale: 1.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 1.1 }}
-        transition={{ duration: 1.5, ease }}
+        exit={{ opacity: 0, scale: 1 }}
+        transition={{ duration: 2, ease }}
       />
 
       {/* ── Dark overlay ── */}
