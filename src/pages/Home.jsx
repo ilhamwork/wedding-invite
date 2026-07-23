@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import useGuestName from '../hooks/useGuestName'
@@ -22,8 +22,17 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false)
   useTranslation() // ensures re-render on language change at this level
 
+  useEffect(() => {
+    if (!isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [isOpen])
+
   return (
-    <div className="paper-texture min-h-screen">
+    <div className="paper-texture min-h-[100dvh]">
       {/* Preload countdown carousel images without affecting layout */}
       <div aria-hidden="true" style={{ display: 'none' }}>
         {countdownImages.map((src) => (

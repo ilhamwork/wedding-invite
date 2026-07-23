@@ -24,7 +24,8 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 overflow-hidden"
+      className="fixed top-0 left-0 w-full z-50 overflow-hidden"
+      style={{ height: '100dvh' }}
       exit={{ opacity: 0, transition: { duration: 1, ease } }}
     >
       {/* ── Full-bleed background photo ── */}
