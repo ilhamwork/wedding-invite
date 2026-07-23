@@ -148,7 +148,7 @@ function GiftModal({ onClose }) {
         </motion.div>
       </motion.div>
     </AnimatePresence>,
-    document.getElementById('root')
+    document.body
   )
 }
 
