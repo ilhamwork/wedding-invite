@@ -8,7 +8,7 @@ import { Reveal } from './ui/Section'
 const PAGE_SIZE = 50
 
 const ATTENDANCE_OPTIONS = [
-  { value: 'attending',     labelKey: 'rsvp.attending' },
+  { value: 'attending', labelKey: 'rsvp.attending' },
   { value: 'not_attending', labelKey: 'rsvp.notAttending' },
 ]
 
@@ -17,16 +17,17 @@ export default function RSVPWishes({ guestName }) {
   const lang = i18n.language?.startsWith('en') ? 'en-US' : 'id-ID'
 
   // Form state
-  const [name, setName]             = useState(guestName || '')
-  const [attendance, setAttendance] = useState('')
-  const [message, setMessage]       = useState('')
-  const [errors, setErrors]         = useState({})
-  const [status, setStatus]         = useState('idle') // idle | submitting | success
+  const [name, setName] = useState(guestName || '')
+  const [attendance, setAttendance] = useState('attending')
+  const [guestCount, setGuestCount] = useState(1)
+  const [message, setMessage] = useState('')
+  const [errors, setErrors] = useState({})
+  const [status, setStatus] = useState('idle') // idle | submitting | success
 
   // Wishes list state
-  const [wishes, setWishes]         = useState([])
-  const [loading, setLoading]       = useState(true)
-  const [loadError, setLoadError]   = useState(false)
+  const [wishes, setWishes] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [justSubmittedId, setJustSubmittedId] = useState(null)
 
   // Fetch wishes
@@ -58,8 +59,8 @@ export default function RSVPWishes({ guestName }) {
 
   function validate() {
     const next = {}
-    if (!name.trim()) next.name       = t('rsvp.errors.nameRequired')
-    if (!attendance)  next.attendance = t('rsvp.errors.attendanceRequired')
+    if (!name.trim()) next.name = t('rsvp.errors.nameRequired')
+    if (!attendance) next.attendance = t('rsvp.errors.attendanceRequired')
     setErrors(next)
     return Object.keys(next).length === 0
   }
@@ -73,9 +74,10 @@ export default function RSVPWishes({ guestName }) {
 
       // Insert RSVP
       const { error: rsvpError } = await supabase.from('rsvps').insert({
-        guest_name:        name.trim(),
+        guest_name: name.trim(),
         attendance_status: attendance,
-        message:           message.trim() || null,
+        guest_count: attendance === 'attending' ? guestCount : 0,
+        message: message.trim() || null,
       })
       if (rsvpError) throw rsvpError
 
@@ -150,9 +152,8 @@ export default function RSVPWishes({ guestName }) {
                       key={opt.value}
                       type="button"
                       onClick={() => setAttendance(opt.value)}
-                      className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${
-                        attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
-                      }`}
+                      className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
+                        }`}
                     >
                       {t(opt.labelKey)}
                     </button>
@@ -160,6 +161,26 @@ export default function RSVPWishes({ guestName }) {
                 </div>
                 {errors.attendance && <p className="text-xs text-sea-light/55 mt-1">{errors.attendance}</p>}
               </div>
+
+              {/* Guest Count */}
+              {attendance === 'attending' && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">{t('rsvp.guestCount', 'Jumlah Tamu')}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[1, 2].map((num) => (
+                      <button
+                        key={num}
+                        type="button"
+                        onClick={() => setGuestCount(num)}
+                        className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${guestCount === num ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
+                          }`}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Wishes / Message */}
               <div>

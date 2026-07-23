@@ -12,7 +12,8 @@ const ATTENDANCE_OPTIONS = [
 export default function RSVP({ guestName }) {
   const { t } = useTranslation()
   const [name, setName] = useState(guestName || '')
-  const [attendance, setAttendance] = useState('')
+  const [attendance, setAttendance] = useState('attending')
+  const [guestCount, setGuestCount] = useState(1)
   const [message, setMessage] = useState('')
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | submitting | success
@@ -36,6 +37,7 @@ export default function RSVP({ guestName }) {
       const { error } = await supabase.from('rsvps').insert({
         guest_name: name.trim(),
         attendance_status: attendance,
+        guest_count: attendance === 'attending' ? guestCount : 0,
         message: message.trim() || null,
       })
       if (error) throw error
@@ -89,9 +91,8 @@ export default function RSVP({ guestName }) {
                   key={opt.value}
                   type="button"
                   onClick={() => setAttendance(opt.value)}
-                  className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${
-                    attendance === opt.value ? 'bg-accent text-ink' : 'text-sea-light hover:bg-sky/50'
-                  }`}
+                  className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${attendance === opt.value ? 'bg-accent text-ink' : 'text-sea-light hover:bg-sky/50'
+                    }`}
                 >
                   {t(opt.labelKey)}
                 </button>
@@ -99,6 +100,27 @@ export default function RSVP({ guestName }) {
             </div>
             {errors.attendance && <p className="text-xs text-sea-light/55 mt-1">{errors.attendance}</p>}
           </div>
+
+          {/* Guest Count */}
+          {attendance === 'attending' && (
+            <div>
+              <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">{t('rsvp.guestCount', 'Jumlah Tamu')}</p>
+              <div className="grid grid-cols-2 gap-2">
+                {[1, 2].map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    onClick={() => setGuestCount(num)}
+                    className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${
+                      guestCount === num ? 'bg-accent text-ink' : 'text-sea-light hover:bg-sky/50'
+                    }`}
+                  >
+                    {num} {num === 1 ? 'Orang' : 'Orang'}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Message */}
           <div>
