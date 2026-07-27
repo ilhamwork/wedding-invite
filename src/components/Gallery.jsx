@@ -60,57 +60,27 @@ export default function Gallery() {
       </Reveal>
 
       <Reveal variant="scaleUp" delay={0.1}>
-        <div className="flex flex-col gap-2">
-          {/* Hero row */}
-          <button
-            type="button"
-            onClick={() => setLightboxIndex(photos.indexOf(hero))}
-            aria-label="Open photo 1"
-            className="relative overflow-hidden rounded-2xl block group w-full"
-            style={{ aspectRatio: '4/3' }}
-          >
-            <img
-              src={hero.src}
-              alt={hero.alt}
-              loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300" />
-          </button>
-
-          {/* Thumbnail row — 3 images */}
-          <div className="flex gap-2">
-            {thumbs.map((photo) => {
-              const photoIdx = photos.indexOf(photo)
-              const isLast = photoIdx === gridPhotos.length - 1 && total > 4
-              return (
-                <button
-                  key={photo.src}
-                  type="button"
-                  onClick={() => setLightboxIndex(photoIdx)}
-                  aria-label={`Open photo ${photoIdx + 1}`}
-                  className="relative overflow-hidden rounded-2xl flex-1 block group"
-                  style={{ aspectRatio: '1/1' }}
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {/* "+N more" overlay on last visible thumb if there are hidden photos */}
-                  {isLast && total > 4 && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-sea-dark/55 backdrop-blur-sm">
-                      <span className="font-display text-white text-xl">+{total - 4}</span>
-                    </div>
-                  )}
-                  {!isLast && (
-                    <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300" />
-                  )}
-                </button>
-              )
-            })}
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {photos.map((photo, photoIdx) => (
+            <button
+              key={photo.src}
+              type="button"
+              onClick={() => setLightboxIndex(photoIdx)}
+              aria-label={`Open photo ${photoIdx + 1}`}
+              className="relative overflow-hidden rounded-2xl block group w-full shadow-sm"
+              style={{ aspectRatio: photoIdx === 0 ? '4/3' : '1/1' }}
+            >
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300 flex items-center justify-center">
+                <span className="text-white opacity-0 group-hover:opacity-100 text-2xl transition-opacity">🔍</span>
+              </div>
+            </button>
+          ))}
         </div>
       </Reveal>
 

@@ -10,13 +10,15 @@ const ease = [0.22, 1, 0.36, 1]
 /**
  * Oval photo frame — centered, with book-page reveal animation.
  */
-function OvalFrame({ src, alt, side = 'left' }) {
+function OvalFrame({ src, alt, side = 'left', size = 'lg' }) {
+  const w = size === 'sm' ? 170 : 220
+  const h = size === 'sm' ? 230 : 300
   return (
     <div
       style={{
         perspective: 800,
-        width: 220,
-        height: 300,
+        width: w,
+        height: h,
         flexShrink: 0,
         margin: '0 auto',
       }}
@@ -72,7 +74,7 @@ export default function Couple() {
 
   return (
     <section id="couple" className="relative overflow-hidden">
-      <div className="relative px-6 pt-20 pb-16 max-w-lg mx-auto">
+      <div className="relative px-6 sm:px-10 pt-20 pb-16 mx-auto" style={{ maxWidth: '100%' }}>
 
         {/* Bismillah + invite tagline */}
         <Reveal variant="fadeIn" delay={0.05}>
@@ -91,63 +93,122 @@ export default function Couple() {
           </div>
         </Reveal>
 
-        {/* BRIDE */}
-        <Reveal variant="fadeIn" delay={0.1}>
-          <div className="flex flex-col items-center text-center">
-            <OvalFrame src={bride.photo} alt={bride.fullName} side="left" />
-            <h3
-              className="font-display font-semibold leading-tight mt-6 mb-1 px-4"
-              style={{ fontSize: '1.55rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
-            >
-              {bride.fullName}
-            </h3>
-            {bride.parents?.[lang] && (
-              <p
-                className="text-sm leading-relaxed whitespace-pre-line px-4 mt-1"
-                style={{ color: 'rgba(74,95,122,0.85)' }}
+        {/* ── Mobile: stacked | Tablet+: side-by-side ── */}
+
+        {/* Mobile layout (hidden on sm+) */}
+        <div className="sm:hidden">
+          <Reveal variant="fadeIn" delay={0.1}>
+            <div className="flex flex-col items-center text-center">
+              <OvalFrame src={bride.photo} alt={bride.fullName} side="left" />
+              <h3
+                className="font-display font-semibold leading-tight mt-6 mb-1 px-4"
+                style={{ fontSize: '1.55rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
               >
-                {bride.parents[lang]}
-              </p>
-            )}
+                {bride.fullName}
+              </h3>
+              {bride.parents?.[lang] && (
+                <p
+                  className="text-sm leading-relaxed whitespace-pre-line px-4 mt-1"
+                  style={{ color: 'rgba(74,95,122,0.85)' }}
+                >
+                  {bride.parents[lang]}
+                </p>
+              )}
+            </div>
+          </Reveal>
 
-          </div>
-        </Reveal>
-
-        {/* Ampersand connector */}
-        <Reveal variant="fadeIn" delay={0.2}>
-          <div className="flex items-center justify-center gap-4 my-10 px-8">
-            <div className="flex-1 h-px" style={{ background: 'rgba(201,169,110,0.30)' }} />
-            <span
-              className="font-script text-5xl leading-none select-none pt-2"
-              style={{ color: 'rgba(201,169,110,0.70)' }}
-            >
-              &amp;
-            </span>
-            <div className="flex-1 h-px" style={{ background: 'rgba(201,169,110,0.30)' }} />
-          </div>
-        </Reveal>
-
-        {/* GROOM */}
-        <Reveal variant="fadeIn" delay={0.3}>
-          <div className="flex flex-col items-center text-center">
-            <OvalFrame src={groom.photo} alt={groom.fullName} side="right" />
-            <h3
-              className="font-display font-semibold leading-tight mt-6 mb-1 px-4"
-              style={{ fontSize: '1.55rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
-            >
-              {groom.fullName}
-            </h3>
-            {groom.parents?.[lang] && (
-              <p
-                className="text-sm leading-relaxed whitespace-pre-line px-4 mt-1"
-                style={{ color: 'rgba(74,95,122,0.85)' }}
+          <Reveal variant="fadeIn" delay={0.2}>
+            <div className="flex items-center justify-center gap-4 my-10 px-8">
+              <div className="flex-1 h-px" style={{ background: 'rgba(201,169,110,0.30)' }} />
+              <span
+                className="font-script text-5xl leading-none select-none pt-2"
+                style={{ color: 'rgba(201,169,110,0.70)' }}
               >
-                {groom.parents[lang]}
-              </p>
-            )}
+                &amp;
+              </span>
+              <div className="flex-1 h-px" style={{ background: 'rgba(201,169,110,0.30)' }} />
+            </div>
+          </Reveal>
 
-          </div>
-        </Reveal>
+          <Reveal variant="fadeIn" delay={0.3}>
+            <div className="flex flex-col items-center text-center">
+              <OvalFrame src={groom.photo} alt={groom.fullName} side="right" />
+              <h3
+                className="font-display font-semibold leading-tight mt-6 mb-1 px-4"
+                style={{ fontSize: '1.55rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
+              >
+                {groom.fullName}
+              </h3>
+              {groom.parents?.[lang] && (
+                <p
+                  className="text-sm leading-relaxed whitespace-pre-line px-4 mt-1"
+                  style={{ color: 'rgba(74,95,122,0.85)' }}
+                >
+                  {groom.parents[lang]}
+                </p>
+              )}
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Tablet+ layout (hidden on mobile) */}
+        <div className="hidden sm:block">
+          <Reveal variant="fadeIn" delay={0.1}>
+            <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-x-4">
+
+              {/* Bride column */}
+              <div className="flex flex-col items-center text-center">
+                <OvalFrame src={bride.photo} alt={bride.fullName} side="left" size="sm" />
+                <h3
+                  className="font-display font-semibold leading-tight mt-5 mb-1 px-2"
+                  style={{ fontSize: '1.25rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
+                >
+                  {bride.fullName}
+                </h3>
+                {bride.parents?.[lang] && (
+                  <p
+                    className="text-xs leading-relaxed whitespace-pre-line px-2 mt-1"
+                    style={{ color: 'rgba(74,95,122,0.85)' }}
+                  >
+                    {bride.parents[lang]}
+                  </p>
+                )}
+              </div>
+
+              {/* Ampersand — vertical center */}
+              <div className="flex flex-col items-center justify-center h-full pt-16 gap-3">
+                <div className="w-px flex-1 max-h-12" style={{ background: 'rgba(201,169,110,0.30)' }} />
+                <span
+                  className="font-script text-4xl leading-none select-none"
+                  style={{ color: 'rgba(201,169,110,0.70)' }}
+                >
+                  &amp;
+                </span>
+                <div className="w-px flex-1 max-h-12" style={{ background: 'rgba(201,169,110,0.30)' }} />
+              </div>
+
+              {/* Groom column */}
+              <div className="flex flex-col items-center text-center">
+                <OvalFrame src={groom.photo} alt={groom.fullName} side="right" size="sm" />
+                <h3
+                  className="font-display font-semibold leading-tight mt-5 mb-1 px-2"
+                  style={{ fontSize: '1.25rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
+                >
+                  {groom.fullName}
+                </h3>
+                {groom.parents?.[lang] && (
+                  <p
+                    className="text-xs leading-relaxed whitespace-pre-line px-2 mt-1"
+                    style={{ color: 'rgba(74,95,122,0.85)' }}
+                  >
+                    {groom.parents[lang]}
+                  </p>
+                )}
+              </div>
+
+            </div>
+          </Reveal>
+        </div>
 
       </div>
     </section>

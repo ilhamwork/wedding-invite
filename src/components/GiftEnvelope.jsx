@@ -54,7 +54,7 @@ function GiftModal({ onClose }) {
         onClick={onClose}
       >
         <motion.div
-          className="relative w-full bg-cream rounded-t-3xl overflow-hidden shadow-2xl"
+          className="relative w-full max-w-2xl mx-auto bg-cream rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl"
           style={{ maxHeight: '90svh', overflowY: 'auto' }}
           initial={{ y: '100%', opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

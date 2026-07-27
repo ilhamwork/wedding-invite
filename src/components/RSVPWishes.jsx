@@ -105,117 +105,120 @@ export default function RSVPWishes({ guestName }) {
 
   return (
     <section id="rsvp-wishes" className="relative" style={{ backgroundColor: '#EEE9DE' }}>
-      <div className="relative px-6 py-20 sm:py-24 max-w-xl mx-auto">
+      <div className="relative px-6 sm:px-10 py-20 sm:py-24 max-w-5xl mx-auto">
 
         <Reveal variant="fadeIn">
-          <h2 className="font-display text-2xl text-center text-sea mb-10">
+          <h2 className="font-display text-2xl md:text-3xl text-center text-sea mb-10">
             {t('rsvp.title')}
           </h2>
         </Reveal>
 
-        {/* ── Success state ── */}
-        {status === 'success' ? (
-          <Reveal variant="fadeIn">
-            <div className="text-center py-8">
-              <p className="font-display text-xl text-sea mb-2">{t('rsvp.successTitle')}</p>
-              <p className="text-sm text-sea-light">{t('rsvp.successBody')}</p>
-            </div>
-          </Reveal>
-        ) : (
-          <Reveal variant="fadeUp" delay={0.1}>
-            <form onSubmit={handleSubmit} noValidate className="space-y-5">
-
-              {/* Name */}
-              <div>
-                <label htmlFor="rf-name" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
-                  {t('rsvp.name')}
-                </label>
-                <input
-                  id="rf-name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={t('rsvp.namePlaceholder')}
-                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
-                />
-                {errors.name && <p className="text-xs text-sea-light/55 mt-1">{errors.name}</p>}
-              </div>
-
-              {/* Attendance */}
-              <div>
-                <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
-                  {t('rsvp.attendance')}
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  {ATTENDANCE_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setAttendance(opt.value)}
-                      className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
-                        }`}
-                    >
-                      {t(opt.labelKey)}
-                    </button>
-                  ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+          {/* ── Form Column ── */}
+          <div>
+            {status === 'success' ? (
+              <Reveal variant="fadeIn">
+                <div className="text-center py-8 bg-white/60 rounded-3xl border hairline p-6">
+                  <p className="font-display text-xl text-sea mb-2">{t('rsvp.successTitle')}</p>
+                  <p className="text-sm text-sea-light">{t('rsvp.successBody')}</p>
                 </div>
-                {errors.attendance && <p className="text-xs text-sea-light/55 mt-1">{errors.attendance}</p>}
-              </div>
+              </Reveal>
+            ) : (
+              <Reveal variant="fadeUp" delay={0.1}>
+                <form onSubmit={handleSubmit} noValidate className="space-y-5 bg-white/40 rounded-3xl border hairline p-6">
 
-              {/* Guest Count */}
-              {attendance === 'attending' && (
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">{t('rsvp.guestCount', 'Jumlah Tamu')}</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[1, 2].map((num) => (
-                      <button
-                        key={num}
-                        type="button"
-                        onClick={() => setGuestCount(num)}
-                        className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${guestCount === num ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
-                          }`}
-                      >
-                        {num}
-                      </button>
-                    ))}
+                  {/* Name */}
+                  <div>
+                    <label htmlFor="rf-name" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
+                      {t('rsvp.name')}
+                    </label>
+                    <input
+                      id="rf-name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder={t('rsvp.namePlaceholder')}
+                      className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
+                    />
+                    {errors.name && <p className="text-xs text-sea-light/55 mt-1">{errors.name}</p>}
                   </div>
-                </div>
-              )}
 
-              {/* Wishes / Message */}
-              <div>
-                <label htmlFor="rf-message" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
-                  {t('wishes.title')}
-                </label>
-                <textarea
-                  id="rf-message"
-                  rows={4}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder={t('wishes.messagePlaceholder')}
-                  className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 resize-none"
-                />
-              </div>
+                  {/* Attendance */}
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
+                      {t('rsvp.attendance')}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {ATTENDANCE_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setAttendance(opt.value)}
+                          className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${attendance === opt.value ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
+                            }`}
+                        >
+                          {t(opt.labelKey)}
+                        </button>
+                      ))}
+                    </div>
+                    {errors.attendance && <p className="text-xs text-sea-light/55 mt-1">{errors.attendance}</p>}
+                  </div>
 
-              {/* Submit */}
-              <button
-                type="submit"
-                disabled={status === 'submitting'}
-                className="w-full py-3 rounded-full bg-accent text-ink text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60 font-medium"
-              >
-                {status === 'submitting' ? t('rsvp.submitting') : t('rsvp.submit')}
-              </button>
+                  {/* Guest Count */}
+                  {attendance === 'attending' && (
+                    <div>
+                      <p className="text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">{t('rsvp.guestCount', 'Jumlah Tamu')}</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {[1, 2].map((num) => (
+                          <button
+                            key={num}
+                            type="button"
+                            onClick={() => setGuestCount(num)}
+                            className={`rounded-xl border hairline py-2.5 text-xs transition-colors ${guestCount === num ? 'bg-accent text-ink font-medium' : 'text-sea-light hover:bg-sky/50'
+                              }`}
+                          >
+                            {num}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-            </form>
-          </Reveal>
-        )}
+                  {/* Wishes / Message */}
+                  <div>
+                    <label htmlFor="rf-message" className="block text-xs uppercase tracking-widest text-sea-light/55 mb-1.5">
+                      {t('wishes.title')}
+                    </label>
+                    <textarea
+                      id="rf-message"
+                      rows={4}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder={t('wishes.messagePlaceholder')}
+                      className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 resize-none"
+                    />
+                  </div>
 
-        {/* ── Wishes list ── */}
-        {wishes.length > 0 && (
-          <Reveal variant="fadeIn" delay={0.2}>
-            <div className="mt-12">
-              <div className="rounded-3xl border hairline bg-white/60 p-4">
-                <div className="wishes-scroll overflow-y-auto pr-2" style={{ maxHeight: '360px' }}>
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={status === 'submitting'}
+                    className="w-full py-3 rounded-full bg-accent text-ink text-xs tracking-[0.25em] uppercase hover:bg-accent-mid transition-colors disabled:opacity-60 font-medium"
+                  >
+                    {status === 'submitting' ? t('rsvp.submitting') : t('rsvp.submit')}
+                  </button>
+
+                </form>
+              </Reveal>
+            )}
+          </div>
+
+          {/* ── Wishes List Column ── */}
+          <div>
+            <Reveal variant="fadeIn" delay={0.2}>
+              <div className="rounded-3xl border hairline bg-white/60 p-6">
+                <h3 className="font-display text-lg text-sea mb-4">{t('wishes.title')}</h3>
+                <div className="wishes-scroll overflow-y-auto pr-2" style={{ maxHeight: '420px' }}>
                   {loading && <p className="text-center text-sm text-ink-soft/60">{t('common.loading')}</p>}
                   {!loading && loadError && <p className="text-center text-sm text-ink-soft/70">{t('common.error')}</p>}
                   <AnimatePresence initial={false}>
@@ -229,7 +232,7 @@ export default function RSVPWishes({ guestName }) {
                         className={`px-2 py-2.5 transition-colors duration-700 ${w.id === justSubmittedId ? 'bg-sky/60 rounded-xl' : ''}`}
                       >
                         <div className="flex items-baseline justify-between gap-2 mb-0.5">
-                          <p className="font-display text-sm text-sea">{w.name}</p>
+                          <p className="font-display text-sm text-sea font-medium">{w.name}</p>
                           <p className="text-[10px] text-sea-light/55 shrink-0">
                             {new Date(w.created_at).toLocaleDateString(lang, { day: 'numeric', month: 'short' })}
                           </p>
@@ -241,9 +244,9 @@ export default function RSVPWishes({ guestName }) {
                   </AnimatePresence>
                 </div>
               </div>
-            </div>
-          </Reveal>
-        )}
+            </Reveal>
+          </div>
+        </div>
 
       </div>
     </section>

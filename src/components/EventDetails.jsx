@@ -41,44 +41,40 @@ export default function EventDetails() {
       <Reveal variant="fadeUp">
         <h2 className="font-display text-2xl text-center text-sea mb-10">{t('event.title')}</h2>
 
-        {/* Akad */}
-        <EventItem
-          event={content.event.akad}
-          label={content.event.akad.label[lang]}
-          note={lang === 'id' ? 'Khusus keluarga' : 'Reserved for family only'}
-        />
+        {/* Event Cards Container */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10 max-w-4xl mx-auto">
+          {/* Akad Card */}
+          <div className="bg-pebble/30 rounded-2xl p-6 border hairline flex flex-col justify-center">
+            <EventItem
+              event={content.event.akad}
+              label={content.event.akad.label[lang]}
+              note={lang === 'id' ? 'Khusus keluarga' : 'Reserved for family only'}
+            />
+          </div>
 
-        {/* Divider */}
-        <div className="flex items-center justify-center gap-3 my-6">
-          <div className="h-px w-12 bg-ink/10" />
-          <div className="w-1 h-1 rounded-full bg-ink/20" />
-          <div className="h-px w-12 bg-ink/10" />
+          {/* Resepsi Card */}
+          <div className="bg-pebble/30 rounded-2xl p-6 border hairline flex flex-col justify-center">
+            <EventItem
+              event={content.event.resepsi}
+              label={content.event.resepsi.label[lang]}
+              timeOverride="18:30 - 21:00"
+            />
+          </div>
         </div>
 
-        {/* Resepsi */}
-        <EventItem
-          event={content.event.resepsi}
-          label={content.event.resepsi.label[lang]}
-          timeOverride="18:30 - 21:00"
-        />
-
-        {/* Venue address */}
-        <div className="mt-8 mb-8 text-center">
+        {/* Venue address & Map button */}
+        <div className="mt-8 text-center max-w-md mx-auto">
           <p className="section-label text-[14px] tracking-widest mb-2">
             {lang === 'id' ? 'Lokasi' : 'Venue'}
           </p>
-          <p className="text-sm text-sea-light leading-relaxed max-w-xs mx-auto whitespace-pre-line">
+          <p className="text-sm md:text-base text-sea-light leading-relaxed mb-6 whitespace-pre-line">
             {content.event.akad.address}
           </p>
-        </div>
-
-        {/* Map button */}
-        <div className="text-center">
           <a
             href={content.event.map.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 rounded-full bg-accent text-ink text-xs tracking-[0.2em] uppercase hover:bg-accent-mid transition-colors font-medium"
+            className="inline-block px-8 py-3 rounded-full bg-accent text-ink text-xs tracking-[0.2em] uppercase hover:bg-accent-mid transition-colors font-medium shadow-sm"
           >
             {t('event.viewMap')}
           </a>

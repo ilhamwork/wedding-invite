@@ -72,8 +72,8 @@ export default function OurStory() {
 
       {/* ── Slide area ── */}
       <div
-        className="relative mx-auto overflow-hidden"
-        style={{ maxWidth: 420, cursor: 'grab' }}
+        className="relative mx-auto overflow-hidden w-full max-w-md md:max-w-2xl"
+        style={{ cursor: 'grab' }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerLeave={(e) => { if (dragStart.current !== null) onPointerUp(e) }}

@@ -110,14 +110,14 @@ export default function Countdown() {
 
       {/* ── Countdown bar ── */}
       <motion.div
-        className="absolute left-4 right-4 z-20"
+        className="absolute z-20 left-0 right-0 px-4"
         style={{ top: '75%', transform: 'translateY(-50%)' }}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease, delay: 1.0 }}
       >
         <div
-          className="w-full rounded-2xl overflow-hidden"
+          className="w-full max-w-2xl sm:max-w-3xl mx-auto rounded-2xl overflow-hidden"
           style={{
             background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%)',
             backdropFilter: 'blur(20px)',
@@ -126,7 +126,7 @@ export default function Countdown() {
             boxShadow: '0 8px 32px rgba(0,0,0,0.30)',
           }}
         >
-          <div className="max-w-lg mx-auto px-5 py-4 flex flex-col items-center gap-3">
+          <div className="mx-auto px-5 py-4 flex flex-col items-center gap-3">
             <div className="flex items-center gap-3">
               <p className="font-display text-sm text-white whitespace-nowrap">{dateLabel}</p>
               <div className="w-px h-3 bg-white/20" />

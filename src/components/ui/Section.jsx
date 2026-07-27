@@ -146,7 +146,7 @@ export default function Section({ id, className = '', bg, fadeTop, fadeBottom, c
       )}
 
       {/* ── Content ───────────────────────────────────────── */}
-      <div className={`relative px-6 py-20 sm:py-24 max-w-xl mx-auto ${className}`} style={{ zIndex: 2 }}>
+      <div className={`relative px-6 sm:px-12 md:px-16 py-20 sm:py-24 max-w-6xl mx-auto ${className}`} style={{ zIndex: 2 }}>
         {children}
       </div>
     </section>
