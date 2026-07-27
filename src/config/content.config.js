@@ -33,13 +33,13 @@ export const content = {
       dateISO: '2026-09-05T15:30:00+07:00',
       label: { id: 'Akad Nikah', en: 'Akad Nikah' },
       venueName: 'Auditorium BKKBN Halim',
-      address: 'Auditorium BKKBN Halim, Jl. Permata No.1, RT.4/RW.5, Kb. Pala, Kec. Makasar, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta',
+      address: 'Auditorium BKKBN Halim,\nJl. Permata No.1, RT.4/RW.5, Kb. Pala,\nKec. Makasar, Kota Jakarta Timur, DKI Jakarta',
     },
     resepsi: {
       dateISO: '2026-09-05T18:30:00+07:00',
       label: { id: 'Resepsi', en: 'Resepsi' },
       venueName: 'Auditorium BKKBN Halim',
-      address: 'Auditorium BKKBN Halim, Jl. Permata No.1, RT.4/RW.5, Kb. Pala, Kec. Makasar, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta',
+      address: 'Auditorium BKKBN Halim,\nJl. Permata No.1, RT.4/RW.5, Kb. Pala,\nKec. Makasar, Kota Jakarta Timur, DKI Jakarta',
     },
     map: {
       lat: -6.2655,

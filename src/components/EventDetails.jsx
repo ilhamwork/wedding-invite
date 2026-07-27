@@ -67,7 +67,7 @@ export default function EventDetails() {
           <p className="section-label text-[14px] tracking-widest mb-2">
             {lang === 'id' ? 'Lokasi' : 'Venue'}
           </p>
-          <p className="text-sm text-sea-light leading-relaxed max-w-xs mx-auto">
+          <p className="text-sm text-sea-light leading-relaxed max-w-xs mx-auto whitespace-pre-line">
             {content.event.akad.address}
           </p>
         </div>
