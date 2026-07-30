@@ -51,7 +51,7 @@ export const content = {
   story: [
     {
       year: '2019',
-      photo: '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',
+      photo: '/assets/photos/prita-ilham-01.webp',
       title: { id: 'Pertama Bertemu', en: 'First Meeting' },
       caption: {
         id: 'Placeholder — ceritakan bagaimana kalian pertama kali bertemu.',
@@ -60,7 +60,7 @@ export const content = {
     },
     {
       year: '2022',
-      photo: '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp',
+      photo: '/assets/photos/prita-ilham-11.webp',
       title: { id: 'Menjadi Dekat', en: 'Growing Close' },
       caption: {
         id: 'Placeholder — ceritakan momen yang membuat kalian semakin dekat.',
@@ -69,7 +69,7 @@ export const content = {
     },
     {
       year: '2025',
-      photo: '/assets/gallery/optimized/PRITA & ILHAM-96-1200w.webp',
+      photo: '/assets/photos/prita-ilham-05.webp',
       title: { id: 'Lamaran', en: 'The Proposal' },
       caption: {
         id: 'Placeholder — ceritakan momen lamaran kalian.',
@@ -79,17 +79,16 @@ export const content = {
   ],
 
   gallery: [
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',  alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-16-1200w.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-53-1200w.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-96-1200w.webp', alt: 'Prita & Ilham' },
-    // Slots 6-10 — replace with additional photos when available
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-96-1080w.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-53-1440w.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-16-1200w.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',  alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-02.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-03.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-04.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-07.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-08.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-09.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-10.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-15.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-17.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/prita-ilham-18.webp', alt: 'Prita & Ilham' },
   ],
 
   gifts: [
@@ -115,12 +114,12 @@ export const content = {
 
   cover: {
     // Portrait photo — fills the full-height mobile cover
-    photo: '/assets/gallery/optimized/PRITA & ILHAM-96-1080w.webp',
+    photo: '/assets/photos/prita-ilham-06.webp',
   },
 
   closing: {
     // Background photo shown at the bottom of the thank-you section.
-    photo: '/assets/gallery/optimized/PRITA & ILHAM-53-1200w.webp',
+    photo: '/assets/photos/prita-ilham-19.webp',
   },
 
   countdown: {
@@ -128,11 +127,10 @@ export const content = {
     // Falls back to all gallery photos if not set.
     // Tip: add as many photos as you like; order matters.
     images: [
-      '/assets/gallery/optimized/PRITA & ILHAM-4-1200w.webp',
-      '/assets/gallery/optimized/PRITA & ILHAM-16-1200w.webp',
-      '/assets/gallery/optimized/PRITA & ILHAM-37-1200w.webp',
-      '/assets/gallery/optimized/PRITA & ILHAM-53-1200w.webp',
-      '/assets/gallery/optimized/PRITA & ILHAM-96-1200w.webp',
+      '/assets/photos/prita-ilham-12.webp',
+      '/assets/photos/prita-ilham-13.webp',
+      '/assets/photos/prita-ilham-14.webp',
+      '/assets/photos/prita-ilham-16.webp',
     ],
     // How long each slide is visible (milliseconds) before crossfading to the next.
     slideDuration: 3000,
