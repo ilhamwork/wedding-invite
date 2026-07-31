@@ -84,7 +84,7 @@ export default function Couple() {
             />
             <p
               className="font-body text-[11px] tracking-widest uppercase text-center"
-              style={{ color: 'rgba(74,95,122,0.55)' }}
+              style={{ color: 'rgba(74,95,122,0.75)' }}
             >
               We cordially invite you to our wedding
             </p>

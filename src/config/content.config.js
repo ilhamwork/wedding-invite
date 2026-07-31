@@ -10,7 +10,7 @@ export const content = {
       fullName: 'Mohamad Ilham Firdaus, S.Kom.',
       nickname: 'Ilham',
       instagram: '@ilhamfirdaa',
-      photo: '/assets/groom.webp',
+      photo: '/assets/photos/portrait/prita-ilham-08.webp',
       parents: {
         id: 'Putra dari\nBpk. Iwan Ridwan &\nIbu Alm. Sopiah',
         en: 'Son of\nMr. Iwan Ridwan &\nMrs. Sopiah (Almh.)',
@@ -20,7 +20,7 @@ export const content = {
       fullName: 'Prita Sekar Primadiani, S.AB.',
       nickname: 'Prita',
       instagram: '@pritaskr',
-      photo: '/assets/bride.webp',
+      photo: '/assets/photos/portrait/prita-ilham-10.webp',
       parents: {
         id: 'Putri dari\nBpk. Ilham Philipinaryo &\nIbu Dian Novianti Dwitasari',
         en: 'Daughter of\nMr. Ilham Philipinaryo &\nMrs. Dian Novianti Dwitasari',
@@ -51,7 +51,7 @@ export const content = {
   story: [
     {
       year: '2019',
-      photo: '/assets/photos/prita-ilham-01.webp',
+      photo: '/assets/photos/portrait/prita-ilham-02.webp',
       title: { id: 'Pertama Bertemu', en: 'First Meeting' },
       caption: {
         id: 'Placeholder — ceritakan bagaimana kalian pertama kali bertemu.',
@@ -60,7 +60,7 @@ export const content = {
     },
     {
       year: '2022',
-      photo: '/assets/photos/prita-ilham-11.webp',
+      photo: '/assets/photos/portrait/prita-ilham-11.webp',
       title: { id: 'Menjadi Dekat', en: 'Growing Close' },
       caption: {
         id: 'Placeholder — ceritakan momen yang membuat kalian semakin dekat.',
@@ -69,7 +69,7 @@ export const content = {
     },
     {
       year: '2025',
-      photo: '/assets/photos/prita-ilham-05.webp',
+      photo: '/assets/photos/portrait/prita-ilham-05.webp',
       title: { id: 'Lamaran', en: 'The Proposal' },
       caption: {
         id: 'Placeholder — ceritakan momen lamaran kalian.',
@@ -79,16 +79,18 @@ export const content = {
   ],
 
   gallery: [
-    { src: '/assets/photos/prita-ilham-02.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-03.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-04.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-07.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-08.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-09.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-10.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-15.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-17.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/prita-ilham-18.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/portrait/prita-ilham-06.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-02.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-03.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-07.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-01.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/portrait/prita-ilham-12.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/portrait/prita-ilham-10.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-04.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-05.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-06.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-08.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/portrait/prita-ilham-08.webp', alt: 'Prita & Ilham' },
   ],
 
   gifts: [
@@ -114,12 +116,12 @@ export const content = {
 
   cover: {
     // Portrait photo — fills the full-height mobile cover
-    photo: '/assets/photos/prita-ilham-06.webp',
+    photo: '/assets/photos/portrait/prita-ilham-04.webp',
   },
 
   closing: {
     // Background photo shown at the bottom of the thank-you section.
-    photo: '/assets/photos/prita-ilham-19.webp',
+    photo: '/assets/photos/landscape/prita-ilham-09.webp',
   },
 
   countdown: {
@@ -127,10 +129,10 @@ export const content = {
     // Falls back to all gallery photos if not set.
     // Tip: add as many photos as you like; order matters.
     images: [
-      '/assets/photos/prita-ilham-12.webp',
-      '/assets/photos/prita-ilham-13.webp',
-      '/assets/photos/prita-ilham-14.webp',
-      '/assets/photos/prita-ilham-16.webp',
+      '/assets/photos/portrait/prita-ilham-09.webp',
+      '/assets/photos/portrait/prita-ilham-03.webp',
+      '/assets/photos/portrait/prita-ilham-01.webp',
+      '/assets/photos/portrait/prita-ilham-07.webp',
     ],
     // How long each slide is visible (milliseconds) before crossfading to the next.
     slideDuration: 3000,
