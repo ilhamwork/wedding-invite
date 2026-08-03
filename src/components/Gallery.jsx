@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
@@ -7,18 +7,100 @@ import Section, { Reveal } from './ui/Section'
 
 export default function Gallery() {
   const { t } = useTranslation()
-  const [lightboxIndex, setLightboxIndex] = useState(null)
+  const [slideIndex, setSlideIndex] = useState(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const [orientations, setOrientations] = useState({})
 
   const photos = content.gallery
   const total = photos.length
 
-  // Only 4 photos shown in the grid
-  const gridPhotos = photos.slice(0, 4)
+  // Mobile viewport detection (< 640px)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
-  const isOpen = lightboxIndex !== null
-  const prev = () => setLightboxIndex((i) => (i - 1 + total) % total)
-  const next = () => setLightboxIndex((i) => (i + 1) % total)
-  const close = () => setLightboxIndex(null)
+  // Preload and detect image orientations (landscape vs portrait)
+  useEffect(() => {
+    photos.forEach((photo) => {
+      const img = new Image()
+      img.src = photo.src
+      img.onload = () => {
+        setOrientations((prev) => ({
+          ...prev,
+          [photo.src]: img.naturalWidth > img.naturalHeight ? 'landscape' : 'portrait',
+        }))
+      }
+    })
+  }, [photos])
+
+  const handleImageLoad = (src, e) => {
+    const { naturalWidth, naturalHeight } = e.target
+    if (naturalWidth && naturalHeight) {
+      const isLandscape = naturalWidth > naturalHeight
+      setOrientations((prev) => {
+        if (prev[src] === (isLandscape ? 'landscape' : 'portrait')) return prev
+        return { ...prev, [src]: isLandscape ? 'landscape' : 'portrait' }
+      })
+    }
+  }
+
+  const isLandscapePhoto = (photo) => {
+    if (!photo || !photo.src) return false
+    if (photo.src.includes('-landscape')) return true
+    return orientations[photo.src] === 'landscape'
+  }
+
+  // Slide grouping: 
+  // Desktop: 1 photo per slide
+  // Mobile: 2 landscape photos per slide (top & bottom), 1 portrait per slide
+  const slides = useMemo(() => {
+    if (!isMobile) {
+      return photos.map((photo) => [photo])
+    }
+
+    const result = []
+    const landscapeQueue = []
+
+    for (let i = 0; i < photos.length; i++) {
+      const photo = photos[i]
+      if (isLandscapePhoto(photo)) {
+        landscapeQueue.push(photo)
+        if (landscapeQueue.length === 2) {
+          result.push([...landscapeQueue])
+          landscapeQueue.length = 0
+        }
+      } else {
+        result.push([photo])
+      }
+    }
+
+    while (landscapeQueue.length > 0) {
+      if (landscapeQueue.length >= 2) {
+        result.push([landscapeQueue.shift(), landscapeQueue.shift()])
+      } else {
+        result.push([landscapeQueue.shift()])
+      }
+    }
+
+    return result
+  }, [photos, isMobile, orientations])
+
+  const totalSlides = slides.length
+  const isOpen = slideIndex !== null
+
+  const openPhotoInLightbox = (photo) => {
+    const targetIndex = slides.findIndex((slide) =>
+      slide.some((p) => p.src === photo.src)
+    )
+    setSlideIndex(targetIndex !== -1 ? targetIndex : 0)
+  }
+
+  const prev = () => setSlideIndex((i) => (i - 1 + totalSlides) % totalSlides)
+  const next = () => setSlideIndex((i) => (i + 1) % totalSlides)
+  const close = () => setSlideIndex(null)
 
   // Keyboard navigation
   useEffect(() => {
@@ -30,7 +112,7 @@ export default function Gallery() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isOpen, lightboxIndex])
+  }, [isOpen, slideIndex, totalSlides])
 
   // Lock body scroll when lightbox is open
   useEffect(() => {
@@ -51,7 +133,9 @@ export default function Gallery() {
   if (total === 0) return null
 
   // 4-photo grid: 1 hero (top), 3 thumbnails (bottom row)
+  const gridPhotos = photos.slice(0, 4)
   const [hero, ...thumbs] = gridPhotos
+  const currentSlide = isOpen ? slides[slideIndex] : null
 
   return (
     <Section id="gallery" bg="mist" fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
@@ -60,31 +144,63 @@ export default function Gallery() {
       </Reveal>
 
       <Reveal variant="scaleUp" delay={0.1}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          {photos.map((photo, photoIdx) => (
-            <button
-              key={photo.src}
-              type="button"
-              onClick={() => setLightboxIndex(photoIdx)}
-              aria-label={`Open photo ${photoIdx + 1}`}
-              className="relative overflow-hidden rounded-2xl block group w-full shadow-sm"
-              style={{ aspectRatio: photoIdx === 0 ? '4/3' : '1/1' }}
-            >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300 flex items-center justify-center">
-                <span className="text-white opacity-0 group-hover:opacity-100 text-2xl transition-opacity">🔍</span>
-              </div>
-            </button>
-          ))}
+        <div className="flex flex-col gap-2">
+          {/* Hero row */}
+          <button
+            type="button"
+            onClick={() => openPhotoInLightbox(hero)}
+            aria-label="Open photo 1"
+            className="relative overflow-hidden rounded-2xl block group w-full"
+            style={{ aspectRatio: '4/3' }}
+          >
+            <img
+              src={hero.src}
+              alt={hero.alt}
+              loading="lazy"
+              onLoad={(e) => handleImageLoad(hero.src, e)}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300" />
+          </button>
+
+          {/* Thumbnail row — 3 images */}
+          <div className="flex gap-2">
+            {thumbs.map((photo) => {
+              const photoIdx = photos.indexOf(photo)
+              const isLast = photoIdx === gridPhotos.length - 1 && total > 4
+              return (
+                <button
+                  key={photo.src}
+                  type="button"
+                  onClick={() => openPhotoInLightbox(photo)}
+                  aria-label={`Open photo ${photoIdx + 1}`}
+                  className="relative overflow-hidden rounded-2xl flex-1 block group"
+                  style={{ aspectRatio: '1/1' }}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    onLoad={(e) => handleImageLoad(photo.src, e)}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* "+N more" overlay on last visible thumb if there are hidden photos */}
+                  {isLast && total > 4 && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-sea-dark/55 backdrop-blur-sm">
+                      <span className="font-display text-white text-xl">+{total - 4}</span>
+                    </div>
+                  )}
+                  {!isLast && (
+                    <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300" />
+                  )}
+                </button>
+              )
+            })}
+          </div>
         </div>
       </Reveal>
 
-      {/* Fullscreen Lightbox — slide one by one */}
+      {/* Fullscreen Lightbox */}
       {isOpen && createPortal(
         <AnimatePresence>
           <motion.div
@@ -98,18 +214,46 @@ export default function Gallery() {
             onTouchEnd={onTouchEnd}
           >
             <AnimatePresence mode="wait">
-              <motion.img
-                key={photos[lightboxIndex].src}
-                src={photos[lightboxIndex].src}
-                alt={photos[lightboxIndex].alt}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="max-w-full max-h-full object-contain px-14 py-12"
-                onClick={(e) => e.stopPropagation()}
-                draggable={false}
-              />
+              {currentSlide && currentSlide.length > 1 ? (
+                <motion.div
+                  key={`slide-${slideIndex}-${currentSlide[0].src}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex flex-col items-center justify-center gap-3 px-12 py-14 max-h-[82vh] max-w-full"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src={currentSlide[0].src}
+                    alt={currentSlide[0].alt}
+                    onLoad={(e) => handleImageLoad(currentSlide[0].src, e)}
+                    className="max-h-[38vh] w-auto max-w-full object-contain rounded-xl shadow-lg border border-cream/10"
+                    draggable={false}
+                  />
+                  <img
+                    src={currentSlide[1].src}
+                    alt={currentSlide[1].alt}
+                    onLoad={(e) => handleImageLoad(currentSlide[1].src, e)}
+                    className="max-h-[38vh] w-auto max-w-full object-contain rounded-xl shadow-lg border border-cream/10"
+                    draggable={false}
+                  />
+                </motion.div>
+              ) : currentSlide && currentSlide.length === 1 ? (
+                <motion.img
+                  key={`slide-${slideIndex}-${currentSlide[0].src}`}
+                  src={currentSlide[0].src}
+                  alt={currentSlide[0].alt}
+                  onLoad={(e) => handleImageLoad(currentSlide[0].src, e)}
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -40 }}
+                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  className="max-w-full max-h-full object-contain px-14 py-12"
+                  onClick={(e) => e.stopPropagation()}
+                  draggable={false}
+                />
+              ) : null}
             </AnimatePresence>
 
             {/* Close */}
@@ -144,18 +288,18 @@ export default function Gallery() {
 
             {/* Counter */}
             <p className="absolute bottom-14 text-cream/50 text-xs tracking-widest">
-              {lightboxIndex + 1} / {total}
+              {slideIndex + 1} / {totalSlides}
             </p>
 
             {/* Dot indicators */}
             <div className="absolute bottom-6 flex gap-2 justify-center flex-wrap px-8">
-              {photos.map((_, i) => (
+              {slides.map((_, i) => (
                 <button
                   key={i}
-                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i) }}
-                  aria-label={`Go to photo ${i + 1}`}
+                  onClick={(e) => { e.stopPropagation(); setSlideIndex(i) }}
+                  aria-label={`Go to slide ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === lightboxIndex ? 'bg-cream w-5' : 'bg-cream/30 w-1.5'
+                    i === slideIndex ? 'bg-cream w-5' : 'bg-cream/30 w-1.5'
                   }`}
                 />
               ))}

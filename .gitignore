@@ -9,3 +9,14 @@ public/assets/gallery/*.jpg
 # Original portrait JPGs (use .webp versions instead)
 public/assets/bride.jpg
 public/assets/groom.jpg
+
+# graphify
+.agents
+.claude
+.codex
+.gemini
+.vscode
+graphify-out
+scratch_graphify_setup.
+
+scripts
