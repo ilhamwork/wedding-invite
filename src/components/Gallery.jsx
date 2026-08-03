@@ -1,211 +1,187 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { content } from '../config/content.config'
 import Section, { Reveal } from './ui/Section'
 
+// ─── Masonry item with scroll-triggered reveal ───────────────────────────────
+function MasonryPhoto({ photo, index, onClick }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px 0px' })
+  const isPortrait = photo.src.includes('portrait')
+
+  return (
+    <motion.button
+      ref={ref}
+      type="button"
+      onClick={() => onClick(index)}
+      aria-label={`Open photo ${index + 1}`}
+      initial={{ opacity: 0, y: 32 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: (index % 2) * 0.12 }}
+      className="relative overflow-hidden rounded-2xl block w-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-sea"
+      style={{ aspectRatio: isPortrait ? '3/4' : '4/3' }}
+    >
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        loading="lazy"
+        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+      />
+      {/* Gradient overlay on hover */}
+      <div className="absolute inset-0 bg-linear-to-t from-sea-dark/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+      {/* Corner accent */}
+      <div className="absolute bottom-3 right-3 w-5 h-5 border-b-2 border-r-2 border-cream/60 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0" />
+    </motion.button>
+  )
+}
+
+// ─── "+N more" reveal tile ────────────────────────────────────────────────────
+function MoreTile({ count, lastPhoto, onClick }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px 0px' })
+
+  return (
+    <motion.button
+      ref={ref}
+      type="button"
+      onClick={onClick}
+      aria-label={`View ${count} more photos`}
+      initial={{ opacity: 0, y: 32 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
+      className="relative overflow-hidden rounded-2xl block w-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-sea"
+      style={{ aspectRatio: '3/4' }}
+    >
+      <img
+        src={lastPhoto.src}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="w-full h-full object-cover scale-105 blur-[2px] brightness-50"
+      />
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
+        <span className="font-display text-white text-4xl leading-none">+{count}</span>
+        <span className="text-cream/70 text-xs tracking-[0.2em] uppercase">photos</span>
+      </div>
+    </motion.button>
+  )
+}
+
+// ─── Main Gallery ─────────────────────────────────────────────────────────────
 export default function Gallery() {
   const { t } = useTranslation()
-  const [slideIndex, setSlideIndex] = useState(null)
-  const [isMobile, setIsMobile] = useState(false)
-  const [orientations, setOrientations] = useState({})
+  const [lightboxIndex, setLightboxIndex] = useState(null)
 
   const photos = content.gallery
   const total = photos.length
 
-  // Mobile viewport detection (< 640px)
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  // Split into 2 masonry columns — alternate left/right
+  // Show first 5 photos in grid; rest only accessible via lightbox
+  const VISIBLE = 5
+  const visiblePhotos = photos.slice(0, VISIBLE)
+  const leftCol = visiblePhotos.filter((_, i) => i % 2 === 0)   // 0, 2, 4
+  const rightCol = visiblePhotos.filter((_, i) => i % 2 === 1)  // 1, 3
 
-  // Preload and detect image orientations (landscape vs portrait)
-  useEffect(() => {
-    photos.forEach((photo) => {
-      const img = new Image()
-      img.src = photo.src
-      img.onload = () => {
-        setOrientations((prev) => ({
-          ...prev,
-          [photo.src]: img.naturalWidth > img.naturalHeight ? 'landscape' : 'portrait',
-        }))
-      }
-    })
-  }, [photos])
+  const isOpen = lightboxIndex !== null
+  const openAt = (idx) => setLightboxIndex(idx)
+  const prev = () => setLightboxIndex((i) => (i - 1 + total) % total)
+  const next = () => setLightboxIndex((i) => (i + 1) % total)
+  const close = () => setLightboxIndex(null)
 
-  const handleImageLoad = (src, e) => {
-    const { naturalWidth, naturalHeight } = e.target
-    if (naturalWidth && naturalHeight) {
-      const isLandscape = naturalWidth > naturalHeight
-      setOrientations((prev) => {
-        if (prev[src] === (isLandscape ? 'landscape' : 'portrait')) return prev
-        return { ...prev, [src]: isLandscape ? 'landscape' : 'portrait' }
-      })
-    }
-  }
-
-  const isLandscapePhoto = (photo) => {
-    if (!photo || !photo.src) return false
-    if (photo.src.includes('-landscape')) return true
-    return orientations[photo.src] === 'landscape'
-  }
-
-  // Slide grouping: 
-  // Desktop: 1 photo per slide
-  // Mobile: 2 landscape photos per slide (top & bottom), 1 portrait per slide
-  const slides = useMemo(() => {
-    if (!isMobile) {
-      return photos.map((photo) => [photo])
-    }
-
-    const result = []
-    const landscapeQueue = []
-
-    for (let i = 0; i < photos.length; i++) {
-      const photo = photos[i]
-      if (isLandscapePhoto(photo)) {
-        landscapeQueue.push(photo)
-        if (landscapeQueue.length === 2) {
-          result.push([...landscapeQueue])
-          landscapeQueue.length = 0
-        }
-      } else {
-        result.push([photo])
-      }
-    }
-
-    while (landscapeQueue.length > 0) {
-      if (landscapeQueue.length >= 2) {
-        result.push([landscapeQueue.shift(), landscapeQueue.shift()])
-      } else {
-        result.push([landscapeQueue.shift()])
-      }
-    }
-
-    return result
-  }, [photos, isMobile, orientations])
-
-  const totalSlides = slides.length
-  const isOpen = slideIndex !== null
-
-  const openPhotoInLightbox = (photo) => {
-    const targetIndex = slides.findIndex((slide) =>
-      slide.some((p) => p.src === photo.src)
-    )
-    setSlideIndex(targetIndex !== -1 ? targetIndex : 0)
-  }
-
-  const prev = () => setSlideIndex((i) => (i - 1 + totalSlides) % totalSlides)
-  const next = () => setSlideIndex((i) => (i + 1) % totalSlides)
-  const close = () => setSlideIndex(null)
-
-  // Keyboard navigation
+  // Keyboard
   useEffect(() => {
     if (!isOpen) return
-    function onKey(e) {
+    const onKey = (e) => {
       if (e.key === 'ArrowLeft') prev()
       if (e.key === 'ArrowRight') next()
       if (e.key === 'Escape') close()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isOpen, slideIndex, totalSlides])
+  }, [isOpen, lightboxIndex])
 
-  // Lock body scroll when lightbox is open
+  // Body scroll lock
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
-  // Touch/swipe support
-  const [touchStartX, setTouchStartX] = useState(null)
-  function onTouchStart(e) { setTouchStartX(e.touches[0].clientX) }
-  function onTouchEnd(e) {
-    if (touchStartX === null) return
-    const dx = e.changedTouches[0].clientX - touchStartX
+  // Swipe
+  const [touchStart, setTouchStart] = useState(null)
+  const onTouchStart = (e) => setTouchStart(e.touches[0].clientX)
+  const onTouchEnd = (e) => {
+    if (touchStart === null) return
+    const dx = e.changedTouches[0].clientX - touchStart
     if (Math.abs(dx) > 40) dx < 0 ? next() : prev()
-    setTouchStartX(null)
+    setTouchStart(null)
   }
 
   if (total === 0) return null
 
-  // 4-photo grid: 1 hero (top), 3 thumbnails (bottom row)
-  const gridPhotos = photos.slice(0, 4)
-  const [hero, ...thumbs] = gridPhotos
-  const currentSlide = isOpen ? slides[slideIndex] : null
+  const currentPhoto = isOpen ? photos[lightboxIndex] : null
 
   return (
     <Section id="gallery" bg="mist" fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
+      {/* Section title */}
       <Reveal variant="scaleUp">
-        <h2 className="font-display text-2xl text-center text-sea mb-8">{t('gallery.title')}</h2>
+        <h2 className="font-display text-2xl text-center text-sea mb-2">
+          {t('gallery.title')}
+        </h2>
+        <p className="text-center text-sea/40 text-xs tracking-[0.25em] uppercase mb-8">
+          {total} photos
+        </p>
       </Reveal>
 
-      <Reveal variant="scaleUp" delay={0.1}>
-        <div className="flex flex-col gap-2">
-          {/* Hero row */}
-          <button
-            type="button"
-            onClick={() => openPhotoInLightbox(hero)}
-            aria-label="Open photo 1"
-            className="relative overflow-hidden rounded-2xl block group w-full"
-            style={{ aspectRatio: '4/3' }}
-          >
-            <img
-              src={hero.src}
-              alt={hero.alt}
-              loading="lazy"
-              onLoad={(e) => handleImageLoad(hero.src, e)}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300" />
-          </button>
-
-          {/* Thumbnail row — 3 images */}
-          <div className="flex gap-2">
-            {thumbs.map((photo) => {
-              const photoIdx = photos.indexOf(photo)
-              const isLast = photoIdx === gridPhotos.length - 1 && total > 4
-              return (
-                <button
-                  key={photo.src}
-                  type="button"
-                  onClick={() => openPhotoInLightbox(photo)}
-                  aria-label={`Open photo ${photoIdx + 1}`}
-                  className="relative overflow-hidden rounded-2xl flex-1 block group"
-                  style={{ aspectRatio: '1/1' }}
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    loading="lazy"
-                    onLoad={(e) => handleImageLoad(photo.src, e)}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {/* "+N more" overlay on last visible thumb if there are hidden photos */}
-                  {isLast && total > 4 && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-sea-dark/55 backdrop-blur-sm">
-                      <span className="font-display text-white text-xl">+{total - 4}</span>
-                    </div>
-                  )}
-                  {!isLast && (
-                    <div className="absolute inset-0 bg-sea/0 group-hover:bg-sea/20 transition-colors duration-300" />
-                  )}
-                </button>
-              )
-            })}
-          </div>
+      {/* ── Masonry grid ── */}
+      <div className="flex gap-2.5 items-start">
+        {/* Left column — starts at top */}
+        <div className="flex flex-col gap-2.5 flex-1">
+          {leftCol.map((photo) => {
+            const idx = photos.indexOf(photo)
+            return (
+              <MasonryPhoto
+                key={photo.src}
+                photo={photo}
+                index={idx}
+                onClick={openAt}
+              />
+            )
+          })}
         </div>
-      </Reveal>
 
-      {/* Fullscreen Lightbox */}
+        {/* Right column — offset down to create masonry rhythm */}
+        <div className="flex flex-col gap-2.5 flex-1 mt-10">
+          {rightCol.map((photo) => {
+            const idx = photos.indexOf(photo)
+            const isLast = idx === VISIBLE - 2 && total > VISIBLE
+            return isLast ? (
+              <MoreTile
+                key={photo.src}
+                count={total - VISIBLE + 1}
+                lastPhoto={photo}
+                onClick={() => openAt(idx)}
+              />
+            ) : (
+              <MasonryPhoto
+                key={photo.src}
+                photo={photo}
+                index={idx}
+                onClick={openAt}
+              />
+            )
+          })}
+        </div>
+      </div>
+
+      {/* ── Lightbox ── */}
       {isOpen && createPortal(
         <AnimatePresence>
           <motion.div
+            key="lightbox-backdrop"
             className="fixed inset-0 flex items-center justify-center"
-            style={{ zIndex: 9999, backgroundColor: 'rgba(28,25,23,0.97)' }}
+            style={{ zIndex: 9999, backgroundColor: 'rgba(15,12,10,0.96)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -213,54 +189,29 @@ export default function Gallery() {
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
+            {/* Photo */}
             <AnimatePresence mode="wait">
-              {currentSlide && currentSlide.length > 1 ? (
-                <motion.div
-                  key={`slide-${slideIndex}-${currentSlide[0].src}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex flex-col items-center justify-center gap-3 px-12 py-14 max-h-[82vh] max-w-full"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <img
-                    src={currentSlide[0].src}
-                    alt={currentSlide[0].alt}
-                    onLoad={(e) => handleImageLoad(currentSlide[0].src, e)}
-                    className="max-h-[38vh] w-auto max-w-full object-contain rounded-xl shadow-lg border border-cream/10"
-                    draggable={false}
-                  />
-                  <img
-                    src={currentSlide[1].src}
-                    alt={currentSlide[1].alt}
-                    onLoad={(e) => handleImageLoad(currentSlide[1].src, e)}
-                    className="max-h-[38vh] w-auto max-w-full object-contain rounded-xl shadow-lg border border-cream/10"
-                    draggable={false}
-                  />
-                </motion.div>
-              ) : currentSlide && currentSlide.length === 1 ? (
+              {currentPhoto && (
                 <motion.img
-                  key={`slide-${slideIndex}-${currentSlide[0].src}`}
-                  src={currentSlide[0].src}
-                  alt={currentSlide[0].alt}
-                  onLoad={(e) => handleImageLoad(currentSlide[0].src, e)}
-                  initial={{ opacity: 0, x: 40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -40 }}
-                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  key={`lb-${lightboxIndex}`}
+                  src={currentPhoto.src}
+                  alt={currentPhoto.alt}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.03 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="max-w-full max-h-full object-contain px-14 py-12"
                   onClick={(e) => e.stopPropagation()}
                   draggable={false}
                 />
-              ) : null}
+              )}
             </AnimatePresence>
 
             {/* Close */}
             <button
               type="button"
               onClick={close}
-              aria-label="Close"
+              aria-label="Close lightbox"
               className="absolute top-5 right-5 text-cream w-10 h-10 flex items-center justify-center rounded-full border border-cream/30 hover:bg-cream/10 transition-colors text-2xl leading-none"
             >
               &times;
@@ -287,19 +238,19 @@ export default function Gallery() {
             </button>
 
             {/* Counter */}
-            <p className="absolute bottom-14 text-cream/50 text-xs tracking-widest">
-              {slideIndex + 1} / {totalSlides}
+            <p className="absolute bottom-14 text-cream/40 text-xs tracking-[0.2em]">
+              {lightboxIndex + 1} / {total}
             </p>
 
-            {/* Dot indicators */}
-            <div className="absolute bottom-6 flex gap-2 justify-center flex-wrap px-8">
-              {slides.map((_, i) => (
+            {/* Dot strip */}
+            <div className="absolute bottom-6 flex gap-1.5 justify-center flex-wrap px-8">
+              {photos.map((_, i) => (
                 <button
                   key={i}
-                  onClick={(e) => { e.stopPropagation(); setSlideIndex(i) }}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === slideIndex ? 'bg-cream w-5' : 'bg-cream/30 w-1.5'
+                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i) }}
+                  aria-label={`Go to photo ${i + 1}`}
+                  className={`h-1 rounded-full transition-all duration-300 ${
+                    i === lightboxIndex ? 'bg-cream w-6' : 'bg-cream/25 w-1'
                   }`}
                 />
               ))}
