@@ -10,7 +10,7 @@ export const content = {
       fullName: 'Mohamad Ilham Firdaus, S.Kom.',
       nickname: 'Ilham',
       instagram: '@ilhamfirdaa',
-      photo: '/assets/photos/portrait/prita-ilham-08.webp',
+      photo: '/assets/groom.webp',
       parents: {
         id: 'Putra dari\nBpk. Iwan Ridwan &\nIbu Alm. Sopiah',
         en: 'Son of\nMr. Iwan Ridwan &\nMrs. Sopiah (Almh.)',
@@ -20,7 +20,7 @@ export const content = {
       fullName: 'Prita Sekar Primadiani, S.AB.',
       nickname: 'Prita',
       instagram: '@pritaskr',
-      photo: '/assets/photos/portrait/prita-ilham-10.webp',
+      photo: '/assets/bride.webp',
       parents: {
         id: 'Putri dari\nBpk. Ilham Philipinaryo &\nIbu Dian Novianti Dwitasari',
         en: 'Daughter of\nMr. Ilham Philipinaryo &\nMrs. Dian Novianti Dwitasari',
@@ -82,15 +82,15 @@ export const content = {
     { src: '/assets/photos/portrait/prita-ilham-06.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-02.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-03.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/portrait/prita-ilham-12.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-07.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-01.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/portrait/prita-ilham-12.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/portrait/prita-ilham-10.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/landscape/prita-ilham-04.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/landscape/prita-ilham-05.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-06.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-08.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/portrait/prita-ilham-08.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-04.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/landscape/prita-ilham-05.webp', alt: 'Prita & Ilham' },
   ],
 
   gifts: [
