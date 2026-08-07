@@ -110,19 +110,6 @@ export default function OurStory() {
                 }}
               />
 
-              {/* Year — large watermark style */}
-              <span
-                className="absolute top-4 right-5 font-display font-bold select-none"
-                style={{
-                  fontSize: '4rem',
-                  lineHeight: 1,
-                  color: 'rgba(255,255,255,0.09)',
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {item.year}
-              </span>
-
               {/* Text overlay */}
               <div className="absolute bottom-0 left-0 right-0 px-5 pb-6 pt-10">
                 {/* Year pill */}

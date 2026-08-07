@@ -50,30 +50,30 @@ export const content = {
 
   story: [
     {
-      year: '2019',
+      year: '2023',
       photo: '/assets/photos/portrait/prita-ilham-02.webp',
       title: { id: 'Pertama Bertemu', en: 'First Meeting' },
       caption: {
-        id: 'Placeholder — ceritakan bagaimana kalian pertama kali bertemu.',
-        en: 'Placeholder — tell how you first met.',
+        id: 'Kami pertama kali bertemu di atap tertinggi Jawa Tengah — Gunung Slamet.',
+        en: 'We first met at the highest peak of Central Java — Mount Slamet.',
       },
     },
     {
-      year: '2022',
+      year: '2023 - 2026',
       photo: '/assets/photos/portrait/prita-ilham-11.webp',
       title: { id: 'Menjadi Dekat', en: 'Growing Close' },
       caption: {
-        id: 'Placeholder — ceritakan momen yang membuat kalian semakin dekat.',
-        en: 'Placeholder — describe the moment that brought you closer.',
+        id: 'Selama 3 tahun kami saling mengenal satu sama lain — saling merayakan di momen terbaik kami, dan saling menguatkan di titik tersulit kami.',
+        en: 'Over three years, we grew to truly know each other — celebrating the best moments together and holding each other up through the hardest ones.',
       },
     },
     {
-      year: '2025',
+      year: '2026',
       photo: '/assets/photos/portrait/prita-ilham-05.webp',
       title: { id: 'Lamaran', en: 'The Proposal' },
       caption: {
-        id: 'Placeholder — ceritakan momen lamaran kalian.',
-        en: 'Placeholder — describe your proposal moment.',
+        id: '1 Agustus menjadi momen penting kami — di hadapan orang tua, keluarga, dan sahabat.',
+        en: 'August 1st became our most meaningful milestone — surrounded by our parents, family, and closest friends.',
       },
     },
   ],
