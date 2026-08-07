@@ -131,10 +131,10 @@ export const content = {
   countdown: {
     // Images for the auto-play carousel background — mobile (portrait)
     images: [
-      '/assets/photos/portrait/prita-ilham-09.webp',
-      '/assets/photos/portrait/prita-ilham-03.webp',
       '/assets/photos/portrait/prita-ilham-01.webp',
       '/assets/photos/portrait/prita-ilham-07.webp',
+      '/assets/photos/portrait/prita-ilham-09.webp',
+      '/assets/photos/portrait/prita-ilham-03.webp',
     ],
     // Images for the auto-play carousel background — desktop (landscape, ≥ 1024 px)
     imagesDesktop: [
