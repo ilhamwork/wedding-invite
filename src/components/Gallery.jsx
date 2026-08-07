@@ -72,10 +72,45 @@ function MoreTile({ count, lastPhoto, onClick }) {
 // ─── Main Gallery ─────────────────────────────────────────────────────────────
 export default function Gallery() {
   const { t } = useTranslation()
-  const [lightboxIndex, setLightboxIndex] = useState(null)
+  const [slotIndex, setSlotIndex] = useState(null)
 
   const photos = content.gallery
   const total = photos.length
+
+  // ── Build slot list ──────────────────────────────────────────────────────────
+  // A "slot" is either:
+  //   { type: 'single', idx }              — portrait or lone landscape
+  //   { type: 'pair',   idx, idx2 }        — two consecutive landscape photos
+  //
+  // Rule: if photos[i] and photos[i+1] are both landscape → merge into one pair slot,
+  //       then skip i+1 (it's consumed).
+  const isLandscape = (i) => photos[i]?.src.includes('landscape')
+
+  const slots = []
+  let i = 0
+  while (i < total) {
+    if (isLandscape(i) && isLandscape(i + 1)) {
+      slots.push({ type: 'pair', idx: i, idx2: i + 1 })
+      i += 2
+    } else {
+      slots.push({ type: 'single', idx: i })
+      i += 1
+    }
+  }
+
+  // Map raw photo index → slot index (used when tapping a grid tile)
+  const photoToSlot = {}
+  slots.forEach((slot, si) => {
+    photoToSlot[slot.idx] = si
+    if (slot.idx2 != null) photoToSlot[slot.idx2] = si
+  })
+
+  const totalSlots = slots.length
+  const isOpen = slotIndex !== null
+  const openAt = (photoIdx) => setSlotIndex(photoToSlot[photoIdx] ?? 0)
+  const prev = () => setSlotIndex((s) => (s - 1 + totalSlots) % totalSlots)
+  const next = () => setSlotIndex((s) => (s + 1) % totalSlots)
+  const close = () => setSlotIndex(null)
 
   // Split into 2 masonry columns — alternate left/right
   // Show first 5 photos in grid; rest only accessible via lightbox
@@ -83,12 +118,6 @@ export default function Gallery() {
   const visiblePhotos = photos.slice(0, VISIBLE)
   const leftCol = visiblePhotos.filter((_, i) => i % 2 === 0)   // 0, 2, 4
   const rightCol = visiblePhotos.filter((_, i) => i % 2 === 1)  // 1, 3
-
-  const isOpen = lightboxIndex !== null
-  const openAt = (idx) => setLightboxIndex(idx)
-  const prev = () => setLightboxIndex((i) => (i - 1 + total) % total)
-  const next = () => setLightboxIndex((i) => (i + 1) % total)
-  const close = () => setLightboxIndex(null)
 
   // Keyboard
   useEffect(() => {
@@ -100,7 +129,7 @@ export default function Gallery() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isOpen, lightboxIndex])
+  }, [isOpen, slotIndex])
 
   // Body scroll lock
   useEffect(() => {
@@ -120,7 +149,7 @@ export default function Gallery() {
 
   if (total === 0) return null
 
-  const currentPhoto = isOpen ? photos[lightboxIndex] : null
+  const currentSlot = isOpen ? slots[slotIndex] : null
 
   return (
     <Section id="gallery" bg="mist" fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
@@ -189,21 +218,35 @@ export default function Gallery() {
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            {/* Photo */}
+            {/* Photo(s) */}
             <AnimatePresence mode="wait">
-              {currentPhoto && (
-                <motion.img
-                  key={`lb-${lightboxIndex}`}
-                  src={currentPhoto.src}
-                  alt={currentPhoto.alt}
+              {currentSlot && (
+                <motion.div
+                  key={`lb-${slotIndex}`}
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.03 }}
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className="max-w-full max-h-full object-contain px-14 py-12"
+                  className={`flex px-10 py-4 ${currentSlot.type === 'pair' ? 'flex-col gap-1.5 items-center' : 'items-center justify-center'}`}
+                  style={{ maxWidth: '100%', maxHeight: '100vh' }}
                   onClick={(e) => e.stopPropagation()}
                   draggable={false}
-                />
+                >
+                  <img
+                    src={photos[currentSlot.idx].src}
+                    alt={photos[currentSlot.idx].alt}
+                    className={`object-contain ${currentSlot.type === 'pair' ? 'max-w-full max-h-[46vh]' : 'max-w-full max-h-[92vh]'}`}
+                    draggable={false}
+                  />
+                  {currentSlot.type === 'pair' && (
+                    <img
+                      src={photos[currentSlot.idx2].src}
+                      alt={photos[currentSlot.idx2].alt}
+                      className="object-contain max-w-full max-h-[46vh]"
+                      draggable={false}
+                    />
+                  )}
+                </motion.div>
               )}
             </AnimatePresence>
 
@@ -239,18 +282,18 @@ export default function Gallery() {
 
             {/* Counter */}
             <p className="absolute bottom-14 text-cream/40 text-xs tracking-[0.2em]">
-              {lightboxIndex + 1} / {total}
+              {slotIndex + 1} / {totalSlots}
             </p>
 
             {/* Dot strip */}
             <div className="absolute bottom-6 flex gap-1.5 justify-center flex-wrap px-8">
-              {photos.map((_, i) => (
+              {slots.map((slot, si) => (
                 <button
-                  key={i}
-                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i) }}
-                  aria-label={`Go to photo ${i + 1}`}
+                  key={si}
+                  onClick={(e) => { e.stopPropagation(); setSlotIndex(si) }}
+                  aria-label={`Go to photo ${si + 1}`}
                   className={`h-1 rounded-full transition-all duration-300 ${
-                    i === lightboxIndex ? 'bg-cream w-6' : 'bg-cream/25 w-1'
+                    si === slotIndex ? 'bg-cream w-6' : 'bg-cream/25 w-1'
                   }`}
                 />
               ))}

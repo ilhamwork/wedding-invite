@@ -49,14 +49,26 @@ export default function Countdown() {
   )
 
   const carouselImages = content.countdown?.images ?? content.gallery.map((g) => g.src)
+  const carouselImagesDesktop = content.countdown?.imagesDesktop ?? carouselImages
+
+  // Responsive: use landscape images on desktop (≥ 1024px)
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 1024px)').matches)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const handler = (e) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  const activeImages = isDesktop ? carouselImagesDesktop : carouselImages
+
   const [activeIdx, setActiveIdx] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % carouselImages.length)
+      setActiveIdx((prev) => (prev + 1) % activeImages.length)
     }, content.countdown?.slideDuration ?? 3500)
     return () => clearInterval(interval)
-  }, [carouselImages.length])
+  }, [activeImages.length])
 
   return (
     <section
@@ -67,8 +79,8 @@ export default function Countdown() {
       {/* ── Background carousel ── */}
       <AnimatePresence>
         <motion.img
-          key={carouselImages[activeIdx]}
-          src={carouselImages[activeIdx]}
+          key={activeImages[activeIdx]}
+          src={activeImages[activeIdx]}
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center"

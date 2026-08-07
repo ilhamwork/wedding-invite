@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
 import { content } from '../config/content.config'
 import Section, { Reveal } from './ui/Section'
 
@@ -11,6 +12,18 @@ function formatEventDate(isoString) {
 export default function Closing() {
   const { t } = useTranslation()
   const eventDate = formatEventDate(content.event.akad.dateISO)
+
+  // Responsive photo: landscape on desktop (≥ 1024px)
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 1024px)').matches)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const handler = (e) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  const closingPhoto = isDesktop && content.closing?.photoDesktop
+    ? content.closing.photoDesktop
+    : content.closing?.photo
 
   return (
     <div id="closing">
@@ -34,13 +47,13 @@ export default function Closing() {
       </Section>
 
       {/* Full-bleed half photo */}
-      {content.closing?.photo && (
+      {closingPhoto && (
         <div
           className="relative w-full overflow-hidden"
           style={{ height: '55vw', maxHeight: 400, backgroundColor: '#EEE9DE' }}
         >
           <img
-            src={content.closing.photo}
+            src={closingPhoto}
             alt=""
             aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover object-top"

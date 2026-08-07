@@ -115,24 +115,33 @@ export const content = {
   },
 
   cover: {
-    // Portrait photo — fills the full-height mobile cover
+    // Portrait photo — mobile
     photo: '/assets/photos/portrait/prita-ilham-04.webp',
+    // Landscape photo — desktop (≥ 1024 px)
+    photoDesktop: '/assets/photos/landscape/prita-ilham-01.webp',
   },
 
   closing: {
     // Background photo shown at the bottom of the thank-you section.
     photo: '/assets/photos/landscape/prita-ilham-09.webp',
+    // Landscape photo — desktop (≥ 1024 px)
+    photoDesktop: '/assets/photos/landscape/prita-ilham-09.webp',
   },
 
   countdown: {
-    // Images for the auto-play carousel background (fade-in/out, no controls).
-    // Falls back to all gallery photos if not set.
-    // Tip: add as many photos as you like; order matters.
+    // Images for the auto-play carousel background — mobile (portrait)
     images: [
       '/assets/photos/portrait/prita-ilham-09.webp',
       '/assets/photos/portrait/prita-ilham-03.webp',
       '/assets/photos/portrait/prita-ilham-01.webp',
       '/assets/photos/portrait/prita-ilham-07.webp',
+    ],
+    // Images for the auto-play carousel background — desktop (landscape, ≥ 1024 px)
+    imagesDesktop: [
+      '/assets/photos/landscape/prita-ilham-02.webp',
+      '/assets/photos/landscape/prita-ilham-04.webp',
+      '/assets/photos/landscape/prita-ilham-06.webp',
+      '/assets/photos/landscape/prita-ilham-08.webp',
     ],
     // How long each slide is visible (milliseconds) before crossfading to the next.
     slideDuration: 3000,

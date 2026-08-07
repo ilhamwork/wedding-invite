@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { content } from '../config/content.config'
@@ -14,6 +14,18 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
   const { t } = useTranslation()
   const [isOpening, setIsOpening] = useState(false)
   const { unlockAndPlay } = useAudio()
+
+  // Responsive photo: landscape on desktop (≥ 1024px), portrait on mobile
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 1024px)').matches)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const handler = (e) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  const coverPhoto = isDesktop && content.cover.photoDesktop
+    ? content.cover.photoDesktop
+    : content.cover.photo
 
   function handleOpen() {
     if (isOpening) return
@@ -32,7 +44,7 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
       <motion.div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url('${content.cover.photo}')`,
+          backgroundImage: `url('${coverPhoto}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
         }}

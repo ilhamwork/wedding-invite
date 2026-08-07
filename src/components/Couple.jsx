@@ -11,8 +11,8 @@ const ease = [0.22, 1, 0.36, 1]
  * Oval photo frame — centered, with book-page reveal animation.
  */
 function OvalFrame({ src, alt, side = 'left', size = 'lg' }) {
-  const w = size === 'sm' ? 170 : 220
-  const h = size === 'sm' ? 230 : 300
+  const w = size === 'sm' ? 170 : size === 'xl' ? 280 : 220
+  const h = size === 'sm' ? 230 : size === 'xl' ? 380 : 300
   return (
     <div
       style={{
@@ -158,16 +158,21 @@ export default function Couple() {
 
               {/* Bride column */}
               <div className="flex flex-col items-center text-center">
-                <OvalFrame src={bride.photo} alt={bride.fullName} side="left" size="sm" />
+                <div className="block lg:hidden">
+                  <OvalFrame src={bride.photo} alt={bride.fullName} side="left" size="sm" />
+                </div>
+                <div className="hidden lg:block">
+                  <OvalFrame src={bride.photo} alt={bride.fullName} side="left" size="xl" />
+                </div>
                 <h3
-                  className="font-display font-semibold leading-tight mt-5 mb-1 px-2"
+                  className="font-display font-semibold leading-tight mt-5 mb-1 px-2 lg:text-2xl"
                   style={{ fontSize: '1.25rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
                 >
                   {bride.fullName}
                 </h3>
                 {bride.parents?.[lang] && (
                   <p
-                    className="text-xs leading-relaxed whitespace-pre-line px-2 mt-1"
+                    className="text-xs lg:text-sm leading-relaxed whitespace-pre-line px-2 mt-1"
                     style={{ color: 'rgba(74,95,122,0.85)' }}
                   >
                     {bride.parents[lang]}
@@ -189,16 +194,21 @@ export default function Couple() {
 
               {/* Groom column */}
               <div className="flex flex-col items-center text-center">
-                <OvalFrame src={groom.photo} alt={groom.fullName} side="right" size="sm" />
+                <div className="block lg:hidden">
+                  <OvalFrame src={groom.photo} alt={groom.fullName} side="right" size="sm" />
+                </div>
+                <div className="hidden lg:block">
+                  <OvalFrame src={groom.photo} alt={groom.fullName} side="right" size="xl" />
+                </div>
                 <h3
-                  className="font-display font-semibold leading-tight mt-5 mb-1 px-2"
+                  className="font-display font-semibold leading-tight mt-5 mb-1 px-2 lg:text-2xl"
                   style={{ fontSize: '1.25rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
                 >
                   {groom.fullName}
                 </h3>
                 {groom.parents?.[lang] && (
                   <p
-                    className="text-xs leading-relaxed whitespace-pre-line px-2 mt-1"
+                    className="text-xs lg:text-sm leading-relaxed whitespace-pre-line px-2 mt-1"
                     style={{ color: 'rgba(74,95,122,0.85)' }}
                   >
                     {groom.parents[lang]}
