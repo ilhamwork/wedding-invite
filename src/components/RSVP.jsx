@@ -37,7 +37,7 @@ export default function RSVP({ guestName }) {
       const { error } = await supabase.from('rsvps').insert({
         guest_name: name.trim(),
         attendance_status: attendance,
-        guest_count: attendance === 'attending' ? guestCount : 0,
+        guest_count: attendance === 'attending' ? guestCount : 1,
         message: message.trim() || null,
       })
       if (error) throw error
