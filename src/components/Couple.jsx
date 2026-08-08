@@ -104,7 +104,7 @@ export default function Couple() {
                 className="font-display font-semibold leading-tight mt-6 mb-1 px-4"
                 style={{ fontSize: '1.55rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
               >
-                {bride.fullName}
+                Prita Sekar<br />Primadiani, S.AB.
               </h3>
               {bride.parents?.[lang] && (
                 <p
@@ -137,7 +137,7 @@ export default function Couple() {
                 className="font-display font-semibold leading-tight mt-6 mb-1 px-4"
                 style={{ fontSize: '1.55rem', color: '#2E3A4F', letterSpacing: '0.02em' }}
               >
-                {groom.fullName}
+                Mohamad Ilham<br />Firdaus, S.Kom.
               </h3>
               {groom.parents?.[lang] && (
                 <p
