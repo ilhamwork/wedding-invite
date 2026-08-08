@@ -3,7 +3,10 @@
     "invitedTo": "Dear",
     "fallbackGuest": "Honored Guest",
     "eyebrow": "We invite you to The Wedding of",
-    "cta": "Open Invitation"
+    "cta": "Open Invitation",
+    "notInvitedSalutation": "We're sorry,",
+    "notInvitedTitle": "Your name is not on our guest list.",
+    "notInvitedBody": "It looks like this invitation wasn't meant for you. Please check the link you received."
   },
   "hero": {
     "eyebrow": "Wedding Invitation",

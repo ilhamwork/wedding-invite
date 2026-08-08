@@ -54,8 +54,8 @@ export const content = {
       photo: '/assets/photos/portrait/prita-ilham-02.webp',
       title: { id: 'Pertama Bertemu', en: 'First Meeting' },
       caption: {
-        id: 'Kami pertama kali bertemu di atap tertinggi Jawa Tengah — Gunung Slamet.',
-        en: 'We first met at the highest peak of Central Java — Mount Slamet.',
+        id: 'Kami pertama kali bertemu di atap tertinggi Jawa Tengah, Gunung Slamet.',
+        en: 'We first met at the highest peak of Central Java, Mount Slamet.',
       },
     },
     {
@@ -63,8 +63,8 @@ export const content = {
       photo: '/assets/photos/portrait/prita-ilham-11.webp',
       title: { id: 'Menjadi Dekat', en: 'Growing Close' },
       caption: {
-        id: 'Selama 3 tahun kami saling mengenal satu sama lain — saling merayakan di momen terbaik kami, dan saling menguatkan di titik tersulit kami.',
-        en: 'Over three years, we grew to truly know each other — celebrating the best moments together and holding each other up through the hardest ones.',
+        id: 'Selama 3 tahun kami saling mengenal satu sama lain. Saling merayakan di momen terbaik kami, dan saling menguatkan di titik tersulit kami.',
+        en: 'Over three years, we grew to truly know each other. Celebrating the best moments together and holding each other up through the hardest ones.',
       },
     },
     {
@@ -72,8 +72,8 @@ export const content = {
       photo: '/assets/photos/portrait/prita-ilham-05.webp',
       title: { id: 'Lamaran', en: 'The Proposal' },
       caption: {
-        id: '1 Agustus menjadi momen penting kami — di hadapan orang tua, keluarga, dan sahabat.',
-        en: 'August 1st became our most meaningful milestone — surrounded by our parents, family, and closest friends.',
+        id: '1 Agustus menjadi momen penting kami, di hadapan orang tua, keluarga, dan sahabat.',
+        en: 'August 1st became our most meaningful milestone, surrounded by our parents, family, and closest friends.',
       },
     },
   ],

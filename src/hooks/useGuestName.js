@@ -6,14 +6,16 @@ import { supabase, isSupabaseConfigured } from '../lib/supabaseClient'
  * validated against the `guests` table in Supabase.
  *
  * - `?to=john`  → SELECT name FROM guests WHERE slug = 'john'
- * - Found       → show name (e.g. "John")
- * - Not found   → guestName stays '', cover shows fallback
- * - No `?to=`   → guestName stays '', cover shows fallback
+ * - Found       → guestName = "John", notInvited = false
+ * - Not found   → guestName = '', notInvited = true  (block access)
+ * - No `?to=`   → guestName = '', notInvited = false (open access)
  *
- * Returns { guestName: string, loading: boolean }
+ * Returns { guestName, guestSlug, notInvited, loading }
  */
 export default function useGuestName() {
   const [guestName, setGuestName] = useState('')
+  const [guestSlug, setGuestSlug] = useState('')
+  const [notInvited, setNotInvited] = useState(false)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -25,6 +27,8 @@ export default function useGuestName() {
 
     const slug = decodeURIComponent(to).trim()
     if (!slug) return
+
+    setGuestSlug(slug)
 
     if (!isSupabaseConfigured) {
       console.warn('[useGuestName] Supabase not configured.')
@@ -43,6 +47,9 @@ export default function useGuestName() {
         if (cancelled) return
         if (!error && data?.name) {
           setGuestName(data.name)
+        } else {
+          // slug provided but not found in DB → not invited
+          setNotInvited(true)
         }
         setLoading(false)
       })
@@ -52,5 +59,5 @@ export default function useGuestName() {
     }
   }, [])
 
-  return { guestName, loading }
+  return { guestName, guestSlug, notInvited, loading }
 }

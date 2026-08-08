@@ -10,7 +10,7 @@ const fadeUp  = (delay = 0, y = 60)    => ({ initial: { opacity: 0, y },        
 const fadeIn  = (delay = 0, dur = 1.8) => ({ initial: { opacity: 0 },             animate: { opacity: 1 },          transition: { duration: dur,  ease, delay } })
 
 // ─── Cover Component ───────────────────────────────────────────────────────────
-export default function Cover({ guestName, guestLoading, onOpen }) {
+export default function Cover({ guestName, guestLoading, notInvited, onOpen }) {
   const { t } = useTranslation()
   const [isOpening, setIsOpening] = useState(false)
   const { unlockAndPlay } = useAudio()
@@ -96,43 +96,69 @@ export default function Cover({ guestName, guestLoading, onOpen }) {
         animate={isOpening ? { y: 30, opacity: 0 } : {}}
         transition={{ duration: 0.8, ease }}
       >
-        {/* Dear guest — always shown, fallback to generic text */}
-        <motion.div className="mb-3" {...fadeIn(1.0)}>
-          <p className="font-script italic text-[24px] tracking-widest text-white/80">
-            Dear,
-          </p>
-          {guestLoading ? (
-            /* Skeleton shimmer while fetching from DB */
-            <div
-              className="mx-auto h-6 rounded-full animate-pulse"
-              style={{ width: '9rem', backgroundColor: 'rgba(255,255,255,0.20)' }}
-            />
-          ) : (
-            <p className="font-display text-xl sm:text-2xl text-white/90">
-              {guestName || t('cover.fallbackGuest')}
+        {notInvited ? (
+          /* ── Not invited state ── */
+          <motion.div className="text-center" {...fadeIn(0.8)}>
+            <p className="font-script italic text-[22px] text-white/60 mb-3">
+              {t('cover.notInvitedSalutation')}
             </p>
-          )}
-        </motion.div>
+            <div
+              className="rounded-2xl px-6 py-5 text-center"
+              style={{
+                background: 'rgba(0,0,0,0.40)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <p className="font-display text-base text-white/90 mb-1">
+                {t('cover.notInvitedTitle')}
+              </p>
+              <p className="text-sm text-white/55 leading-relaxed max-w-xs">
+                {t('cover.notInvitedBody')}
+              </p>
+            </div>
+          </motion.div>
+        ) : (
+          <>
+            {/* Dear guest — always shown, fallback to generic text */}
+            <motion.div className="mb-3" {...fadeIn(1.0)}>
+              <p className="font-script italic text-[24px] tracking-widest text-white/80">
+                Dear,
+              </p>
+              {guestLoading ? (
+                /* Skeleton shimmer while fetching from DB */
+                <div
+                  className="mx-auto h-6 rounded-full animate-pulse"
+                  style={{ width: '9rem', backgroundColor: 'rgba(255,255,255,0.20)' }}
+                />
+              ) : (
+                <p className="font-display text-xl sm:text-2xl text-white/90">
+                  {guestName || t('cover.fallbackGuest')}
+                </p>
+              )}
+            </motion.div>
 
-        {/* CTA button */}
-        <motion.button
-          type="button"
-          onClick={handleOpen}
-          disabled={isOpening}
-          className="group relative flex items-center gap-2.5 px-8 py-3.5 rounded-full font-body text-[12px] tracking-[0.22em] uppercase overflow-hidden transition-transform active:scale-95 disabled:opacity-60"
-          style={{
-            background: 'rgba(255,255,255,0.12)',
-            border: '1px solid rgba(255,255,255,0.35)',
-            color: '#fff',
-            backdropFilter: 'blur(8px)',
-          }}
-          {...fadeUp(1.2, 10)}
-          whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.20)' }}
-          whileTap={{ scale: 0.96 }}
-        >
-          <span className="text-base">✉</span>
-          <span>{t('cover.cta')}</span>
-        </motion.button>
+            {/* CTA button */}
+            <motion.button
+              type="button"
+              onClick={handleOpen}
+              disabled={isOpening || guestLoading}
+              className="group relative flex items-center gap-2.5 px-8 py-3.5 rounded-full font-body text-[12px] tracking-[0.22em] uppercase overflow-hidden transition-transform active:scale-95 disabled:opacity-60"
+              style={{
+                background: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.35)',
+                color: '#fff',
+                backdropFilter: 'blur(8px)',
+              }}
+              {...fadeUp(1.2, 10)}
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.20)' }}
+              whileTap={{ scale: 0.96 }}
+            >
+              <span className="text-base">✉</span>
+              <span>{t('cover.cta')}</span>
+            </motion.button>
+          </>
+        )}
       </motion.div>
     </motion.div>
   )

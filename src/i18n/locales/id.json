@@ -3,7 +3,10 @@
     "invitedTo": "Kepada Bpk/Ibu/Sdr/i",
     "fallbackGuest": "Tamu Undangan",
     "eyebrow": "Kami Mengundang Anda ke Pernikahan",
-    "cta": "Buka Undangan"
+    "cta": "Buka Undangan",
+    "notInvitedSalutation": "Maaf,",
+    "notInvitedTitle": "Nama Anda tidak ada dalam daftar tamu.",
+    "notInvitedBody": "Sepertinya undangan ini bukan untuk Anda. Mohon periksa kembali link yang Anda terima."
   },
   "hero": {
     "eyebrow": "Undangan Pernikahan",

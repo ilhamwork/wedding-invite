@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient'
-import { Reveal } from './ui/Section'
 
 const PAGE_SIZE = 50
 
@@ -29,6 +28,18 @@ export default function RSVPWishes({ guestName }) {
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [justSubmittedId, setJustSubmittedId] = useState(null)
+
+  // Check if guest already submitted an RSVP
+  useEffect(() => {
+    if (!guestName || !isSupabaseConfigured) return
+    supabase
+      .from('rsvps')
+      .select('id', { count: 'exact', head: true })
+      .ilike('guest_name', guestName.trim())
+      .then(({ count }) => {
+        if (count && count > 0) setStatus('success')
+      })
+  }, [guestName])
 
   // Fetch wishes
   const fetchWishes = useCallback(async () => {
@@ -107,24 +118,37 @@ export default function RSVPWishes({ guestName }) {
     <section id="rsvp-wishes" className="relative" style={{ backgroundColor: '#EEE9DE' }}>
       <div className="relative px-6 sm:px-10 py-20 sm:py-24 max-w-5xl mx-auto">
 
-        <Reveal variant="fadeIn">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <h2 className="font-display text-2xl md:text-3xl text-center text-sea mb-10">
             {t('rsvp.title')}
           </h2>
-        </Reveal>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* ── Form Column ── */}
           <div>
             {status === 'success' ? (
-              <Reveal variant="fadeIn">
-                <div className="text-center py-8 bg-white/60 rounded-3xl border hairline p-6">
-                  <p className="font-display text-xl text-sea mb-2">{t('rsvp.successTitle')}</p>
-                  <p className="text-sm text-sea-light">{t('rsvp.successBody')}</p>
-                </div>
-              </Reveal>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                className="flex flex-col items-center justify-center text-center bg-white/60 rounded-3xl border hairline p-10"
+              >
+                <p className="font-display text-xl text-sea mb-2">{t('rsvp.successTitle')}</p>
+                <p className="text-sm text-sea-light">{t('rsvp.successBody')}</p>
+              </motion.div>
             ) : (
-              <Reveal variant="fadeUp" delay={0.1}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              >
                 <form onSubmit={handleSubmit} noValidate className="space-y-5 bg-white/40 rounded-3xl border hairline p-6">
 
                   {/* Name */}
@@ -136,9 +160,14 @@ export default function RSVPWishes({ guestName }) {
                       id="rf-name"
                       type="text"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => !guestName && setName(e.target.value)}
+                      readOnly={!!guestName}
                       placeholder={t('rsvp.namePlaceholder')}
-                      className="w-full rounded-xl border hairline bg-pebble/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30"
+                      className={`w-full rounded-xl border hairline px-4 py-2.5 text-sm focus:outline-none ${
+                        guestName
+                          ? 'bg-pebble/20 text-sea-light/70 cursor-default select-none'
+                          : 'bg-pebble/40 focus:ring-2 focus:ring-accent/30'
+                      }`}
                     />
                     {errors.name && <p className="text-xs text-sea-light/55 mt-1">{errors.name}</p>}
                   </div>
@@ -209,13 +238,18 @@ export default function RSVPWishes({ guestName }) {
                   </button>
 
                 </form>
-              </Reveal>
+              </motion.div>
             )}
           </div>
 
           {/* ── Wishes List Column ── */}
           <div>
-            <Reveal variant="fadeIn" delay={0.2}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            >
               <div className="rounded-3xl border hairline bg-white/60 p-6">
                 <h3 className="font-display text-lg text-sea mb-4">{t('wishes.title')}</h3>
                 <div className="wishes-scroll overflow-y-auto pr-2" style={{ maxHeight: '420px' }}>
@@ -244,7 +278,7 @@ export default function RSVPWishes({ guestName }) {
                   </AnimatePresence>
                 </div>
               </div>
-            </Reveal>
+            </motion.div>
           </div>
         </div>
 
