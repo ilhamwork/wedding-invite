@@ -1,4 +1,4 @@
-# Ilham & Prita — Digital Wedding Invitation
+# Prita & Ilham — Digital Wedding Invitation
 
 A mobile-first React + Vite wedding invitation site with RSVP, a public
 guestbook, multi-language copy (Bahasa Indonesia / English), and QR
@@ -51,6 +51,7 @@ should not need to touch any component.
 
 Search that file (and the codebase) for `TODO` to find every placeholder
 that needs real content before going live:
+
 - Exact venue address / coordinates
 - Real "Our Story" copy and photos
 - Real gallery photos (`public/assets/gallery-*.jpg`)
@@ -80,6 +81,7 @@ npm run build
 ```
 
 Then either:
+
 - Push to GitHub and import the repo in the Vercel dashboard, or
 - Run `vercel` from the project root (Vercel CLI).
 
