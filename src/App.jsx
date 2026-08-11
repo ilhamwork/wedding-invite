@@ -6,6 +6,7 @@ import Home from './pages/Home'
 
 const GuestCheckIn = lazy(() => import('./pages/GuestCheckIn'))
 const AdminCheckin = lazy(() => import('./pages/AdminCheckin'))
+const GuestList = lazy(() => import('./pages/GuestList'))
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/guest/:id" element={<GuestCheckIn />} />
             <Route path="/admin/checkin" element={<AdminCheckin />} />
+            <Route path="/guest-list" element={<GuestList />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
