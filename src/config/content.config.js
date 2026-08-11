@@ -55,16 +55,16 @@ export const content = {
       title: { id: 'Pertama Bertemu', en: 'Where Our Journey Began' },
       caption: {
         id: 'Kami pertama kali bertemu di atap tertinggi Jawa Tengah, Gunung Slamet.',
-        en: 'It all started with two strangers sharing stories about travel on social media. A simple conversation eventually led us to meet in person — at the highest peak of Central Java, Mount Slamet. Little did we know, that first adventure would become the beginning of our story.',
+        en: 'It all started from a simple conversation about travel that eventually led us to meet in person — at the highest peak of Central Java, Mount Slamet. Little did we know, that first adventure would become the beginning of our story.',
       },
     },
     {
       year: '2023 - 2026',
-      photo: '/assets/photos/portrait/prita-ilham-11.webp',
+      photo: '/assets/photos/portrait/prita-ilham-12.webp',
       title: { id: 'Menjadi Dekat', en: 'Growing Together' },
       caption: {
         id: 'Selama 3 tahun kami saling mengenal satu sama lain. Saling merayakan di momen terbaik kami, dan saling menguatkan di titik tersulit kami.',
-        en: 'For three wonderful years, we learned to know each other, grew together, and shared countless stories along the way. We celebrated the little things, created unforgettable memories, and stood by each other through the highs and lows of life.',
+        en: 'For three wonderful years, we learned to know each other, grew together, and shared countless stories along the way. We celebrated the little things and stood by each other through the highs and lows of life.',
       },
     },
     {
@@ -82,7 +82,7 @@ export const content = {
     { src: '/assets/photos/portrait/prita-ilham-06.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-02.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-03.webp', alt: 'Prita & Ilham' },
-    { src: '/assets/photos/portrait/prita-ilham-12.webp', alt: 'Prita & Ilham' },
+    { src: '/assets/photos/portrait/prita-ilham-11.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-07.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/landscape/prita-ilham-01.webp', alt: 'Prita & Ilham' },
     { src: '/assets/photos/portrait/prita-ilham-10.webp', alt: 'Prita & Ilham' },
@@ -118,7 +118,7 @@ export const content = {
     // Portrait photo — mobile
     photo: '/assets/photos/portrait/prita-ilham-04.webp',
     // Landscape photo — desktop (≥ 1024 px)
-    photoDesktop: '/assets/photos/landscape/prita-ilham-01.webp',
+    photoDesktop: '/assets/photos/landscape/prita-ilham-10.webp',
   },
 
   closing: {
@@ -139,7 +139,7 @@ export const content = {
     // Images for the auto-play carousel background — desktop (landscape, ≥ 1024 px)
     imagesDesktop: [
       '/assets/photos/landscape/prita-ilham-02.webp',
-      '/assets/photos/landscape/prita-ilham-04.webp',
+      '/assets/photos/landscape/prita-ilham-01.webp',
       '/assets/photos/landscape/prita-ilham-06.webp',
       '/assets/photos/landscape/prita-ilham-08.webp',
     ],

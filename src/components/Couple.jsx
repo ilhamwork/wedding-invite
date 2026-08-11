@@ -122,6 +122,19 @@ export default function Couple() {
                 </p>
               </Reveal>
             )}
+            {bride.instagram && (
+              <Reveal variant="fadeIn" delay={0.9}>
+                <a
+                  href={`https://instagram.com/${bride.instagram.replace('@', '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-2 text-xs tracking-wide"
+                  style={{ color: 'rgba(201,169,110,0.85)' }}
+                >
+                  {bride.instagram}
+                </a>
+              </Reveal>
+            )}
           </div>
 
           <Reveal variant="fadeIn" delay={0.4}>
@@ -160,6 +173,19 @@ export default function Couple() {
                 </p>
               </Reveal>
             )}
+            {groom.instagram && (
+              <Reveal variant="fadeIn" delay={1.05}>
+                <a
+                  href={`https://instagram.com/${groom.instagram.replace('@', '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-2 text-xs tracking-wide"
+                  style={{ color: 'rgba(201,169,110,0.85)' }}
+                >
+                  {groom.instagram}
+                </a>
+              </Reveal>
+            )}
           </div>
         </div>
 
@@ -193,6 +219,19 @@ export default function Couple() {
                   >
                     {bride.parents[lang]}
                   </p>
+                </Reveal>
+              )}
+              {bride.instagram && (
+                <Reveal variant="fadeIn" delay={0.9}>
+                  <a
+                    href={`https://instagram.com/${bride.instagram.replace('@', '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 text-xs tracking-wide"
+                    style={{ color: 'rgba(201,169,110,0.85)' }}
+                  >
+                    {bride.instagram}
+                  </a>
                 </Reveal>
               )}
             </div>
@@ -237,6 +276,19 @@ export default function Couple() {
                   >
                     {groom.parents[lang]}
                   </p>
+                </Reveal>
+              )}
+              {groom.instagram && (
+                <Reveal variant="fadeIn" delay={1.05}>
+                  <a
+                    href={`https://instagram.com/${groom.instagram.replace('@', '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 text-xs tracking-wide"
+                    style={{ color: 'rgba(201,169,110,0.85)' }}
+                  >
+                    {groom.instagram}
+                  </a>
                 </Reveal>
               )}
             </div>

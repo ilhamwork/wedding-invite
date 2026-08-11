@@ -6,7 +6,7 @@ function EventItem({ event, label, note, timeOverride }) {
   const { i18n } = useTranslation()
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
   const date = new Date(event.dateISO)
-  const dateFormatted = date.toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {
+  const dateFormatted = date.toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-GB', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
