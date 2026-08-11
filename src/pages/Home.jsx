@@ -13,6 +13,7 @@ import RSVPWishes from '../components/RSVPWishes'
 import GiftEnvelope from '../components/GiftEnvelope'
 import Closing from '../components/Closing'
 import { content } from '../config/content.config'
+import MusicToggle from '../components/MusicToggle'
 
 const countdownImages = content.countdown?.images ?? content.gallery.map((g) => g.src)
 
@@ -32,6 +33,8 @@ export default function Home() {
 
   return (
     <div className="paper-texture min-h-[100dvh]">
+      {/* Music toggle — only visible after invitation is opened */}
+      {isOpen && <MusicToggle />}
       {/* Preload countdown carousel images without affecting layout */}
       <div aria-hidden="true" style={{ display: 'none' }}>
         {countdownImages.map((src) => (
