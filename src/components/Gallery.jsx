@@ -3,68 +3,49 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { content } from '../config/content.config'
-import Section, { Reveal } from './ui/Section'
+import { Reveal } from './ui/Section'
 
-// ─── Masonry item with scroll-triggered reveal ───────────────────────────────
-function MasonryPhoto({ photo, index, onClick }) {
+// ─── Vertical offset pattern for staggered look ──────────────────────────────
+// Each photo gets a top offset so they don't align — creates natural masonry feel
+const OFFSETS = [0, 60, 20, 80, 10, 50, 30, 70, 15, 55, 35, 65, 5, 45, 25, 75, 40, 0, 60, 20, 80]
+
+// ─── Single scrollable photo tile ────────────────────────────────────────────
+function ScrollPhoto({ photo, index, onClick, unlocked }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px 0px' })
+  const isInView = useInView(ref, { once: true, margin: '0px -80px' })
   const isPortrait = photo.src.includes('portrait')
+  const offset = OFFSETS[index % OFFSETS.length]
 
   return (
     <motion.button
       ref={ref}
       type="button"
-      onClick={() => onClick(index)}
+      onClick={() => unlocked && onClick(index)}
       aria-label={`Open photo ${index + 1}`}
-      initial={{ opacity: 0, y: 32 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: (index % 2) * 0.12 }}
-      className="relative overflow-hidden rounded-2xl block w-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-sea"
-      style={{ aspectRatio: isPortrait ? '3/4' : '4/3' }}
+      initial={{ opacity: 0, x: 24 }}
+      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+      className="relative overflow-hidden shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-sea"
+      style={{
+        width: isPortrait ? 270 : 400,
+        height: isPortrait ? 360 : 300,
+        marginTop: offset,
+        cursor: unlocked ? 'pointer' : 'default',
+      }}
     >
       <img
         src={photo.src}
         alt={photo.alt}
         loading="lazy"
-        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.06]"
+        style={{
+          filter: unlocked ? 'grayscale(0%)' : 'grayscale(100%)',
+          transition: 'filter 0.8s ease, transform 0.7s ease',
+        }}
       />
-      {/* Gradient overlay on hover */}
-      <div className="absolute inset-0 bg-linear-to-t from-sea-dark/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-      {/* Corner accent */}
-      <div className="absolute bottom-3 right-3 w-5 h-5 border-b-2 border-r-2 border-cream/60 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0" />
-    </motion.button>
-  )
-}
-
-// ─── "+N more" reveal tile ────────────────────────────────────────────────────
-function MoreTile({ count, lastPhoto, onClick }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px 0px' })
-
-  return (
-    <motion.button
-      ref={ref}
-      type="button"
-      onClick={onClick}
-      aria-label={`View ${count} more photos`}
-      initial={{ opacity: 0, y: 32 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
-      className="relative overflow-hidden rounded-2xl block w-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-sea"
-      style={{ aspectRatio: '3/4' }}
-    >
-      <img
-        src={lastPhoto.src}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        className="w-full h-full object-cover scale-105 blur-[2px] brightness-50"
-      />
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-        <span className="font-display text-white text-4xl leading-none">+{count}</span>
-        <span className="text-cream/70 text-xs tracking-[0.2em] uppercase">photos</span>
-      </div>
+      {unlocked && (
+        <div className="absolute inset-0 bg-linear-to-t from-sea-dark/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+      )}
     </motion.button>
   )
 }
@@ -73,6 +54,8 @@ function MoreTile({ count, lastPhoto, onClick }) {
 export default function Gallery() {
   const { t } = useTranslation()
   const [slotIndex, setSlotIndex] = useState(null)
+  const [unlocked, setUnlocked] = useState(false)
+  const scrollRef = useRef(null)
 
   const photos = content.gallery
   const total = photos.length
@@ -112,13 +95,6 @@ export default function Gallery() {
   const next = () => setSlotIndex((s) => (s + 1) % totalSlots)
   const close = () => setSlotIndex(null)
 
-  // Split into 2 masonry columns — alternate left/right
-  // Show first 5 photos in grid; rest only accessible via lightbox
-  const VISIBLE = 5
-  const visiblePhotos = photos.slice(0, VISIBLE)
-  const leftCol = visiblePhotos.filter((_, i) => i % 2 === 0)   // 0, 2, 4
-  const rightCol = visiblePhotos.filter((_, i) => i % 2 === 1)  // 1, 3
-
   // Keyboard
   useEffect(() => {
     if (!isOpen) return
@@ -152,53 +128,83 @@ export default function Gallery() {
   const currentSlot = isOpen ? slots[slotIndex] : null
 
   return (
-    <Section id="gallery" bg="mist" fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
+    <section id="gallery" className="relative w-full overflow-hidden bg-[#F7F4ED] py-16">
       {/* Section title */}
       <Reveal variant="scaleUp">
-        <h2 className="font-display text-2xl text-center text-sea mb-8">
+        <h2 className="font-display text-2xl text-center text-sea mb-10 px-6">
           {t('gallery.title')}
         </h2>
       </Reveal>
 
-      {/* ── Masonry grid ── */}
-      <div className="flex gap-2.5 items-start">
-        {/* Left column — starts at top */}
-        <div className="flex flex-col gap-2.5 flex-1">
-          {leftCol.map((photo) => {
-            const idx = photos.indexOf(photo)
-            return (
-              <MasonryPhoto
-                key={photo.src}
-                photo={photo}
-                index={idx}
-                onClick={openAt}
-              />
-            )
-          })}
+      {/* ── Wrapper: clips the scroll strip + positions the lock overlay ── */}
+      <div className="relative">
+        {/* Horizontal scroll strip */}
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto pl-6 pr-6"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+            alignItems: 'flex-start',
+            // lock scroll when not unlocked
+            overflowX: unlocked ? 'auto' : 'hidden',
+            pointerEvents: unlocked ? 'auto' : 'none',
+          }}
+        >
+          {photos.map((photo, idx) => (
+            <ScrollPhoto
+              key={photo.src}
+              photo={photo}
+              index={idx}
+              onClick={openAt}
+              unlocked={unlocked}
+            />
+          ))}
         </div>
 
-        {/* Right column — offset down to create masonry rhythm */}
-        <div className="flex flex-col gap-2.5 flex-1 mt-10">
-          {rightCol.map((photo) => {
-            const idx = photos.indexOf(photo)
-            const isLast = idx === VISIBLE - 2 && total > VISIBLE
-            return isLast ? (
-              <MoreTile
-                key={photo.src}
-                count={total - VISIBLE + 1}
-                lastPhoto={photo}
-                onClick={() => openAt(idx)}
-              />
-            ) : (
-              <MasonryPhoto
-                key={photo.src}
-                photo={photo}
-                index={idx}
-                onClick={openAt}
-              />
-            )
-          })}
-        </div>
+        {/* Lock overlay — shown until unlocked */}
+        <AnimatePresence>
+          {!unlocked && (
+            <motion.div
+              key="gallery-lock"
+              className="absolute inset-0 flex items-center justify-center"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeOut' } }}
+              style={{ pointerEvents: 'auto' }}
+            >
+              <motion.button
+                type="button"
+                onClick={() => setUnlocked(true)}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="relative z-10 px-7 py-3 bg-sea text-cream text-xs tracking-[0.25em] uppercase font-medium rounded-full shadow-lg"
+              >
+                {t('gallery.open') ?? 'Open'}
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Lock button — shown when unlocked */}
+        <AnimatePresence>
+          {unlocked && (
+            <motion.button
+              key="gallery-relock"
+              type="button"
+              onClick={() => setUnlocked(false)}
+              aria-label="Lock gallery"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
+              exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-sea/80 text-cream text-lg leading-none shadow-md backdrop-blur-sm"
+            >
+              &times;
+            </motion.button>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ── Lightbox ── */}
@@ -299,6 +305,6 @@ export default function Gallery() {
         </AnimatePresence>,
         document.body
       )}
-    </Section>
+    </section>
   )
 }

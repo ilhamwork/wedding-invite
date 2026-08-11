@@ -43,7 +43,8 @@
   },
   "gallery": {
     "eyebrow": "Galeri",
-    "title": "Momen Kami"
+    "title": "Momen Kami",
+    "open": "Buka Galeri"
   },
   "rsvp": {
     "eyebrow": "Konfirmasi Kehadiran",

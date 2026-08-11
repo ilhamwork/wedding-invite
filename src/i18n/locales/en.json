@@ -43,7 +43,8 @@
   },
   "gallery": {
     "eyebrow": "Gallery",
-    "title": "Our Moments"
+    "title": "Our Moments",
+    "open": "Open"
   },
   "rsvp": {
     "eyebrow": "RSVP",
