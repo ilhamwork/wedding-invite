@@ -650,7 +650,6 @@ function GuestDashboard({ role, onLogout }) {
       <main className="max-w-2xl mx-auto px-4 pt-5 pb-24">
         {loading ? (
           <div className="text-center py-16 text-[#7A6F60]">
-            <p className="text-3xl mb-3 animate-pulse">💍</p>
             <p className="text-sm font-medium">Memuat daftar tamu...</p>
           </div>
         ) : fetchError ? (
