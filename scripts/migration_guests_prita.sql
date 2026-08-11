@@ -1,5 +1,5 @@
 -- Migration: upsert guests from Prita's list
--- Generated: 2026-08-11T15:50:59.157Z
+-- Generated: 2026-08-11T16:14:24.014Z
 -- Inserts new rows, updates name/phone if slug already exists
 
 INSERT INTO guests (name, slug, source, phone)
@@ -104,7 +104,16 @@ VALUES
   ('Bagas Dwi Rizqi', 'bagas-dwi-rizqi', 'Prita', NULL),
   ('Hamdillah Faqih', 'hamdillah-faqih', 'Prita', '6285814022836'),
   ('Mas Dirham & Partner', 'mas-dirham-partner', 'Prita', '628122767678'),
-  ('Aldo & Partner', 'aldo-partner', 'Prita', NULL)
+  ('Aldo & Partner', 'aldo-partner', 'Prita', NULL),
+  ('Om Ritman & Tante Eny Ratnawati', 'om-ritman-tante-eny-ratnawati', 'Prita', NULL),
+  ('Om Rudy Zamrudin & Tante Dian Kurniati', 'om-rudy-zamrudin-tante-dian-kurniati', 'Prita', NULL),
+  ('Om Sudjud Siradjuddin & Tante Syawliyanti', 'om-sudjud-siradjuddin-tante-syawliyanti', 'Prita', NULL),
+  ('Om Ben Helmi & Tante Susilastri', 'om-ben-helmi-tante-susilastri', 'Prita', NULL),
+  ('Om Uus Rukmantara & Tante Linda Ayu T', 'om-uus-rukmantara-tante-linda-ayu-t', 'Prita', NULL),
+  ('Om Sapril & Tante Tintin Yunarsih', 'om-sapril-tante-tintin-yunarsih', 'Prita', NULL),
+  ('Om Indrawan & Tante Trinyati', 'om-indrawan-tante-trinyati', 'Prita', NULL),
+  ('Tante Nurhayati', 'tante-nurhayati', 'Prita', NULL),
+  ('Om Jamalulael & Tante Azizah', 'om-jamalulael-tante-azizah', 'Prita', NULL)
 ON CONFLICT (slug)
 DO UPDATE SET
   name   = EXCLUDED.name,
