@@ -155,12 +155,9 @@ export default function Gallery() {
     <Section id="gallery" bg="mist" fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
       {/* Section title */}
       <Reveal variant="scaleUp">
-        <h2 className="font-display text-2xl text-center text-sea mb-2">
+        <h2 className="font-display text-2xl text-center text-sea mb-8">
           {t('gallery.title')}
         </h2>
-        <p className="text-center text-sea/40 text-xs tracking-[0.25em] uppercase mb-8">
-          {total} photos
-        </p>
       </Reveal>
 
       {/* ── Masonry grid ── */}

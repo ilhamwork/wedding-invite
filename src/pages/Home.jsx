@@ -12,7 +12,6 @@ import Gallery from '../components/Gallery'
 import RSVPWishes from '../components/RSVPWishes'
 import GiftEnvelope from '../components/GiftEnvelope'
 import Closing from '../components/Closing'
-import MusicToggle from '../components/MusicToggle'
 import { content } from '../config/content.config'
 
 const countdownImages = content.countdown?.images ?? content.gallery.map((g) => g.src)
@@ -72,7 +71,6 @@ export default function Home() {
               <div className="section-alt-a"><GiftEnvelope /></div>
               <div className="section-alt-b"><Closing /></div>
             </main>
-            <MusicToggle />
           </motion.div>
         )}
       </AnimatePresence>

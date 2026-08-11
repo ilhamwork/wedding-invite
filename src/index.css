@@ -89,7 +89,6 @@ body {
   position: relative;
   min-height: 100dvh;
   overflow-x: hidden;
-  transform: translateZ(0);
   background-color: var(--color-mist);
 }
 

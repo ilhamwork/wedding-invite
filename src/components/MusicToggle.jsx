@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
 import { useAudio } from '../context/AudioContext'
 
 export default function MusicToggle() {
@@ -7,21 +6,37 @@ export default function MusicToggle() {
   const { isPlaying, toggle } = useAudio()
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={toggle}
       aria-label={isPlaying ? t('music.pause') : t('music.play')}
-      className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-accent text-ink shadow-xl flex items-center justify-center hover:bg-accent-mid transition-colors"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: 'fixed',
+        bottom: '1.5rem',
+        right: '1.5rem',
+        zIndex: 9999,
+        width: '3rem',
+        height: '3rem',
+        borderRadius: '9999px',
+        backgroundColor: 'var(--color-accent)',
+        color: 'var(--color-ink)',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: 'none',
+        cursor: 'pointer',
+      }}
     >
-      <span className="relative flex items-center justify-center gap-[2px]">
+      <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="w-[2.5px] bg-ink rounded-full"
             style={{
+              display: 'block',
+              width: '2.5px',
+              borderRadius: '9999px',
+              backgroundColor: 'var(--color-ink)',
               height: isPlaying ? '10px' : '6px',
               animation: isPlaying ? `music-bar 0.9s ease-in-out ${i * 0.15}s infinite` : 'none',
             }}
@@ -34,6 +49,6 @@ export default function MusicToggle() {
           50% { height: 14px; }
         }
       `}</style>
-    </motion.button>
+    </button>
   )
 }
