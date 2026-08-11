@@ -1,204 +1,14 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import toast from 'react-hot-toast'
+import { GUEST_DATA } from '../data/guests'
 
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 const BASE_URL = 'https://adventureof-pritailham.co'
 const SESSION_KEY = 'guestlist_authed'
 
-// ── GUEST DATA ─────────────────────────────────────────────────────────────
-const GUEST_DATA = [
-  // List Undangan Prita
-  { name: 'Dimas Pandu', source: 'Prita' },
-  { name: 'Salini Rengganis', source: 'Prita' },
-  { name: 'Satya Winnie', source: 'Prita' },
-  { name: 'David John Schaap', source: 'Prita' },
-  { name: 'Intan Audia & Partner', source: 'Prita' },
-  { name: 'Damaresty Andyani & Partner', source: 'Prita' },
-  { name: 'Fauzan Al Habibie', source: 'Prita' },
-  { name: 'Guruh Wiratama', source: 'Prita' },
-  { name: 'Bimo Hendarto', source: 'Prita' },
-  { name: 'Achmad Fajar Rydwan & Partner', source: 'Prita' },
-  { name: 'Teh Evi & Partner', source: 'Prita' },
-  { name: 'Alzeina Nysa & Partner', source: 'Prita' },
-  { name: 'Bariq Rizki', source: 'Prita' },
-  { name: 'M Farid Imansyah & Partner', source: 'Prita' },
-  { name: 'Lenny Kurniawan', source: 'Prita' },
-  { name: 'Firyal Raudya Yasmin & Partner', source: 'Prita' },
-  { name: 'Dinda Aurelia & Partner', source: 'Prita' },
-  { name: 'Nadya Rheinata & Partner', source: 'Prita' },
-  { name: 'Nailah Rahmah', source: 'Prita' },
-  { name: 'Nurnahdiyah', source: 'Prita' },
-  { name: 'Nada Djulaeny', source: 'Prita' },
-  { name: 'Kak Dyhar & Partner', source: 'Prita' },
-  { name: 'Dimas Proklamahari & Partner', source: 'Prita' },
-  { name: 'Indriyani', source: 'Prita' },
-  { name: 'Chrysant Jacob & Partner', source: 'Prita' },
-  { name: 'Anggun Valentania', source: 'Prita' },
-  { name: 'Ira Puspita', source: 'Prita' },
-  { name: 'Nadira Muharam', source: 'Prita' },
-  { name: 'Annisa Azzara', source: 'Prita' },
-  { name: 'Risalatul H Anasha', source: 'Prita' },
-  { name: 'Riska', source: 'Prita' },
-  { name: 'Deisy Kristianty Handayani', source: 'Prita' },
-  { name: 'Indah Permatasari & Partner', source: 'Prita' },
-  { name: 'Stephanus Bayu & Partner', source: 'Prita' },
-  { name: 'Ismail Saleh & Partner', source: 'Prita' },
-  { name: 'Ibu Healthy Nirmalasari & Partner', source: 'Prita' },
-  { name: 'Bpk. Herwan Abdul Muhyi & Partner', source: 'Prita' },
-  { name: 'Ibu Dian Fitriyani & Partner', source: 'Prita' },
-  { name: 'Nindya Vinya Lorenz & Partner', source: 'Prita' },
-  { name: 'Alya Dalila & Partner', source: 'Prita' },
-  { name: 'Ditri Indah', source: 'Prita' },
-  { name: 'Rheny Trie Oktania & Partner', source: 'Prita' },
-  { name: 'Charvia Ismi Zahrani & Partner', source: 'Prita' },
-  { name: 'Puti Nur Illahirahma', source: 'Prita' },
-  { name: 'Rizka Elfira & Partner', source: 'Prita' },
-  { name: 'Vrescafelthya Trimantari', source: 'Prita' },
-  { name: 'Vina Ramadhani', source: 'Prita' },
-  { name: 'Tara Hanifa', source: 'Prita' },
-  { name: 'Indah Permatasari', source: 'Prita' },
-  { name: 'Ajiziah Qotrunada', source: 'Prita' },
-  { name: 'Om Anto & Tante Neil', source: 'Prita' },
-  { name: 'Nadia Nunlehu & Family', source: 'Prita' },
-  { name: 'Salsabila Sukayana Puteri', source: 'Prita' },
-  { name: 'Maghfira Addini & Partner', source: 'Prita' },
-  { name: 'Gita Ramadhani & Partner', source: 'Prita' },
-  { name: 'Lailizzah Hani', source: 'Prita' },
-  { name: 'Farah Yumna & Partner', source: 'Prita' },
-  { name: 'Dindi Claudia', source: 'Prita' },
-  { name: 'Nurrahmi Wibawani', source: 'Prita' },
-  { name: 'Janna Alila Timur & Partner', source: 'Prita' },
-  { name: 'Alief Firmansyah & Partner', source: 'Prita' },
-  { name: 'Ainiyah Mutia & Partner', source: 'Prita' },
-  { name: 'Alam Pandji & Partner', source: 'Prita' },
-  { name: 'Alvin Fajri & Partner', source: 'Prita' },
-  { name: 'Annisa Fitriani & Partner', source: 'Prita' },
-  { name: 'R. Bagas Priyotomo & Partner', source: 'Prita' },
-  { name: 'Febe Eunike & Partner', source: 'Prita' },
-  { name: 'Hanni Gustyasari', source: 'Prita' },
-  { name: 'Ikhsantiko Aswianto', source: 'Prita' },
-  { name: 'Kasamira Amadea & Partner', source: 'Prita' },
-  { name: 'Merry Puspitasari & Partner', source: 'Prita' },
-  { name: 'Raihan Al Muzzamil', source: 'Prita' },
-  { name: 'Raka Ryan & Partner', source: 'Prita' },
-  { name: 'Rizvan Deary & Partner', source: 'Prita' },
-  { name: 'Saffanati Rahmah', source: 'Prita' },
-  { name: 'Sultan Rafif & Partner', source: 'Prita' },
-  { name: 'Suharsa Ary', source: 'Prita' },
-  { name: 'Rifky Pratama & Partner', source: 'Prita' },
-  { name: 'Amelia Rahmatillah & Partner', source: 'Prita' },
-  { name: 'Nabil Fadhillah & Partner', source: 'Prita' },
-  { name: 'Syafira Rahma & Partner', source: 'Prita' },
-  { name: 'Pakde Anton & Bude Sofi', source: 'Prita' },
-  { name: 'Wyanet Putri', source: 'Prita' },
-  { name: 'Erica Annisa', source: 'Prita' },
-  { name: 'Vini Velolita', source: 'Prita' },
-  { name: 'Evan Aldiano & Partner', source: 'Prita' },
-  { name: 'Eunike Callista & Andrew', source: 'Prita' },
-  { name: 'Juvensius', source: 'Prita' },
-  { name: 'Wandy Fernanda', source: 'Prita' },
-  { name: 'Mohammad Akmal', source: 'Prita' },
-  { name: 'Tante Een & Om Dimas', source: 'Prita' },
-  { name: 'Kak Bunga & Kak Mega', source: 'Prita' },
-  { name: 'Om Ritman & Tante Eny Ratnawati', source: 'Prita' },
-  { name: 'Om Rudy Zamrudin & Tante Dian Kurniati', source: 'Prita' },
-  { name: 'Om Sudjud Siradjuddin & Tante Syawliyanti', source: 'Prita' },
-  { name: 'Om Ben Helmi & Tante Susilastri', source: 'Prita' },
-  { name: 'Om Uus Rukmantara & Tante Linda Ayu T', source: 'Prita' },
-  { name: 'Om Sapril & Tante Tintin Yunarsih', source: 'Prita' },
-  { name: 'Om Indrawan & Tante Trinyati', source: 'Prita' },
-  { name: 'Tante Nurhayati', source: 'Prita' },
-  { name: 'Om Jamalulael & Tante Azizah', source: 'Prita' },
-  // List Undangan Lagapaners
-  { name: 'Bpk. Baskoro', source: 'Lagapaners' },
-  { name: 'Ibu Retno Sri Utami', source: 'Lagapaners' },
-  { name: 'Ibu Vera Ina Susanti', source: 'Lagapaners' },
-  { name: 'Bpk. Wisnu Cahyo', source: 'Lagapaners' },
-  { name: 'Bpk. A. Haryono', source: 'Lagapaners' },
-  { name: 'Ibu Sri Andrini', source: 'Lagapaners' },
-  { name: 'Bpk. Bima Sakti', source: 'Lagapaners' },
-  { name: 'Bpk. Deni F. Azil', source: 'Lagapaners' },
-  { name: 'Ibu Dewi S. Karya', source: 'Lagapaners' },
-  { name: 'Bpk. Erie Prakoso', source: 'Lagapaners' },
-  { name: 'Ibu Dr. Kristiantini Dewi', source: 'Lagapaners' },
-  { name: 'Bpk. Moenardi', source: 'Lagapaners' },
-  { name: 'Ibu Myra Esfandiary', source: 'Lagapaners' },
-  { name: 'Bpk. Pranoto Setiawan', source: 'Lagapaners' },
-  { name: 'Ibu R. Isfandiari', source: 'Lagapaners' },
-  { name: 'Bpk. Renaldy Dewantoro', source: 'Lagapaners' },
-  { name: 'Bpk. Djonny M.S', source: 'Lagapaners' },
-  { name: 'Bpk. Dony M. Oekon', source: 'Lagapaners' },
-  { name: 'Ibu Elena Ardini', source: 'Lagapaners' },
-  { name: 'Bpk. Ervan Octaviano', source: 'Lagapaners' },
-  { name: 'Bpk. Ferry Samosir', source: 'Lagapaners' },
-  { name: 'Ibu Irma', source: 'Lagapaners' },
-  { name: 'Bpk. RM Ponang', source: 'Lagapaners' },
-  { name: 'Bpk.Teuku Syahputra', source: 'Lagapaners' },
-  { name: 'Ibu Willis Henny Prastuti', source: 'Lagapaners' },
-  { name: 'Bpk. Subur Yuli Winarso', source: 'Lagapaners' },
-  { name: 'Ibu Devi Andrini', source: 'Lagapaners' },
-  { name: 'Ibu Tri Wahyuwidayati', source: 'Lagapaners' },
-  { name: 'Bpk. Wisnu Hidayat', source: 'Lagapaners' },
-  { name: 'Bpk. Ade Suryadi', source: 'Lagapaners' },
-  { name: 'Bpk. Pudji Hartono', source: 'Lagapaners' },
-  { name: 'Ibu Nurlita Sukma', source: 'Lagapaners' },
-  { name: 'Bpk. Nanto Panjaitan', source: 'Lagapaners' },
-  // List Undangan Tante Dian
-  { name: 'Keluarga Bpk. Ir. Moelyadi', source: 'Tante Dian' },
-  { name: 'Keluarga Bpk. Dr. Koesmadi', source: 'Tante Dian' },
-  { name: 'Keluarga Bpk. Ir. Wahyudi', source: 'Tante Dian' },
-  { name: 'Keluarga Bpk. Arzil Pamuntjak', source: 'Tante Dian' },
-  { name: 'Keluarga Bpk. Kardjani Chamid', source: 'Tante Dian' },
-  { name: 'Bpk. Nur Hakim Arif & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Aat Adibirawan & Istri', source: 'Tante Dian' },
-  { name: 'Keluarga (Alm) Bpk. Eddy Suwignyo', source: 'Tante Dian' },
-  { name: 'Keluarga (Alm) Bpk. Atang Ruwinda', source: 'Tante Dian' },
-  { name: 'Bpk. Saleh Effendi & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Tedi Kurniadi & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Adjie Rustam Ramdja & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Agus Soerarso & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Wawan Kadarusman & Istri', source: 'Tante Dian' },
-  { name: 'Ibu Pengky & Ibu Tutie', source: 'Tante Dian' },
-  { name: 'Bpk. Achmad Setiadi & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Ilham Setiabudi & Istri', source: 'Tante Dian' },
-  { name: 'Keluarga (Alm) Bpk. Endang Waskita', source: 'Tante Dian' },
-  { name: 'Ibu Yeni', source: 'Tante Dian' },
-  { name: 'Ibu Kinah', source: 'Tante Dian' },
-  { name: 'Bpk. Agus Hartono & Istri', source: 'Tante Dian' },
-  { name: 'Ibu Tutun Jumiati & Suami', source: 'Tante Dian' },
-  { name: 'Bpk. Yusuf Permana & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Ichlas & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Amirul Yusuf & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Ivan Ekancono & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Endang Kosasih & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Fajri & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Anas Luthfi & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Yasir Arafat', source: 'Tante Dian' },
-  { name: 'Mazaya & Partner', source: 'Tante Dian' },
-  { name: 'Bpk. Fauzi Buldan Y & Istri', source: 'Tante Dian' },
-  { name: 'Ibu Christine', source: 'Tante Dian' },
-  { name: 'Bpk. Ariastiadi Saleh H & Istri', source: 'Tante Dian' },
-  { name: 'Bpk. Hari Supada & Istri', source: 'Tante Dian' },
-  { name: 'Ibu Endah Yuliastini & Suami', source: 'Tante Dian' },
-  { name: 'Diana & Suami', source: 'Tante Dian' },
-  { name: 'Bpk. Ansari Siman & Istri', source: 'Tante Dian' },
-  { name: 'Ibu Nurhayati', source: 'Tante Dian' },
-  { name: 'Ibu Novi Hediyani & Suami', source: 'Tante Dian' },
-  { name: 'Alun Riawati & Suami', source: 'Tante Dian' },
-  { name: 'Winne & Suami', source: 'Tante Dian' },
-  { name: 'Mona Delviana & Suami', source: 'Tante Dian' },
-  { name: 'Doni Novari & Suami', source: 'Tante Dian' },
-  { name: 'Wiwiek Darmansyah & Suami', source: 'Tante Dian' },
-  { name: 'Mieke Retno & Suami', source: 'Tante Dian' },
-  { name: 'Seradesy & Suami', source: 'Tante Dian' },
-  { name: 'Dian Purwandari & Suami', source: 'Tante Dian' },
-  { name: 'Yurida & Suami', source: 'Tante Dian' },
-  { name: 'Berry Waworuntu & Suami', source: 'Tante Dian' },
-]
-
 const SOURCE_COLORS = {
   Prita: { bg: 'rgba(201,169,110,0.12)', border: 'rgba(201,169,110,0.35)', text: '#B8944F' },
-  Lagapaners: { bg: 'rgba(46,58,79,0.12)', border: 'rgba(46,58,79,0.35)', text: '#4A5F7A' },
+  'Om Ilham': { bg: 'rgba(46,58,79,0.12)', border: 'rgba(46,58,79,0.35)', text: '#4A5F7A' },
   'Tante Dian': { bg: 'rgba(74,69,64,0.12)', border: 'rgba(74,69,64,0.30)', text: '#7A6F60' },
 }
 
@@ -426,8 +236,8 @@ function BulkQueuePanel({ queue, onClose }) {
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z"/>
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z" />
                 </svg>
                 Buka Tab WA Lagi
               </button>
@@ -464,9 +274,9 @@ function BulkQueuePanel({ queue, onClose }) {
                       height: 8, borderRadius: 4,
                       background:
                         statuses[i] === 'sent' ? '#25D366' :
-                        statuses[i] === 'skipped' ? 'rgba(201,169,110,0.4)' :
-                        i === idx ? '#C9A96E' :
-                        'rgba(255,255,255,0.12)',
+                          statuses[i] === 'skipped' ? 'rgba(201,169,110,0.4)' :
+                            i === idx ? '#C9A96E' :
+                              'rgba(255,255,255,0.12)',
                       transition: 'all 0.3s ease',
                     }} />
                   ))}
@@ -860,8 +670,8 @@ function GuestCard({ guest, index, selected, onToggleSelect, selectMode }) {
           }}
         >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z"/>
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z" />
           </svg>
           <span>Kirim WA</span>
         </a>
@@ -1299,8 +1109,8 @@ function GuestDashboard() {
             }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z"/>
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z" />
             </svg>
             <span>Blast Sekarang</span>
           </button>
