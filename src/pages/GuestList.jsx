@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { GUEST_DATA } from '../data/guests'
 
@@ -48,246 +48,22 @@ Kami yang berbahagia,
 *Prita & Ilham*`
 }
 
-function buildWaLink(name, url) {
-  return `https://wa.me/?text=${encodeURIComponent(buildMessage(name, url))}`
+function normalizePhone(phone) {
+  if (!phone) return null
+  // Strip semua karakter non-digit
+  let digits = String(phone).replace(/\D/g, '')
+  // Ubah awalan 0 → 62, pastikan sudah 62
+  if (digits.startsWith('0')) digits = '62' + digits.slice(1)
+  if (!digits.startsWith('62')) digits = '62' + digits
+  return digits
 }
 
-// ── Bulk Queue Panel ───────────────────────────────────────────────────────
-function BulkQueuePanel({ queue, onClose }) {
-  const [idx, setIdx] = useState(0)
-  const [statuses, setStatuses] = useState(() => Object.fromEntries(queue.map((_, i) => [i, 'pending'])))
-  const opened = useRef(false)
-
-  const current = queue[idx]
-  const total = queue.length
-  const sentCount = Object.values(statuses).filter(s => s === 'sent').length
-  const skippedCount = Object.values(statuses).filter(s => s === 'skipped').length
-  const isDone = idx >= total
-
-  const currentUrl = current ? `${BASE_URL}/?to=${toSlug(current.name)}` : ''
-  const currentWaLink = current ? buildWaLink(current.name, currentUrl) : ''
-
-  useEffect(() => {
-    if (!current || opened.current) return
-    opened.current = true
-    window.open(currentWaLink, '_blank', 'noopener,noreferrer')
-  }, [current, currentWaLink])
-
-  function advance(status) {
-    setStatuses(prev => ({ ...prev, [idx]: status }))
-    opened.current = false
-    setIdx(i => i + 1)
-  }
-
-  function handleSent() { advance('sent') }
-  function handleSkip() { advance('skipped') }
-
-  function openCurrent() {
-    window.open(currentWaLink, '_blank', 'noopener,noreferrer')
-  }
-
-  const progress = total > 0 ? (idx / total) * 100 : 0
-  const srcColor = current ? (SOURCE_COLORS[current.source] || SOURCE_COLORS['Prita']) : SOURCE_COLORS['Prita']
-
-  return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 200,
-      background: 'rgba(10,15,28,0.8)',
-      backdropFilter: 'blur(8px)',
-      WebkitBackdropFilter: 'blur(8px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: 16,
-    }}>
-      <div style={{
-        background: 'linear-gradient(160deg, #1E283C 0%, #0F1420 100%)',
-        border: '1px solid rgba(201,169,110,0.3)',
-        borderRadius: 24,
-        width: '100%', maxWidth: 460,
-        boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
-        overflow: 'hidden',
-      }}>
-        {/* Header */}
-        <div style={{
-          padding: '20px 24px 16px',
-          borderBottom: '1px solid rgba(201,169,110,0.15)',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        }}>
-          <div>
-            <h2 className="font-display" style={{ fontSize: '1.15rem', color: '#E8C99A', margin: 0 }}>
-              {isDone ? '🎉 Selesai!' : '📤 Bulk Send WA'}
-            </h2>
-            <p style={{ fontSize: '0.75rem', color: 'rgba(232,201,154,0.6)', marginTop: 2, margin: 0 }}>
-              {isDone
-                ? `${sentCount} terkirim · ${skippedCount} dilewati`
-                : `${idx + 1} dari ${total} tamu`}
-            </p>
-          </div>
-          <button onClick={onClose} style={{
-            width: 34, height: 34, borderRadius: 10,
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.12)',
-            color: 'rgba(232,228,217,0.7)', cursor: 'pointer', fontSize: '1.1rem',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>✕</button>
-        </div>
-
-        {/* Progress bar */}
-        <div style={{ height: 4, background: 'rgba(255,255,255,0.08)' }}>
-          <div style={{
-            height: '100%',
-            width: `${progress}%`,
-            background: 'linear-gradient(90deg, #C9A96E, #E8C99A)',
-            transition: 'width 0.4s ease',
-            borderRadius: '0 2px 2px 0',
-          }} />
-        </div>
-
-        <div style={{ padding: '24px' }}>
-          {isDone ? (
-            /* ── Done state ── */
-            <div style={{ textAlign: 'center', padding: '16px 0' }}>
-              <div style={{ fontSize: '3.5rem', marginBottom: 16 }}>🎊</div>
-              <h3 style={{ color: '#E8C99A', fontSize: '1.2rem', marginBottom: 16 }}>
-                Proses Blast Selesai!
-              </h3>
-              <div style={{
-                display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 24
-              }}>
-                {[
-                  ['Dikirim', sentCount, '#25D366'],
-                  ['Dilewati', skippedCount, '#C9A96E'],
-                  ['Total', total, '#4A5F7A']
-                ].map(([label, val, color]) => (
-                  <div key={label} style={{
-                    background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: 14, padding: '14px 8px', textAlign: 'center',
-                  }}>
-                    <div style={{ fontSize: '1.6rem', fontWeight: 700, color }}>{val}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'rgba(232,228,217,0.6)', marginTop: 4 }}>{label}</div>
-                  </div>
-                ))}
-              </div>
-              <button onClick={onClose} style={{
-                width: '100%', padding: '12px',
-                background: 'linear-gradient(135deg, #C9A96E 0%, #B8944F 100%)',
-                border: 'none', borderRadius: 12,
-                color: '#fff', fontWeight: 700, fontSize: '0.85rem',
-                cursor: 'pointer', letterSpacing: '0.04em',
-              }}>Tutup</button>
-            </div>
-          ) : (
-            /* ── Active state ── */
-            <>
-              {/* Guest card */}
-              <div style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(201,169,110,0.25)',
-                borderRadius: 18, padding: '18px',
-                marginBottom: 20,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{
-                    width: 44, height: 44, borderRadius: 12,
-                    background: 'rgba(201,169,110,0.15)',
-                    border: '1px solid rgba(201,169,110,0.3)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '1.2rem', flexShrink: 0,
-                  }}>👤</div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      fontSize: '1.05rem', fontWeight: 700, color: '#E8E4D9',
-                      marginBottom: 4, wordBreak: 'break-word',
-                    }}>{current.name}</div>
-                    <span style={{
-                      fontSize: '0.68rem', padding: '2px 10px', borderRadius: 20,
-                      background: srcColor.bg, border: `1px solid ${srcColor.border}`,
-                      color: srcColor.text, fontWeight: 600, whiteSpace: 'nowrap',
-                    }}>{current.source}</span>
-                  </div>
-                </div>
-
-                <div style={{
-                  marginTop: 14, padding: '8px 12px',
-                  background: 'rgba(0,0,0,0.25)', borderRadius: 10,
-                  display: 'flex', alignItems: 'center', gap: 8,
-                }}>
-                  <span style={{ fontSize: '0.7rem', opacity: 0.8 }}>🔗</span>
-                  <span style={{ fontSize: '0.72rem', color: '#4A5F7A', wordBreak: 'break-all' }}>{currentUrl}</span>
-                </div>
-              </div>
-
-              {/* Instruction Hint */}
-              <p style={{
-                fontSize: '0.78rem', color: 'rgba(232,228,217,0.55)',
-                textAlign: 'center', marginBottom: 16, lineHeight: 1.5,
-              }}>
-                Tab WhatsApp telah terbuka.<br />
-                Klik <strong style={{ color: '#E8C99A' }}>Terkirim ✓</strong> jika pesan sudah dikirim.
-              </p>
-
-              {/* Re-open button */}
-              <button onClick={openCurrent} style={{
-                width: '100%', padding: '11px',
-                background: 'rgba(37,211,102,0.12)',
-                border: '1px solid rgba(37,211,102,0.35)',
-                borderRadius: 12, color: '#25D366',
-                fontSize: '0.82rem', fontWeight: 600,
-                cursor: 'pointer', marginBottom: 12,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z" />
-                </svg>
-                Buka Tab WA Lagi
-              </button>
-
-              {/* Action buttons */}
-              <div style={{ display: 'flex', gap: 10 }}>
-                <button onClick={handleSkip} style={{
-                  flex: 1, padding: '12px',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: 12, color: 'rgba(232,228,217,0.6)',
-                  fontSize: '0.82rem', fontWeight: 600,
-                  cursor: 'pointer',
-                }}>Lewati →</button>
-                <button onClick={handleSent} style={{
-                  flex: 2, padding: '12px',
-                  background: 'linear-gradient(135deg, #C9A96E 0%, #B8944F 100%)',
-                  border: 'none', borderRadius: 12,
-                  color: '#fff', fontSize: '0.85rem', fontWeight: 700,
-                  cursor: 'pointer', letterSpacing: '0.03em',
-                  boxShadow: '0 4px 12px rgba(201,169,110,0.3)',
-                }}>Terkirim ✓</button>
-              </div>
-
-              {/* Queue preview dots */}
-              {total <= 30 && (
-                <div style={{
-                  display: 'flex', gap: 4, justifyContent: 'center',
-                  marginTop: 20, flexWrap: 'wrap',
-                }}>
-                  {queue.map((_, i) => (
-                    <div key={i} style={{
-                      width: statuses[i] === 'pending' && i === idx ? 16 : 8,
-                      height: 8, borderRadius: 4,
-                      background:
-                        statuses[i] === 'sent' ? '#25D366' :
-                          statuses[i] === 'skipped' ? 'rgba(201,169,110,0.4)' :
-                            i === idx ? '#C9A96E' :
-                              'rgba(255,255,255,0.12)',
-                      transition: 'all 0.3s ease',
-                    }} />
-                  ))}
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  )
+function buildWaLink(name, url, phone) {
+  const normalized = normalizePhone(phone)
+  const text = encodeURIComponent(buildMessage(name, url))
+  return normalized
+    ? `https://wa.me/${normalized}?text=${text}`
+    : `https://wa.me/?text=${text}`
 }
 
 // ── Login Gate ─────────────────────────────────────────────────────────────
@@ -411,14 +187,14 @@ function LoginGate({ onAuthed }) {
 }
 
 // ── Guest Card ─────────────────────────────────────────────────────────────
-function GuestCard({ guest, index, selected, onToggleSelect, selectMode }) {
+function GuestCard({ guest, index }) {
   const [copied, setCopied] = useState(false)
   const [expanded, setExpanded] = useState(false)
 
   const slug = toSlug(guest.name)
   const url = `${BASE_URL}/?to=${slug}`
   const message = buildMessage(guest.name, url)
-  const waLink = buildWaLink(guest.name, url)
+  const waLink = buildWaLink(guest.name, url, guest.phone)
   const srcColor = SOURCE_COLORS[guest.source] || SOURCE_COLORS['Prita']
 
   async function handleCopy() {
@@ -435,20 +211,18 @@ function GuestCard({ guest, index, selected, onToggleSelect, selectMode }) {
   return (
     <div
       style={{
-        background: selected ? 'rgba(201,169,110,0.08)' : 'rgba(255, 255, 255, 0.85)',
-        border: selected ? '1.5px solid rgba(201,169,110,0.65)' : '1px solid rgba(201,169,110,0.22)',
+        background: 'rgba(255, 255, 255, 0.85)',
+        border: '1px solid rgba(201,169,110,0.22)',
         borderRadius: 16,
         marginBottom: 12,
         overflow: 'hidden',
         transition: 'all 0.2s ease',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
-        boxShadow: selected
-          ? '0 6px 20px rgba(201,169,110,0.15)'
-          : '0 2px 10px rgba(46,58,79,0.04)',
+        boxShadow: '0 2px 10px rgba(46,58,79,0.04)',
       }}
     >
-      {/* Top Header Row inside Card: Checkbox + Name + Source Tag */}
+      {/* Top Header Row inside Card: Index + Name + Source Tag */}
       <div
         style={{
           padding: '14px 16px 10px',
@@ -457,9 +231,8 @@ function GuestCard({ guest, index, selected, onToggleSelect, selectMode }) {
           gap: 12,
         }}
       >
-        {/* Checkbox / Index indicator */}
+        {/* Index indicator */}
         <div
-          onClick={() => onToggleSelect && onToggleSelect()}
           style={{
             width: 32,
             height: 32,
@@ -468,27 +241,15 @@ function GuestCard({ guest, index, selected, onToggleSelect, selectMode }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            cursor: 'pointer',
-            background: selected
-              ? 'linear-gradient(135deg, #C9A96E 0%, #B8944F 100%)'
-              : 'rgba(201,169,110,0.1)',
-            border: selected
-              ? 'none'
-              : '1.5px solid rgba(201,169,110,0.35)',
-            color: selected ? '#FFF' : '#7A6F60',
+            background: 'rgba(201,169,110,0.1)',
+            border: '1.5px solid rgba(201,169,110,0.35)',
+            color: '#7A6F60',
             fontWeight: 700,
             fontSize: '0.75rem',
-            transition: 'all 0.2s ease',
             marginTop: 2,
           }}
         >
-          {selected ? (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          ) : (
-            `#${index + 1}`
-          )}
+          {`#${index + 1}`}
         </div>
 
         {/* Guest Name & Category Badge */}
@@ -718,34 +479,6 @@ function GuestCard({ guest, index, selected, onToggleSelect, selectMode }) {
 function GuestDashboard() {
   const [query, setQuery] = useState('')
   const [activeSource, setActiveSource] = useState('Semua')
-  const [selected, setSelected] = useState(new Set())
-  const [bulkQueue, setBulkQueue] = useState(null)
-  const selectMode = selected.size > 0
-
-  const toggleSelect = useCallback((guestKey) => {
-    setSelected(prev => {
-      const next = new Set(prev)
-      if (next.has(guestKey)) next.delete(guestKey)
-      else next.add(guestKey)
-      return next
-    })
-  }, [])
-
-  const selectAll = useCallback((list) => {
-    setSelected(prev => {
-      const next = new Set(prev)
-      list.forEach(g => next.add(`${g.name}::${g.source}`))
-      return next
-    })
-  }, [])
-
-  const clearAll = useCallback(() => setSelected(new Set()), [])
-
-  function startBulk() {
-    const queue = GUEST_DATA.filter(g => selected.has(`${g.name}::${g.source}`))
-    if (queue.length === 0) return
-    setBulkQueue(queue)
-  }
 
   const sources = ['Semua', ...Object.keys(SOURCE_COLORS)]
 
@@ -770,13 +503,6 @@ function GuestDashboard() {
       className="paper-texture min-h-screen"
       style={{ background: 'linear-gradient(160deg, #F7F4ED 0%, #EEE9DE 100%)' }}
     >
-      {/* ── Bulk Queue Panel ── */}
-      {bulkQueue && (
-        <BulkQueuePanel
-          queue={bulkQueue}
-          onClose={() => { setBulkQueue(null); clearAll() }}
-        />
-      )}
 
       {/* ── Header ── */}
       <div
@@ -935,55 +661,9 @@ function GuestDashboard() {
 
       {/* ── Guest List ── */}
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '20px 16px 100px' }}>
-        {/* Select-all row */}
+
         {filtered.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 14,
-              padding: '0 4px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <button
-                onClick={() => selectAll(filtered)}
-                style={{
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  color: '#B8944F',
-                  background: 'rgba(201,169,110,0.12)',
-                  border: '1px solid rgba(201,169,110,0.25)',
-                  borderRadius: 8,
-                  cursor: 'pointer',
-                  padding: '6px 12px',
-                  letterSpacing: '0.01em',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                Pilih Semua ({filtered.length})
-              </button>
-
-              {selectMode && (
-                <button
-                  onClick={clearAll}
-                  style={{
-                    fontSize: '0.78rem',
-                    fontWeight: 500,
-                    color: '#7A6F60',
-                    background: 'transparent',
-                    border: '1px solid rgba(122,111,96,0.2)',
-                    borderRadius: 8,
-                    cursor: 'pointer',
-                    padding: '6px 12px',
-                  }}
-                >
-                  Batalkan Pilihan
-                </button>
-              )}
-            </div>
-
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14, padding: '0 4px' }}>
             <span style={{ fontSize: '0.75rem', color: '#7A6F60', fontWeight: 500 }}>
               Menampilkan {filtered.length} tamu
             </span>
@@ -1006,116 +686,12 @@ function GuestDashboard() {
                 key={key}
                 guest={guest}
                 index={i}
-                selected={selected.has(key)}
-                selectMode={selectMode}
-                onToggleSelect={() => toggleSelect(key)}
               />
             )
           })
         )}
       </div>
 
-      {/* ── Floating Bulk Action Bar ── */}
-      {selectMode && !bulkQueue && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: 20,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 'calc(100% - 24px)',
-            maxWidth: 480,
-            zIndex: 100,
-            background: 'linear-gradient(135deg, rgba(22, 28, 44, 0.96) 0%, rgba(12, 16, 26, 0.98) 100%)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(201,169,110,0.35)',
-            borderRadius: 20,
-            padding: '10px 14px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 10,
-            boxShadow: '0 16px 48px rgba(0,0,0,0.45), 0 0 24px rgba(201,169,110,0.15)',
-            animation: 'slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-            boxSizing: 'border-box',
-          }}
-        >
-          <style>{`
-            @keyframes slideUp {
-              from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-              to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-            }
-          `}</style>
-
-          {/* Left count & info */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-            <div
-              style={{
-                background: 'rgba(201,169,110,0.22)',
-                border: '1px solid rgba(201,169,110,0.45)',
-                borderRadius: 12,
-                padding: '4px 10px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                color: '#E8C99A',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {selected.size} tamu
-            </div>
-
-            <button
-              onClick={clearAll}
-              title="Batalkan pilihan"
-              style={{
-                background: 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: 10,
-                width: 28,
-                height: 28,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'rgba(232,228,217,0.6)',
-                fontSize: '0.75rem',
-                cursor: 'pointer',
-                flexShrink: 0,
-              }}
-            >
-              ✕
-            </button>
-          </div>
-
-          {/* Right Bulk Blast CTA */}
-          <button
-            onClick={startBulk}
-            style={{
-              background: 'linear-gradient(135deg, #C9A96E 0%, #B8944F 100%)',
-              border: 'none',
-              borderRadius: 12,
-              padding: '10px 16px',
-              color: '#FFF',
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              flexShrink: 0,
-              letterSpacing: '0.02em',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              whiteSpace: 'nowrap',
-              boxShadow: '0 4px 14px rgba(201,169,110,0.3)',
-            }}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.854L.073 23.927l6.263-1.643A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.368l-.36-.214-3.717.975.992-3.617-.235-.372A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.421-4.398 9.818-9.818 9.818z" />
-            </svg>
-            <span>Blast Sekarang</span>
-          </button>
-        </div>
-      )}
 
       {/* ── Footer ── */}
       <div
