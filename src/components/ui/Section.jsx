@@ -23,35 +23,35 @@ const VARIANTS = {
     hidden: { opacity: 0, y: 60 },
     visible: (delay) => ({
       opacity: 1, y: 0,
-      transition: { duration: 2.2, ease: [0.22, 1, 0.36, 1], delay },
+      transition: { duration: 3.2, ease: [0.22, 1, 0.36, 1], delay },
     }),
   },
   fadeIn: {
     hidden: { opacity: 0 },
     visible: (delay) => ({
       opacity: 1,
-      transition: { duration: 2.6, ease: 'easeOut', delay },
+      transition: { duration: 3.8, ease: 'easeOut', delay },
     }),
   },
   slideLeft: {
     hidden: { opacity: 0, x: 80 },
     visible: (delay) => ({
       opacity: 1, x: 0,
-      transition: { duration: 2.0, ease: [0.22, 1, 0.36, 1], delay },
+      transition: { duration: 3.0, ease: [0.22, 1, 0.36, 1], delay },
     }),
   },
   slideRight: {
     hidden: { opacity: 0, x: -80 },
     visible: (delay) => ({
       opacity: 1, x: 0,
-      transition: { duration: 2.0, ease: [0.22, 1, 0.36, 1], delay },
+      transition: { duration: 3.0, ease: [0.22, 1, 0.36, 1], delay },
     }),
   },
   scaleUp: {
     hidden: { opacity: 0, scale: 0.82 },
     visible: (delay) => ({
       opacity: 1, scale: 1,
-      transition: { duration: 2.1, ease: [0.22, 1, 0.36, 1], delay },
+      transition: { duration: 3.2, ease: [0.22, 1, 0.36, 1], delay },
     }),
   },
 }
