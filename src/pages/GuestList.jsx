@@ -5,6 +5,8 @@ import { supabase } from '../lib/supabaseClient'
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 const BASE_URL = 'https://adventureof-pritailham.co'
 const SESSION_KEY = 'guestlist_authed'
+// Value stored: 'admin' | 'Prita' | 'Om Ilham' | 'Tante Dian'
+const SESSION_ROLE_KEY = 'guestlist_role'
 
 const SOURCE_STYLES = {
   Prita: {
@@ -16,6 +18,35 @@ const SOURCE_STYLES = {
   'Tante Dian': {
     badge: 'bg-[rgba(74,69,64,0.12)] border border-[rgba(74,69,64,0.30)] text-[#7A6F60]',
   },
+}
+
+// Per-undangan passwords — set via .env (VITE_PW_PRITA, etc.)
+// Falls back to the shared admin password so existing setups aren't broken.
+const UNDANGAN_ACCOUNTS = [
+  {
+    label: 'Prita',
+    role: 'Prita',
+    envKey: 'VITE_PW_PRITA',
+  },
+  {
+    label: 'Om Ilham',
+    role: 'Om Ilham',
+    envKey: 'VITE_PW_OM_ILHAM',
+  },
+  {
+    label: 'Tante Dian',
+    role: 'Tante Dian',
+    envKey: 'VITE_PW_TANTE_DIAN',
+  },
+  {
+    label: 'Ilham',
+    role: 'Ilham',
+    envKey: 'VITE_PW_ILHAM',
+  },
+]
+
+function resolvePassword(envKey) {
+  return import.meta.env[envKey] || import.meta.env.VITE_ADMIN_PASSWORD || ''
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -71,14 +102,14 @@ function buildWaLink(name, url, phone) {
     : `https://wa.me/?text=${text}`
 }
 
-// ── Icons ──────────────────────────────────────────────────────────────────
-const IconEye = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-    <circle cx="12" cy="12" r="3" />
+const IconSent = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <polyline points="20 6 9 17 4 12" />
+    <polyline points="20 6 12 14 12 20 9 17" />
   </svg>
 )
 
+// ── Icons ──────────────────────────────────────────────────────────────────
 const IconCopy = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
     <rect x="9" y="9" width="13" height="13" rx="2" />
@@ -101,16 +132,28 @@ const IconWhatsApp = () => (
 
 // ── Login Gate ─────────────────────────────────────────────────────────────
 function LoginGate({ onAuthed }) {
+  const [selected, setSelected] = useState(null) // null | account object | 'admin'
   const [pw, setPw] = useState('')
   const [err, setErr] = useState(false)
   const [shake, setShake] = useState(false)
 
   function handleSubmit(e) {
     e.preventDefault()
-    const expected = import.meta.env.VITE_ADMIN_PASSWORD
-    if (expected && pw === expected) {
+    let matched = false
+
+    if (selected === 'admin') {
+      const expected = import.meta.env.VITE_ADMIN_PASSWORD
+      if (expected && pw === expected) matched = true
+    } else if (selected) {
+      const expected = resolvePassword(selected.envKey)
+      if (expected && pw === expected) matched = true
+    }
+
+    if (matched) {
+      const role = selected === 'admin' ? 'admin' : selected.role
       sessionStorage.setItem(SESSION_KEY, '1')
-      onAuthed()
+      sessionStorage.setItem(SESSION_ROLE_KEY, role)
+      onAuthed(role)
     } else {
       setErr(true)
       setShake(true)
@@ -118,61 +161,132 @@ function LoginGate({ onAuthed }) {
     }
   }
 
+  function handleBack() {
+    setSelected(null)
+    setPw('')
+    setErr(false)
+  }
+
   return (
     <div className="paper-texture min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-[#F7F4ED] to-[#EEE9DE]">
       <div
         className={`
-          w-full max-w-sm rounded-3xl p-10
-          bg-[rgba(247,244,237,0.88)] backdrop-blur-xl
+          w-full max-w-sm rounded-3xl p-8
+          bg-[rgba(247,244,237,0.92)] backdrop-blur-xl
           border border-[rgba(201,169,110,0.35)]
           shadow-[0_12px_48px_rgba(46,58,79,0.1)]
           ${shake ? 'animate-[shake_0.4s_ease]' : ''}
+          transition-all duration-300
         `}
       >
         <div className="text-center mb-6">
-          <span className="text-4xl">💍</span>
           <h1 className="font-display text-2xl text-[#2E3A4F] mt-3 tracking-wide">
-            Guest List Login
+            Guest List
           </h1>
           <p className="text-xs text-[#7A7A88] mt-1.5">
-            Prita &amp; Ilham · 5 September 2026
+            Prita &amp; Ilham
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-2">
-          <input
-            type="password"
-            value={pw}
-            autoFocus
-            onChange={(e) => { setPw(e.target.value); setErr(false) }}
-            placeholder="Masukkan password admin"
-            className={`
-              w-full rounded-xl px-4 py-3 text-sm text-[#2E3A4F] outline-none
-              border transition-colors duration-200
-              ${err
-                ? 'bg-[rgba(180,60,60,0.05)] border-[rgba(180,60,60,0.4)]'
-                : 'bg-white/80 border-[rgba(201,169,110,0.35)] focus:border-[rgba(201,169,110,0.65)]'
-              }
-            `}
-          />
+        {/* Step 1 — pilih undangan */}
+        {!selected && (
+          <div className="space-y-2.5">
+            <p className="text-[0.75rem] text-[#7A7A88] text-center mb-4 font-medium tracking-wide uppercase">
+              Masuk sebagai
+            </p>
 
-          {err && (
-            <p className="text-xs text-[#B04040]">Password kurang tepat. Coba lagi.</p>
-          )}
+            {UNDANGAN_ACCOUNTS.map((acc) => (
+              <button
+                key={acc.role}
+                onClick={() => { setSelected(acc); setPw(''); setErr(false) }}
+                className="
+                  w-full flex items-center gap-3 px-4 py-3.5 rounded-xl cursor-pointer
+                  bg-white/80 border border-[rgba(201,169,110,0.3)]
+                  hover:bg-[rgba(201,169,110,0.08)] hover:border-[rgba(201,169,110,0.55)]
+                  transition-all duration-150 group text-left
+                "
+              >
+                <span className="flex-1 text-sm font-semibold text-[#2E3A4F] group-hover:text-[#1A2230]">
+                  {acc.label}
+                </span>
+                <span className="text-[#C9A96E] opacity-50 group-hover:opacity-90 text-xs">→</span>
+              </button>
+            ))}
 
-          <button
-            type="submit"
-            className="
-              w-full mt-2 py-3 rounded-xl
-              bg-linear-to-br from-accent to-[#B8944F]
-              text-white text-sm font-bold tracking-widest uppercase
-              shadow-[0_4px_14px_rgba(201,169,110,0.3)]
-              hover:opacity-90 transition-opacity duration-200 cursor-pointer
-            "
-          >
-            Masuk
-          </button>
-        </form>
+            {/* Admin login — less prominent */}
+            <button
+              onClick={() => { setSelected('admin'); setPw(''); setErr(false) }}
+              className="
+                w-full flex items-center justify-center gap-2 mt-1 px-4 py-2.5 rounded-xl cursor-pointer
+                bg-transparent border border-dashed border-[rgba(46,58,79,0.2)]
+                hover:border-[rgba(46,58,79,0.4)] hover:bg-[rgba(46,58,79,0.04)]
+                transition-all duration-150 text-[0.75rem] text-[#7A7A88] font-medium
+              "
+            >
+              <span>Masuk sebagai Admin</span>
+            </button>
+          </div>
+        )}
+
+        {/* Step 2 — masukkan password */}
+        {selected && (
+          <div>
+            <button
+              onClick={handleBack}
+              className="
+                flex items-center gap-1.5 text-[0.75rem] text-[#7A7A88]
+                hover:text-[#2E3A4F] mb-4 cursor-pointer bg-transparent border-none p-0
+                transition-colors duration-150
+              "
+            >
+              ← Kembali
+            </button>
+
+            <div className="flex items-center gap-2.5 mb-5 px-4 py-3 rounded-xl bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)]">
+              <div>
+                <p className="text-[0.7rem] text-[#7A7A88] font-medium m-0">Masuk sebagai</p>
+                <p className="text-sm font-bold text-[#2E3A4F] m-0">
+                  {selected === 'admin' ? 'Admin' : selected.label}
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-2">
+              <input
+                type="password"
+                value={pw}
+                autoFocus
+                onChange={(e) => { setPw(e.target.value); setErr(false) }}
+                placeholder="Masukkan password"
+                className={`
+                  w-full rounded-xl px-4 py-3 text-sm text-[#2E3A4F] outline-none
+                  border transition-colors duration-200
+                  ${err
+                    ? 'bg-[rgba(180,60,60,0.05)] border-[rgba(180,60,60,0.4)]'
+                    : 'bg-white/80 border-[rgba(201,169,110,0.35)] focus:border-[rgba(201,169,110,0.65)]'
+                  }
+                `}
+              />
+
+              {err && (
+                <p className="text-xs text-[#B04040]">Password kurang tepat. Coba lagi.</p>
+              )}
+
+              <button
+                type="submit"
+                className="
+                  w-full mt-2 py-3 rounded-xl
+                  bg-linear-to-br from-accent to-[#B8944F]
+                  text-white text-sm font-bold tracking-widest uppercase
+                  shadow-[0_4px_14px_rgba(201,169,110,0.3)]
+                  hover:opacity-90 transition-opacity duration-200 cursor-pointer
+                "
+              >
+                Masuk
+              </button>
+            </form>
+          </div>
+        )}
       </div>
 
       <style>{`
@@ -189,19 +303,18 @@ function LoginGate({ onAuthed }) {
 }
 
 // ── Guest Card ─────────────────────────────────────────────────────────────
-function GuestCard({ guest, index }) {
+function GuestCard({ guest, index, waSent, onToggleSent, isAdmin }) {
   const [copied, setCopied] = useState(false)
-  const [expanded, setExpanded] = useState(false)
+  const [toggling, setToggling] = useState(false)
 
   const slug = toSlug(guest.name)
   const url = `${BASE_URL}/?to=${slug}`
-  const message = buildMessage(guest.name, url)
   const waLink = buildWaLink(guest.name, url, guest.phone)
   const srcStyle = SOURCE_STYLES[guest.source] ?? SOURCE_STYLES['Prita']
 
   async function handleCopy() {
     try {
-      await navigator.clipboard.writeText(message)
+      await navigator.clipboard.writeText(buildMessage(guest.name, url))
       setCopied(true)
       toast.success('Pesan disalin!', { icon: '📋', duration: 2000 })
       setTimeout(() => setCopied(false), 2500)
@@ -210,14 +323,24 @@ function GuestCard({ guest, index }) {
     }
   }
 
+  async function handleToggleSent() {
+    setToggling(true)
+    await onToggleSent(guest.slug, !waSent)
+    setToggling(false)
+  }
+
   return (
-    <div className="
+    <div className={`
       rounded-2xl mb-3 overflow-hidden
-      bg-white/85 backdrop-blur-md
-      border border-[rgba(201,169,110,0.22)]
+      backdrop-blur-md
+      border
       shadow-[0_2px_10px_rgba(46,58,79,0.04)]
-      transition-all duration-200
-    ">
+      transition-all duration-300
+      ${waSent
+        ? 'bg-[rgba(37,211,102,0.05)] border-[rgba(37,211,102,0.3)]'
+        : 'bg-white/85 border-[rgba(201,169,110,0.22)]'
+      }
+    `}>
       {/* Header */}
       <div className="flex items-start gap-3 px-4 pt-3.5 pb-2.5">
         {/* Index badge */}
@@ -232,13 +355,15 @@ function GuestCard({ guest, index }) {
 
         {/* Name + badge + URL */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <h3 className="text-[0.95rem] font-semibold text-[#1E283C] leading-snug wrap-break-word m-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <h3 className="text-[0.95rem] font-semibold text-[#1E283C] leading-snug truncate min-w-0 flex-1 m-0">
               {guest.name}
             </h3>
-            <span className={`text-[0.65rem] px-2.5 py-0.5 rounded-full font-semibold tracking-wide whitespace-nowrap shrink-0 ${srcStyle.badge}`}>
-              {guest.source}
-            </span>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className={`text-[0.65rem] px-2.5 py-0.5 rounded-full font-semibold tracking-wide whitespace-nowrap ${srcStyle.badge} ${isAdmin ? '' : 'hidden'}`}>
+                {guest.source}
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center gap-1.5 mt-1.5 text-[0.72rem] text-[#6B7280]">
@@ -261,24 +386,6 @@ function GuestCard({ guest, index }) {
         border-t border-dashed border-[rgba(201,169,110,0.18)]
         bg-[rgba(247,244,237,0.4)]
       ">
-        {/* Preview toggle */}
-        <button
-          onClick={() => setExpanded((v) => !v)}
-          title="Pratinjau Pesan WA"
-          className={`
-            flex items-center gap-1.5 h-9 px-3 rounded-[10px] cursor-pointer
-            border text-[0.75rem] font-semibold text-[#2E3A4F]
-            transition-all duration-150
-            ${expanded
-              ? 'bg-[rgba(46,58,79,0.12)] border-[rgba(46,58,79,0.15)]'
-              : 'bg-[rgba(46,58,79,0.06)] border-[rgba(46,58,79,0.15)] hover:bg-[rgba(46,58,79,0.1)]'
-            }
-          `}
-        >
-          <IconEye />
-          <span>Pesan</span>
-        </button>
-
         {/* Copy */}
         <button
           onClick={handleCopy}
@@ -294,55 +401,81 @@ function GuestCard({ guest, index }) {
           `}
         >
           {copied ? <IconCheck /> : <IconCopy />}
-          <span>{copied ? 'Tersalin!' : 'Salin'}</span>
+          <span>{copied ? 'Copied!' : 'Copy'}</span>
         </button>
 
-        {/* WhatsApp CTA */}
-        <a
-          href={waLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-            flex-1 flex items-center justify-center gap-1.5 h-9 px-3.5 rounded-[10px]
-            bg-linear-to-br from-[#25D366] to-[#128C7E]
-            text-white text-[0.78rem] font-bold tracking-wide no-underline
-            shadow-[0_3px_10px_rgba(37,211,102,0.25)]
-            hover:opacity-90 transition-opacity duration-150
-          "
+        {/* Toggle Sent — switch */}
+        <button
+          onClick={handleToggleSent}
+          disabled={toggling}
+          title={waSent ? 'Tandai belum terkirim' : 'Tandai sudah terkirim'}
+          className={`
+            flex items-center h-9 px-2 rounded-[10px] cursor-pointer
+            transition-all duration-150 shrink-0
+            ${toggling ? 'opacity-50 cursor-wait' : ''}
+          `}
         >
-          <IconWhatsApp />
-          <span>Kirim WA</span>
-        </a>
+          <span className={`
+            relative inline-flex w-9 h-5 rounded-full transition-colors duration-200
+            ${waSent ? 'bg-[#25D366]' : 'bg-[rgba(46,58,79,0.2)]'}
+          `}>
+            <span className={`
+              absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white
+              shadow-[0_1px_3px_rgba(0,0,0,0.2)]
+              transition-transform duration-200
+              ${waSent ? 'translate-x-4' : 'translate-x-0'}
+            `} />
+          </span>
+        </button>
+
+        {/* WhatsApp CTA / Status Terkirim */}
+        {waSent ? (
+          <span className="flex-1 flex items-center justify-center gap-1.5 h-9 px-3.5 rounded-[10px] bg-[rgba(37,211,102,0.12)] border border-[rgba(37,211,102,0.4)] text-[#128C7E] text-[0.78rem] font-bold">
+            <IconCheck />
+            Terkirim
+          </span>
+        ) : (
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              flex-1 flex items-center justify-center gap-1.5 h-9 px-3.5 rounded-[10px]
+              bg-linear-to-br from-[#25D366] to-[#128C7E]
+              text-white text-[0.78rem] font-bold tracking-wide no-underline
+              shadow-[0_3px_10px_rgba(37,211,102,0.25)]
+              hover:opacity-90 transition-opacity duration-150
+            "
+          >
+            <IconWhatsApp />
+            <span>Kirim WA</span>
+          </a>
+        )}
       </div>
 
-      {/* Message Preview */}
-      {expanded && (
-        <div className="border-t border-[rgba(201,169,110,0.15)] bg-[#F7F4ED] px-4 py-3">
-          <p className="text-[0.68rem] font-semibold text-[#7A6F60] mb-1.5 tracking-wider uppercase">
-            Preview Pesan WhatsApp:
-          </p>
-          <pre className="
-            font-[inherit] text-[0.75rem] text-[#33302B] leading-relaxed
-            whitespace-pre-wrap wrap-break-word m-0
-            max-h-44 overflow-y-auto
-            bg-white/70 px-3 py-2.5 rounded-lg
-            border border-[rgba(201,169,110,0.2)]
-          ">
-            {message}
-          </pre>
-        </div>
-      )}
     </div>
   )
 }
 
+// ── Icons ── (logout)
+const IconLogout = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+    <polyline points="16 17 21 12 16 7" />
+    <line x1="21" y1="12" x2="9" y2="12" />
+  </svg>
+)
+
 // ── Main Dashboard ─────────────────────────────────────────────────────────
-function GuestDashboard() {
+function GuestDashboard({ role, onLogout }) {
+  const isAdmin = role === 'admin'
   const [guests, setGuests] = useState([])
+  const [sentMap, setSentMap] = useState({}) // slug → boolean
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState(null)
   const [query, setQuery] = useState('')
-  const [activeSource, setActiveSource] = useState('Semua')
+  // Admin sees all sources; per-undangan login is locked to their source
+  const [activeSource, setActiveSource] = useState(isAdmin ? 'Semua' : role)
 
   useEffect(() => {
     async function fetchGuests() {
@@ -350,20 +483,42 @@ function GuestDashboard() {
       setFetchError(null)
       const { data, error } = await supabase
         .from('guests')
-        .select('name, slug, source, phone')
+        .select('name, slug, source, phone, wa_sent')
         .order('source')
         .order('name')
       if (error) {
         setFetchError(error.message)
       } else {
-        setGuests(data ?? [])
+        const list = data ?? []
+        setGuests(list)
+        const map = {}
+        list.forEach((g) => { map[g.slug] = !!g.wa_sent })
+        setSentMap(map)
       }
       setLoading(false)
     }
     fetchGuests()
   }, [])
 
-  const sources = ['Semua', ...Object.keys(SOURCE_STYLES)]
+  async function handleToggleSent(slug, newValue) {
+    // Optimistic update
+    setSentMap((prev) => ({ ...prev, [slug]: newValue }))
+    const { error } = await supabase
+      .from('guests')
+      .update({ wa_sent: newValue })
+      .eq('slug', slug)
+    if (error) {
+      toast.error('Gagal menyimpan status')
+      // Revert
+      setSentMap((prev) => ({ ...prev, [slug]: !newValue }))
+    } else {
+      toast.success(newValue ? 'Undangan ditandai terkirim' : 'Status dikembalikan', { duration: 2000 })
+    }
+  }
+
+  const sources = isAdmin
+    ? ['Semua', ...Object.keys(SOURCE_STYLES)]
+    : [role]
 
   const counts = useMemo(() => {
     const c = { Semua: guests.length }
@@ -395,24 +550,29 @@ function GuestDashboard() {
 
           {/* Title */}
           <div className="flex items-center gap-3">
-            <div className="
-              shrink-0 w-10 h-10 rounded-xl text-xl
-              flex items-center justify-center
-              bg-[rgba(201,169,110,0.15)] border border-[rgba(201,169,110,0.3)]
-            ">
-              💍
-            </div>
-            <div>
+            <div className="flex-1">
               <h1 className="font-display text-xl text-[#E8C99A] tracking-wide leading-tight m-0">
-                WA Blast — Prita &amp; Ilham
+                Invitation — Prita &amp; Ilham
               </h1>
-              <p className="text-[0.72rem] text-[rgba(232,201,154,0.65)] mt-0.5 m-0">
-                Sabtu, 5 September 2026 · Auditorium BKKBN Halim
-              </p>
             </div>
+            <button
+              onClick={onLogout}
+              title="Logout"
+              className="
+                shrink-0 flex items-center gap-1.5 h-9 px-3 rounded-xl cursor-pointer
+                bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)]
+                text-[rgba(232,201,154,0.7)] text-[0.75rem] font-semibold
+                hover:bg-[rgba(255,80,80,0.12)] hover:border-[rgba(255,80,80,0.3)] hover:text-[#FF8080]
+                transition-all duration-150
+              "
+            >
+              <IconLogout />
+              <span>Logout</span>
+            </button>
           </div>
 
-          {/* Source filter chips */}
+          {/* Source filter chips — admin only */}
+          {isAdmin && (
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
             {sources.map((src) => {
               const isActive = activeSource === src
@@ -422,18 +582,19 @@ function GuestDashboard() {
                   onClick={() => setActiveSource(src)}
                   className={`
                     shrink-0 px-3.5 py-1.5 rounded-full text-[0.75rem] font-semibold
-                    whitespace-nowrap border cursor-pointer transition-all duration-200
+                    whitespace-nowrap border transition-all duration-200
                     ${isActive
                       ? 'bg-[rgba(201,169,110,0.3)] border-[rgba(201,169,110,0.8)] text-[#E8C99A] shadow-[0_2px_10px_rgba(201,169,110,0.2)]'
-                      : 'bg-[rgba(201,169,110,0.06)] border-[rgba(201,169,110,0.2)] text-[rgba(232,201,154,0.6)] hover:bg-[rgba(201,169,110,0.12)]'
+                      : 'bg-[rgba(201,169,110,0.06)] border-[rgba(201,169,110,0.2)] text-[rgba(232,201,154,0.6)] hover:bg-[rgba(201,169,110,0.12)] cursor-pointer'
                     }
                   `}
                 >
-                  {src} · {counts[src]}
+                  {src} · {counts[src] ?? 0}
                 </button>
               )
             })}
           </div>
+          )}
 
           {/* Search */}
           <div className="relative">
@@ -464,6 +625,24 @@ function GuestDashboard() {
               </button>
             )}
           </div>
+
+          {/* Progress terkirim */}
+          {!loading && filtered.length > 0 && (
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-[0.7rem] font-medium">
+                <span className="text-[rgba(232,201,154,0.65)]">Progress Invitation</span>
+                <span className="text-[#E8C99A]">
+                  {filtered.filter((g) => sentMap[g.slug]).length} / {filtered.length} terkirim
+                </span>
+              </div>
+              <div className="h-1.5 rounded-full bg-white/8 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-linear-to-r from-[#25D366] to-[#128C7E] transition-all duration-500"
+                  style={{ width: `${filtered.length > 0 ? (filtered.filter((g) => sentMap[g.slug]).length / filtered.length) * 100 : 0}%` }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
@@ -482,12 +661,6 @@ function GuestDashboard() {
           </div>
         ) : (
           <>
-            {filtered.length > 0 && (
-              <p className="text-right text-[0.75rem] text-[#7A6F60] font-medium mb-3.5 px-1">
-                Menampilkan {filtered.length} tamu
-              </p>
-            )}
-
             {filtered.length === 0 ? (
               <div className="text-center py-16 text-[#9E9E9E]">
                 <p className="text-4xl mb-2">🔍</p>
@@ -502,6 +675,9 @@ function GuestDashboard() {
                   key={`${guest.name}::${guest.source}`}
                   guest={guest}
                   index={i}
+                  waSent={!!sentMap[guest.slug]}
+                  onToggleSent={handleToggleSent}
+                  isAdmin={isAdmin}
                 />
               ))
             )}
@@ -520,11 +696,27 @@ function GuestDashboard() {
 // ── Page Entry ─────────────────────────────────────────────────────────────
 export default function GuestList() {
   const [authed, setAuthed] = useState(false)
+  const [role, setRole] = useState('admin')
 
   useEffect(() => {
-    setAuthed(sessionStorage.getItem(SESSION_KEY) === '1')
+    const isAuthed = sessionStorage.getItem(SESSION_KEY) === '1'
+    const savedRole = sessionStorage.getItem(SESSION_ROLE_KEY) || 'admin'
+    setAuthed(isAuthed)
+    setRole(savedRole)
   }, [])
 
-  if (!authed) return <LoginGate onAuthed={() => setAuthed(true)} />
-  return <GuestDashboard />
+  function handleAuthed(resolvedRole) {
+    setRole(resolvedRole)
+    setAuthed(true)
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem(SESSION_KEY)
+    sessionStorage.removeItem(SESSION_ROLE_KEY)
+    setAuthed(false)
+    setRole('admin')
+  }
+
+  if (!authed) return <LoginGate onAuthed={handleAuthed} />
+  return <GuestDashboard role={role} onLogout={handleLogout} />
 }
