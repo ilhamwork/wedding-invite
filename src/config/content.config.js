@@ -52,19 +52,19 @@ export const content = {
     {
       year: '2023',
       photo: '/assets/photos/portrait/prita-ilham-02.webp',
-      title: { id: 'Pertama Bertemu', en: 'First Meeting' },
+      title: { id: 'Pertama Bertemu', en: 'Where Our Journey Began' },
       caption: {
         id: 'Kami pertama kali bertemu di atap tertinggi Jawa Tengah, Gunung Slamet.',
-        en: 'We first met at the highest peak of Central Java, Mount Slamet.',
+        en: 'It all started with two strangers sharing stories about travel on social media. A simple conversation eventually led us to meet in person — at the highest peak of Central Java, Mount Slamet. Little did we know, that first adventure would become the beginning of our story.',
       },
     },
     {
       year: '2023 - 2026',
       photo: '/assets/photos/portrait/prita-ilham-11.webp',
-      title: { id: 'Menjadi Dekat', en: 'Growing Close' },
+      title: { id: 'Menjadi Dekat', en: 'Growing Together' },
       caption: {
         id: 'Selama 3 tahun kami saling mengenal satu sama lain. Saling merayakan di momen terbaik kami, dan saling menguatkan di titik tersulit kami.',
-        en: 'Over three years, we grew to truly know each other. Celebrating the best moments together and holding each other up through the hardest ones.',
+        en: 'For three wonderful years, we learned to know each other, grew together, and shared countless stories along the way. We celebrated the little things, created unforgettable memories, and stood by each other through the highs and lows of life.',
       },
     },
     {
@@ -73,7 +73,7 @@ export const content = {
       title: { id: 'Lamaran', en: 'The Proposal' },
       caption: {
         id: '1 Agustus menjadi momen penting kami, di hadapan orang tua, keluarga, dan sahabat.',
-        en: 'August 1st became our most meaningful milestone, surrounded by our parents, family, and closest friends.',
+        en: 'On August 1 2026, we took our most meaningful step yet — choosing to continue this journey together, towards forever. Surrounded by our parents, families, and closest friends, we began a new chapter of our story.',
       },
     },
   ],

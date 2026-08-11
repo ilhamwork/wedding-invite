@@ -32,7 +32,7 @@ export default function Home() {
   }, [isOpen])
 
   return (
-    <div className="paper-texture min-h-[100dvh]">
+    <div className="paper-texture min-h-dvh">
       {/* Music toggle — only visible after invitation is opened */}
       {isOpen && <MusicToggle />}
       {/* Preload countdown carousel images without affecting layout */}

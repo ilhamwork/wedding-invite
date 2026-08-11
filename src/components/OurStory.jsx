@@ -57,7 +57,7 @@ export default function OurStory() {
         {items.map((_, i) => (
           <div
             key={i}
-            className="h-[2px] flex-1 rounded-full overflow-hidden"
+            className="h-0.5 flex-1 rounded-full overflow-hidden"
             style={{ background: 'rgba(46,58,79,0.12)' }}
           >
             <motion.div

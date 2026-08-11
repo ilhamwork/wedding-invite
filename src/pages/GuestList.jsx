@@ -209,7 +209,7 @@ function LoginGate({ onAuthed }) {
                 <span className="flex-1 text-sm font-semibold text-[#2E3A4F] group-hover:text-[#1A2230]">
                   {acc.label}
                 </span>
-                <span className="text-[#C9A96E] opacity-50 group-hover:opacity-90 text-xs">→</span>
+                <span className="text-accent opacity-50 group-hover:opacity-90 text-xs">→</span>
               </button>
             ))}
 
