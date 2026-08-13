@@ -30,8 +30,8 @@ export default function Closing() {
       <Section className="pb-4" bg="sky" fadeTop="#EEE9DE">
         <Reveal variant="fadeIn" className="text-center">
           {/* Original closing message */}
-          <p className="text-md text-sea-light leading-relaxed max-w-xs mx-auto mb-3">
-            THANK YOU
+          <p className="text-sm text-sea-light italic leading-relaxed max-w-xs mx-auto mb-3">
+            With all our love,
           </p>
 
           {/* Couple names */}

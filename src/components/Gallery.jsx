@@ -55,6 +55,7 @@ export default function Gallery() {
   const { t } = useTranslation()
   const [slotIndex, setSlotIndex] = useState(null)
   const [unlocked, setUnlocked] = useState(false)
+  const [showSwipeHint, setShowSwipeHint] = useState(false)
   const scrollRef = useRef(null)
 
   const photos = content.gallery
@@ -175,7 +176,11 @@ export default function Gallery() {
             >
               <motion.button
                 type="button"
-                onClick={() => setUnlocked(true)}
+                onClick={() => {
+                  setUnlocked(true)
+                  setShowSwipeHint(true)
+                  setTimeout(() => setShowSwipeHint(false), 5000)
+                }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="relative z-10 px-7 py-3 bg-sea text-cream text-xs tracking-[0.25em] uppercase font-medium rounded-full shadow-lg"
@@ -203,6 +208,34 @@ export default function Gallery() {
             >
               &times;
             </motion.button>
+          )}
+        </AnimatePresence>
+
+        {/* ── Swipe hint guide ── */}
+        <AnimatePresence>
+          {showSwipeHint && (
+            <motion.div
+              key="swipe-hint"
+              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              style={{ zIndex: 20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            >
+              <div className="flex flex-col items-center gap-2">
+                {/* Hand + arrows animation */}
+                <div className="relative flex items-center h-10">
+                  {/* Hand icon */}
+                  <motion.span
+                    animate={{ x: [20, -20, 20, -20, 20] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    style={{ fontSize: 26, display: 'inline-block', userSelect: 'none' }}
+                  >
+                    👆
+                  </motion.span>
+                </div>
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>

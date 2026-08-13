@@ -72,7 +72,7 @@ export default function OurStory() {
 
       {/* ── Slide area ── */}
       <div
-        className="relative mx-auto overflow-hidden w-full max-w-md md:max-w-2xl"
+        className="relative mx-auto overflow-hidden w-full max-w-lg md:max-w-2xl"
         style={{ cursor: 'grab' }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
@@ -91,8 +91,8 @@ export default function OurStory() {
           >
             {/* Photo */}
             <div
-              className="relative mx-6 overflow-hidden"
-              style={{ borderRadius: 20, aspectRatio: '3/4' }}
+              className="relative mx-2 overflow-hidden"
+              style={{ borderRadius: 20, aspectRatio: '2/3' }}
             >
               <img
                 src={item.photo ?? PLACEHOLDER}
