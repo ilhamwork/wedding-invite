@@ -49,7 +49,7 @@ VALUES
   ('Vina Ramadhani', 'vina-ramadhani', 'Prita', '6281295000780'),
   ('Tara Hanifa', 'tara-hanifa', 'Prita', '6281281693804'),
   ('Indah Permata', 'indah-permata', 'Prita', '6287873733522'),
-  ('Ajiziah Qotrunada', 'ajiziah-qotrunada', 'Prita', '628111496917'),
+  ('Ajiziah Qothrunnada', 'ajiziah-qothrunnada', 'Prita', '628111496917'),
   ('Om Anto & Tante Neil', 'om-anto-tante-neil', 'Prita', '6281337956060'),
   ('Nadia Nunlehu & Family', 'nadia-nunlehu-family', 'Prita', '6285334728265'),
   ('Salsabila Sukayana Puteri', 'salsabila-sukayana-puteri', 'Prita', '6281214418292'),
