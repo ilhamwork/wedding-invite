@@ -11,6 +11,18 @@ const ATTENDANCE_OPTIONS = [
   { value: 'not_attending', labelKey: 'rsvp.notAttending' },
 ]
 
+function toSlug(name) {
+  if (!name) return ''
+  return name
+    .toLowerCase()
+    .replace(/&/g, '')
+    .replace(/\./g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+}
+
 export default function RSVPWishes({ guestName }) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language?.startsWith('en') ? 'en-US' : 'id-ID'
@@ -84,13 +96,21 @@ export default function RSVPWishes({ guestName }) {
       if (!isSupabaseConfigured) throw new Error('Supabase not configured')
 
       // Insert RSVP
+      const trimmedName = name.trim()
       const { error: rsvpError } = await supabase.from('rsvps').insert({
-        guest_name: name.trim(),
+        guest_name: trimmedName,
         attendance_status: attendance,
         guest_count: attendance === 'attending' ? guestCount : 0,
         message: message.trim() || null,
       })
       if (rsvpError) throw rsvpError
+
+      // Auto-set wa_sent to true in guests table if matching guest exists
+      const gSlug = toSlug(trimmedName)
+      await supabase
+        .from('guests')
+        .update({ wa_sent: true })
+        .or(`slug.eq.${gSlug},name.ilike.${trimmedName}`)
 
       // Insert wish if message provided
       if (message.trim()) {

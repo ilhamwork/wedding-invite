@@ -302,8 +302,16 @@ function LoginGate({ onAuthed }) {
   )
 }
 
+// ── Helper for RSVP matching ───────────────────────────────────────────────
+function getGuestRsvp(guest, rsvpMap) {
+  if (!guest || !rsvpMap) return null
+  const gSlug = guest.slug || toSlug(guest.name)
+  const gLower = guest.name ? guest.name.trim().toLowerCase() : ''
+  return rsvpMap[gSlug] || rsvpMap[gLower] || null
+}
+
 // ── Guest Card ─────────────────────────────────────────────────────────────
-function GuestCard({ guest, index, waSent, onToggleSent, isAdmin }) {
+function GuestCard({ guest, index, waSent, onToggleSent, isAdmin, rsvp }) {
   const [copied, setCopied] = useState(false)
   const [toggling, setToggling] = useState(false)
 
@@ -353,17 +361,35 @@ function GuestCard({ guest, index, waSent, onToggleSent, isAdmin }) {
           #{index + 1}
         </div>
 
-        {/* Name + badge + URL */}
+        {/* Name + badges + URL */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 min-w-0">
-            <h3 className="text-[0.95rem] font-semibold text-[#1E283C] leading-snug truncate min-w-0 flex-1 m-0">
-              {guest.name}
-            </h3>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className={`text-[0.65rem] px-2.5 py-0.5 rounded-full font-semibold tracking-wide whitespace-nowrap ${srcStyle.badge} ${isAdmin ? '' : 'hidden'}`}>
-                {guest.source}
+          <h3 className="text-[0.95rem] font-semibold text-[#1E283C] leading-snug truncate m-0">
+            {guest.name}
+          </h3>
+          
+          <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+            <span className={`text-[0.65rem] px-2.5 py-0.5 rounded-full font-semibold tracking-wide whitespace-nowrap ${srcStyle.badge} ${isAdmin ? '' : 'hidden'}`}>
+              {guest.source}
+            </span>
+
+            {/* Attendance badge */}
+            {rsvp?.attendance_status === 'attending' && (
+              <span className="inline-flex items-center gap-1 text-[0.65rem] px-2.5 py-0.5 rounded-full font-bold bg-[#E6F4EA] border border-[#A7F3D0] text-[#166534] whitespace-nowrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E]"></span>
+                Hadir ({rsvp.guest_count || 1} pax)
               </span>
-            </div>
+            )}
+            {rsvp?.attendance_status === 'not_attending' && (
+              <span className="inline-flex items-center gap-1 text-[0.65rem] px-2.5 py-0.5 rounded-full font-bold bg-[#FEE2E2] border border-[#FCA5A5] text-[#991B1B] whitespace-nowrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span>
+                Tidak Hadir
+              </span>
+            )}
+            {!rsvp && (
+              <span className="inline-flex items-center gap-1 text-[0.65rem] px-2 py-0.5 rounded-full font-medium bg-[rgba(243,244,246,0.9)] border border-[rgba(209,213,219,0.8)] text-[#6B7280] whitespace-nowrap">
+                Belum RSVP
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-1.5 mt-1.5 text-[0.72rem] text-[#6B7280]">
@@ -377,6 +403,12 @@ function GuestCard({ guest, index, waSent, onToggleSent, isAdmin }) {
               {url.replace('https://', '')}
             </a>
           </div>
+
+          {rsvp?.message && (
+            <div className="mt-2 text-[0.73rem] italic text-[#4A5568] bg-[rgba(201,169,110,0.08)] px-3 py-1.5 rounded-xl border border-[rgba(201,169,110,0.2)]">
+              💬 &quot;{rsvp.message}&quot;
+            </div>
+          )}
         </div>
       </div>
 
@@ -404,30 +436,6 @@ function GuestCard({ guest, index, waSent, onToggleSent, isAdmin }) {
           <span>{copied ? 'Copied!' : 'Copy'}</span>
         </button>
 
-        {/* Toggle Sent — switch */}
-        <button
-          onClick={handleToggleSent}
-          disabled={toggling}
-          title={waSent ? 'Tandai belum terkirim' : 'Tandai sudah terkirim'}
-          className={`
-            flex items-center h-9 px-2 rounded-[10px] cursor-pointer
-            transition-all duration-150 shrink-0
-            ${toggling ? 'opacity-50 cursor-wait' : ''}
-          `}
-        >
-          <span className={`
-            relative inline-flex w-9 h-5 rounded-full transition-colors duration-200
-            ${waSent ? 'bg-[#25D366]' : 'bg-[rgba(46,58,79,0.2)]'}
-          `}>
-            <span className={`
-              absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white
-              shadow-[0_1px_3px_rgba(0,0,0,0.2)]
-              transition-transform duration-200
-              ${waSent ? 'translate-x-4' : 'translate-x-0'}
-            `} />
-          </span>
-        </button>
-
         {/* WhatsApp CTA / Status Terkirim */}
         {waSent ? (
           <span className="flex-1 flex items-center justify-center gap-1.5 h-9 px-3.5 rounded-[10px] bg-[rgba(37,211,102,0.12)] border border-[rgba(37,211,102,0.4)] text-[#128C7E] text-[0.78rem] font-bold">
@@ -451,6 +459,30 @@ function GuestCard({ guest, index, waSent, onToggleSent, isAdmin }) {
             <span>Kirim WA</span>
           </a>
         )}
+
+        {/* Toggle Sent — switch (paling kanan) */}
+        <button
+          onClick={handleToggleSent}
+          disabled={toggling}
+          title={waSent ? 'Tandai belum terkirim' : 'Tandai sudah terkirim'}
+          className={`
+            flex items-center justify-center h-9 px-2 rounded-[10px] cursor-pointer
+            transition-all duration-150 shrink-0
+            ${toggling ? 'opacity-50 cursor-wait' : ''}
+          `}
+        >
+          <span className={`
+            relative inline-flex w-9 h-5 rounded-full transition-colors duration-200
+            ${waSent ? 'bg-[#25D366]' : 'bg-[rgba(46,58,79,0.2)]'}
+          `}>
+            <span className={`
+              absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white
+              shadow-[0_1px_3px_rgba(0,0,0,0.2)]
+              transition-transform duration-200
+              ${waSent ? 'translate-x-4' : 'translate-x-0'}
+            `} />
+          </span>
+        </button>
       </div>
 
     </div>
@@ -471,33 +503,79 @@ function GuestDashboard({ role, onLogout }) {
   const isAdmin = role === 'admin'
   const [guests, setGuests] = useState([])
   const [sentMap, setSentMap] = useState({}) // slug → boolean
+  const [rsvpMap, setRsvpMap] = useState({}) // slug or lowerName → rsvp object
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState(null)
   const [query, setQuery] = useState('')
   // Admin sees all sources; per-undangan login is locked to their source
   const [activeSource, setActiveSource] = useState(isAdmin ? 'Semua' : role)
+  // Attendance filter: 'Semua' | 'attending' | 'not_attending' | 'pending'
+  const [activeAttendance, setActiveAttendance] = useState('Semua')
 
   useEffect(() => {
-    async function fetchGuests() {
+    async function fetchData() {
       setLoading(true)
       setFetchError(null)
-      const { data, error } = await supabase
-        .from('guests')
-        .select('name, slug, source, phone, wa_sent')
-        .order('source')
-        .order('name')
-      if (error) {
-        setFetchError(error.message)
+
+      const [guestsRes, rsvpsRes] = await Promise.all([
+        supabase
+          .from('guests')
+          .select('name, slug, source, phone, wa_sent')
+          .order('source')
+          .order('name'),
+        supabase
+          .from('rsvps')
+          .select('guest_name, attendance_status, guest_count, message, created_at')
+      ])
+
+      if (guestsRes.error) {
+        setFetchError(guestsRes.error.message)
       } else {
-        const list = data ?? []
+        const list = guestsRes.data ?? []
         setGuests(list)
-        const map = {}
-        list.forEach((g) => { map[g.slug] = !!g.wa_sent })
-        setSentMap(map)
+
+        const rList = rsvpsRes.data ?? []
+        const rMap = {}
+        const sortedR = [...rList].sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0))
+        sortedR.forEach((r) => {
+          const slugKey = toSlug(r.guest_name)
+          const nameKey = r.guest_name ? r.guest_name.trim().toLowerCase() : ''
+          const entry = {
+            attendance_status: r.attendance_status,
+            guest_count: r.guest_count || 1,
+            message: r.message
+          }
+          if (slugKey) rMap[slugKey] = entry
+          if (nameKey) rMap[nameKey] = entry
+        })
+        setRsvpMap(rMap)
+
+        const sMap = {}
+        const unsyncedSlugs = []
+
+        list.forEach((g) => {
+          const hasRsvp = !!(rMap[g.slug] || rMap[g.name ? g.name.trim().toLowerCase() : ''])
+          const isSent = !!g.wa_sent || hasRsvp
+          sMap[g.slug] = isSent
+          if (hasRsvp && !g.wa_sent) {
+            unsyncedSlugs.push(g.slug)
+          }
+        })
+        setSentMap(sMap)
+
+        if (unsyncedSlugs.length > 0) {
+          supabase
+            .from('guests')
+            .update({ wa_sent: true })
+            .in('slug', unsyncedSlugs)
+            .then(({ error }) => {
+              if (error) console.error('Error auto-syncing wa_sent status:', error)
+            })
+        }
       }
       setLoading(false)
     }
-    fetchGuests()
+    fetchData()
   }, [])
 
   async function handleToggleSent(slug, newValue) {
@@ -528,13 +606,56 @@ function GuestDashboard({ role, onLogout }) {
     return c
   }, [guests])
 
+  const attendanceStats = useMemo(() => {
+    const sourceList = guests.filter((g) => activeSource === 'Semua' || g.source === activeSource)
+
+    let attendingCount = 0
+    let totalPax = 0
+    let notAttendingCount = 0
+    let pendingCount = 0
+
+    sourceList.forEach((g) => {
+      const rsvp = getGuestRsvp(g, rsvpMap)
+      if (!rsvp) {
+        pendingCount++
+      } else if (rsvp.attendance_status === 'attending') {
+        attendingCount++
+        totalPax += rsvp.guest_count || 1
+      } else if (rsvp.attendance_status === 'not_attending') {
+        notAttendingCount++
+      } else {
+        pendingCount++
+      }
+    })
+
+    return {
+      total: sourceList.length,
+      attendingCount,
+      totalPax,
+      notAttendingCount,
+      pendingCount
+    }
+  }, [guests, activeSource, rsvpMap])
+
   const filtered = useMemo(() => {
     return guests.filter((g) => {
       const matchSource = activeSource === 'Semua' || g.source === activeSource
-      const matchQuery = g.name.toLowerCase().includes(query.toLowerCase())
-      return matchSource && matchQuery
+      const rsvp = getGuestRsvp(g, rsvpMap)
+      const status = rsvp ? rsvp.attendance_status : 'pending'
+
+      let matchAttendance = true
+      if (activeAttendance === 'attending') matchAttendance = status === 'attending'
+      else if (activeAttendance === 'not_attending') matchAttendance = status === 'not_attending'
+      else if (activeAttendance === 'pending') matchAttendance = status === 'pending' || !rsvp
+
+      const q = query.toLowerCase()
+      const matchQuery =
+        g.name.toLowerCase().includes(q) ||
+        (rsvp?.attendance_status || '').toLowerCase().includes(q)
+
+      return matchSource && matchAttendance && matchQuery
     })
-  }, [guests, query, activeSource])
+  }, [guests, query, activeSource, activeAttendance, rsvpMap])
 
   return (
     <div className="paper-texture min-h-screen bg-gradient-to-[160deg] from-[#F7F4ED] to-[#EEE9DE]">
@@ -573,27 +694,71 @@ function GuestDashboard({ role, onLogout }) {
 
           {/* Source filter chips — admin only */}
           {isAdmin && (
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-            {sources.map((src) => {
-              const isActive = activeSource === src
-              return (
-                <button
-                  key={src}
-                  onClick={() => setActiveSource(src)}
-                  className={`
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {sources.map((src) => {
+                const isActive = activeSource === src
+                return (
+                  <button
+                    key={src}
+                    onClick={() => setActiveSource(src)}
+                    className={`
                     shrink-0 px-3.5 py-1.5 rounded-full text-[0.75rem] font-semibold
                     whitespace-nowrap border transition-all duration-200
                     ${isActive
-                      ? 'bg-[rgba(201,169,110,0.3)] border-[rgba(201,169,110,0.8)] text-[#E8C99A] shadow-[0_2px_10px_rgba(201,169,110,0.2)]'
-                      : 'bg-[rgba(201,169,110,0.06)] border-[rgba(201,169,110,0.2)] text-[rgba(232,201,154,0.6)] hover:bg-[rgba(201,169,110,0.12)] cursor-pointer'
-                    }
+                        ? 'bg-[rgba(201,169,110,0.3)] border-[rgba(201,169,110,0.8)] text-[#E8C99A] shadow-[0_2px_10px_rgba(201,169,110,0.2)]'
+                        : 'bg-[rgba(201,169,110,0.06)] border-[rgba(201,169,110,0.2)] text-[rgba(232,201,154,0.6)] hover:bg-[rgba(201,169,110,0.12)] cursor-pointer'
+                      }
                   `}
-                >
-                  {src} · {counts[src] ?? 0}
-                </button>
-              )
-            })}
-          </div>
+                  >
+                    {src} · {counts[src] ?? 0}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Attendance Stats Cards */}
+          {!loading && (
+            <div className="grid grid-cols-3 gap-2 pt-0.5">
+              <button
+                onClick={() => setActiveAttendance(activeAttendance === 'attending' ? 'Semua' : 'attending')}
+                className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${activeAttendance === 'attending'
+                    ? 'bg-[rgba(34,197,94,0.2)] border-[#22C55E] text-white shadow-[0_2px_10px_rgba(34,197,94,0.25)]'
+                    : 'bg-white/[0.05] border-[rgba(201,169,110,0.2)] text-[#E8C99A] hover:bg-white/[0.09]'
+                  }`}
+              >
+                <div className="text-[0.65rem] font-medium opacity-85 uppercase tracking-wider text-[#A7F3D0]">Hadir</div>
+                <div className="text-sm sm:text-base font-bold text-[#4ADE80] mt-0.5 leading-none">
+                  {attendanceStats.attendingCount} <span className="text-[0.68rem] font-normal opacity-90">({attendanceStats.totalPax} pax)</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => setActiveAttendance(activeAttendance === 'not_attending' ? 'Semua' : 'not_attending')}
+                className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${activeAttendance === 'not_attending'
+                    ? 'bg-[rgba(239,68,68,0.2)] border-[#EF4444] text-white shadow-[0_2px_10px_rgba(239,68,68,0.25)]'
+                    : 'bg-white/[0.05] border-[rgba(201,169,110,0.2)] text-[#E8C99A] hover:bg-white/[0.09]'
+                  }`}
+              >
+                <div className="text-[0.65rem] font-medium opacity-85 uppercase tracking-wider text-[#FCA5A5]">Tidak Hadir</div>
+                <div className="text-sm sm:text-base font-bold text-[#F87171] mt-0.5 leading-none">
+                  {attendanceStats.notAttendingCount} <span className="text-[0.68rem] font-normal opacity-90">tamu</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => setActiveAttendance(activeAttendance === 'pending' ? 'Semua' : 'pending')}
+                className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${activeAttendance === 'pending'
+                    ? 'bg-[rgba(156,163,175,0.25)] border-[#9CA3AF] text-white shadow-[0_2px_10px_rgba(156,163,175,0.25)]'
+                    : 'bg-white/[0.05] border-[rgba(201,169,110,0.2)] text-[#E8C99A] hover:bg-white/[0.09]'
+                  }`}
+              >
+                <div className="text-[0.65rem] font-medium opacity-85 uppercase tracking-wider text-[#D1D5DB]">Belum RSVP</div>
+                <div className="text-sm sm:text-base font-bold text-[#D1D5DB] mt-0.5 leading-none">
+                  {attendanceStats.pendingCount} <span className="text-[0.68rem] font-normal opacity-90">tamu</span>
+                </div>
+              </button>
+            </div>
           )}
 
           {/* Search */}
@@ -677,6 +842,7 @@ function GuestDashboard({ role, onLogout }) {
                   waSent={!!sentMap[guest.slug]}
                   onToggleSent={handleToggleSent}
                   isAdmin={isAdmin}
+                  rsvp={getGuestRsvp(guest, rsvpMap)}
                 />
               ))
             )}

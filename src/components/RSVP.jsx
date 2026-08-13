@@ -9,6 +9,18 @@ const ATTENDANCE_OPTIONS = [
   { value: 'not_attending', labelKey: 'rsvp.notAttending' },
 ]
 
+function toSlug(name) {
+  if (!name) return ''
+  return name
+    .toLowerCase()
+    .replace(/&/g, '')
+    .replace(/\./g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+}
+
 export default function RSVP({ guestName }) {
   const { t } = useTranslation()
   const [name, setName] = useState(guestName || '')
@@ -34,13 +46,22 @@ export default function RSVP({ guestName }) {
     setStatus('submitting')
     try {
       if (!isSupabaseConfigured) throw new Error('Supabase not configured')
+      const trimmedName = name.trim()
       const { error } = await supabase.from('rsvps').insert({
-        guest_name: name.trim(),
+        guest_name: trimmedName,
         attendance_status: attendance,
         guest_count: attendance === 'attending' ? guestCount : 1,
         message: message.trim() || null,
       })
       if (error) throw error
+
+      // Auto-set wa_sent to true in guests table if matching guest exists
+      const gSlug = toSlug(trimmedName)
+      await supabase
+        .from('guests')
+        .update({ wa_sent: true })
+        .or(`slug.eq.${gSlug},name.ilike.${trimmedName}`)
+
       setStatus('success')
     } catch (err) {
       console.error(err)
