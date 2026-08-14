@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabaseClient'
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 const BASE_URL = 'https://adventureof-pritailham.co'
 const SESSION_KEY = 'guestlist_authed'
-// Value stored: 'admin' | 'Prita' | 'Om Ilham' | 'Tante Dian'
+// Value stored: 'admin' | 'Prita' | 'Om Ilham' | 'Tante Dian' | 'Ilham'
 const SESSION_ROLE_KEY = 'guestlist_role'
 
 const SOURCE_STYLES = {
@@ -17,6 +17,9 @@ const SOURCE_STYLES = {
   },
   'Tante Dian': {
     badge: 'bg-[rgba(74,69,64,0.12)] border border-[rgba(74,69,64,0.30)] text-[#7A6F60]',
+  },
+  Ilham: {
+    badge: 'bg-[rgba(34,113,84,0.12)] border border-[rgba(34,113,84,0.35)] text-[#227154]',
   },
 }
 
