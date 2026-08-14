@@ -67,7 +67,7 @@ VALUES
   ('Tria & Partner', 'tria-partner', 'Ilham', '6289677173588'),
   ('Bani', 'bani', 'Ilham', '6287871195086'),
   ('Inwan', 'inwan', 'Ilham', '6285723260587'),
-  ('Arif & Partner', 'arif-partner-2', 'Ilham', '6282211024365'),
+  ('Arif & Partner', 'arif-partner', 'Ilham', '6282211024365'),
   ('Atras', 'atras', 'Ilham', '6285829737969'),
   ('Egiwe', 'egiwe', 'Ilham', '6285664888788'),
   ('Abex & Billy', 'abex-billy', 'Ilham', '6281270160460'),
