@@ -8,10 +8,12 @@ import { supabase, isSupabaseConfigured } from '../lib/supabaseClient'
  * - `?to=john`  → SELECT name FROM guests WHERE slug = 'john'
  * - Found       → guestName = "John", notInvited = false
  * - Not found   → guestName = '', notInvited = true  (block access)
- * - No `?to=`   → guestName = '', notInvited = false (open access)
+ * - No `?to=`   → guestName = '', notInvited = true  (block access — direct URL)
  *
  * Returns { guestName, guestSlug, notInvited, loading }
  */
+const PREVIEW_TOKEN = import.meta.env.VITE_PREVIEW_TOKEN
+
 export default function useGuestName() {
   const [guestName, setGuestName] = useState('')
   const [guestSlug, setGuestSlug] = useState('')
@@ -22,11 +24,23 @@ export default function useGuestName() {
     if (typeof window === 'undefined') return
 
     const params = new URLSearchParams(window.location.search)
+
+    // Preview bypass — ?preview=<token> skips all guest checks
+    if (PREVIEW_TOKEN && params.get('preview') === PREVIEW_TOKEN) return
+
     const to = params.get('to')
-    if (!to) return
+    if (!to) {
+      // No ?to= param — direct URL access, block it
+      setNotInvited(true)
+      return
+    }
 
     const slug = decodeURIComponent(to).trim()
-    if (!slug) return
+    if (!slug) {
+      // Empty ?to= param — also block
+      setNotInvited(true)
+      return
+    }
 
     setGuestSlug(slug)
 
