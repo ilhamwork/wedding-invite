@@ -21,6 +21,9 @@ const SOURCE_STYLES = {
   Ilham: {
     badge: 'bg-[rgba(34,113,84,0.12)] border border-[rgba(34,113,84,0.35)] text-[#227154]',
   },
+  Bapa: {
+    badge: 'bg-[rgba(120,80,40,0.12)] border border-[rgba(120,80,40,0.35)] text-[#7B5028]',
+  },
 }
 
 // Per-undangan passwords — set via .env (VITE_PW_PRITA, etc.)
@@ -45,6 +48,11 @@ const UNDANGAN_ACCOUNTS = [
     label: 'Ilham',
     role: 'Ilham',
     envKey: 'VITE_PW_ILHAM',
+  },
+  {
+    label: 'Bapa',
+    role: 'Bapa',
+    envKey: 'VITE_PW_BAPA',
   },
 ]
 
