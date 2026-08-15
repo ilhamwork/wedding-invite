@@ -85,7 +85,20 @@ VALUES
   ('Angga & Ceu Juju', 'angga-ceu-juju', 'Ilham', NULL),
   ('Rudi & Partner', 'rudi-partner', 'Ilham', '6285882632168'),
   ('Regi', 'regi', 'Ilham', NULL),
-  ('Gumilang', 'gumilang', 'Ilham', '6281252992952')
+  ('Gumilang', 'gumilang', 'Ilham', '6281252992952'),
+  ('Vira & Partner', 'vira-partner', 'Ilham', '6281284865001'),
+  ('Icool & Partner', 'icool-partner', 'Ilham', '6281290823630'),
+  ('Nadya & Partner', 'nadya-partner', 'Ilham', '628111114139'),
+  ('Kris & Partner', 'kris-partner', 'Ilham', '6287872874585'),
+  ('Yogi & Partner', 'yogi-partner', 'Ilham', '6283129056905'),
+  ('Saifud', 'saifud', 'Ilham', '6281331123526'),
+  ('Noka & Partner', 'noka-partner', 'Ilham', '6285697582370'),
+  ('Ina Bastin', 'ina-bastin', 'Ilham', NULL),
+  ('Agus & Partner', 'agus-partner', 'Ilham', '6281252607445'),
+  ('Deni', 'deni', 'Ilham', '6285784105610'),
+  ('Ira', 'ira', 'Ilham', '6281332651424'),
+  ('Dafa', 'dafa', 'Ilham', '6281237572121'),
+  ('Wira & Rini', 'wira-rini', 'Ilham', '6282118037833')
 ON CONFLICT (slug)
 DO UPDATE SET
   name   = EXCLUDED.name,
