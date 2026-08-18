@@ -100,8 +100,12 @@ Kami yang berbahagia,
 function normalizePhone(phone) {
   if (!phone) return null
   let digits = String(phone).replace(/\D/g, '')
+  // Local Indonesian number starting with 0 → replace with 62
   if (digits.startsWith('0')) digits = '62' + digits.slice(1)
-  if (!digits.startsWith('62')) digits = '62' + digits
+  // If no country code yet (not starting with known prefixes), default to 62
+  // Known international prefixes: 1 (US/CA), 44 (UK), 61 (AU), 62 (ID), 65 (SG), 60 (MY), etc.
+  const hasCountryCode = /^(1|44|61|62|63|65|60|81|82|84|86|91|966|971)/.test(digits)
+  if (!hasCountryCode) digits = '62' + digits
   return digits
 }
 
