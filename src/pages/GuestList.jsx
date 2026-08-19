@@ -93,6 +93,8 @@ Merupakan sebuah kebahagiaan bagi kami apabila Bapak/Ibu/Sdr/i berkenan untuk ha
 
 Wassalamualaikum warrahmatullah wabarakatuh.
 
+(Jangan lupa isi RSVP di link yang tertera ya ☺️) 
+
 Kami yang berbahagia,
 *Prita & Ilham*`
 }

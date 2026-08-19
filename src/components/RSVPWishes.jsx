@@ -34,6 +34,7 @@ export default function RSVPWishes({ guestName }) {
   const [message, setMessage] = useState('')
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | submitting | success
+  const [rsvpSource, setRsvpSource] = useState(null) // null | 'admin' | 'guest'
 
   // Wishes list state
   const [wishes, setWishes] = useState([])
@@ -41,15 +42,23 @@ export default function RSVPWishes({ guestName }) {
   const [loadError, setLoadError] = useState(false)
   const [justSubmittedId, setJustSubmittedId] = useState(null)
 
-  // Check if guest already submitted an RSVP
+  // Check if guest already has an RSVP entry:
+  // - no entry       → show form
+  // - source 'admin' → show form (admin pre-filled, guest can still submit)
+  // - source 'guest' → show thank you (guest already self-submitted)
   useEffect(() => {
     if (!guestName || !isSupabaseConfigured) return
     supabase
       .from('rsvps')
-      .select('id', { count: 'exact', head: true })
+      .select('id, source')
       .ilike('guest_name', guestName.trim())
-      .then(({ count }) => {
-        if (count && count > 0) setStatus('success')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .then(({ data }) => {
+        const latest = data?.[0]
+        if (latest) setRsvpSource(latest.source ?? 'guest')
+        if (latest?.source === 'guest') setStatus('success')
+        // source 'admin' or no entry → keep form open
       })
   }, [guestName])
 
@@ -95,13 +104,14 @@ export default function RSVPWishes({ guestName }) {
     try {
       if (!isSupabaseConfigured) throw new Error('Supabase not configured')
 
-      // Insert RSVP
+      // Insert RSVP (source: 'guest' marks this as self-submitted — blocks re-submission)
       const trimmedName = name.trim()
       const { error: rsvpError } = await supabase.from('rsvps').insert({
         guest_name: trimmedName,
         attendance_status: attendance,
         guest_count: attendance === 'attending' ? guestCount : 0,
         message: message.trim() || null,
+        source: 'guest',
       })
       if (rsvpError) throw rsvpError
 
