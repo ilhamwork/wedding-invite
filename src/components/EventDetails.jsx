@@ -32,9 +32,11 @@ function EventItem({ event, label, note, timeOverride }) {
   )
 }
 
-export default function EventDetails() {
+export default function EventDetails({ guestSource }) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language?.startsWith('en') ? 'en' : 'id'
+
+  const isBapa = guestSource === 'Bapa'
 
   return (
     <Section id="event" bg="texture" flip={false} fadeTop="#F7F4ED" fadeBottom="#F7F4ED">
@@ -42,15 +44,17 @@ export default function EventDetails() {
         <h2 className="font-display text-2xl text-center text-sea mb-10">{t('event.title')}</h2>
 
         {/* Event Cards Container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10 max-w-4xl mx-auto">
-          {/* Akad Card */}
-          <div className="bg-pebble/30 rounded-2xl p-6 border hairline flex flex-col justify-center">
-            <EventItem
-              event={content.event.akad}
-              label={content.event.akad.label[lang]}
-              note={lang === 'id' ? 'Khusus keluarga' : 'Reserved for family only'}
-            />
-          </div>
+        <div className={`grid gap-6 md:gap-8 mb-10 max-w-4xl mx-auto ${isBapa ? 'grid-cols-1 max-w-sm' : 'grid-cols-1 md:grid-cols-2'}`}>
+          {/* Akad Card — hidden for Bapa guests */}
+          {!isBapa && (
+            <div className="bg-pebble/30 rounded-2xl p-6 border hairline flex flex-col justify-center">
+              <EventItem
+                event={content.event.akad}
+                label={content.event.akad.label[lang]}
+                note={lang === 'id' ? 'Khusus keluarga' : 'Reserved for family only'}
+              />
+            </div>
+          )}
 
           {/* Resepsi Card */}
           <div className="bg-pebble/30 rounded-2xl p-6 border hairline flex flex-col justify-center">

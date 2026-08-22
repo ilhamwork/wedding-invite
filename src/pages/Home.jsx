@@ -18,7 +18,7 @@ import MusicToggle from '../components/MusicToggle'
 const countdownImages = content.countdown?.images ?? content.gallery.map((g) => g.src)
 
 export default function Home() {
-  const { guestName, guestSlug, notInvited, loading: guestLoading } = useGuestName()
+  const { guestName, guestSlug, guestSource, notInvited, loading: guestLoading } = useGuestName()
   const [isOpen, setIsOpen] = useState(false)
   useTranslation() // ensures re-render on language change at this level
 
@@ -67,7 +67,7 @@ export default function Home() {
               <Countdown />
               <div className="section-alt-b"><QuoteVerse /></div>
               <div className="section-alt-a"><Couple /></div>
-              <div className="section-alt-a"><EventDetails /></div>
+              <div className="section-alt-a"><EventDetails guestSource={guestSource} /></div>
               <div className="section-alt-a"><OurStory /></div>
               <div className="section-alt-b"><Gallery /></div>
               <div className="section-alt-b"><RSVPWishes guestName={guestName} guestSlug={guestSlug} /></div>

@@ -10,13 +10,14 @@ import { supabase, isSupabaseConfigured } from '../lib/supabaseClient'
  * - Not found   → guestName = '', notInvited = true  (block access)
  * - No `?to=`   → guestName = '', notInvited = true  (block access — direct URL)
  *
- * Returns { guestName, guestSlug, notInvited, loading }
+ * Returns { guestName, guestSlug, guestSource, notInvited, loading }
  */
 const PREVIEW_TOKEN = import.meta.env.VITE_PREVIEW_TOKEN
 
 export default function useGuestName() {
   const [guestName, setGuestName] = useState('')
   const [guestSlug, setGuestSlug] = useState('')
+  const [guestSource, setGuestSource] = useState('')
   const [notInvited, setNotInvited] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -54,13 +55,14 @@ export default function useGuestName() {
 
     supabase
       .from('guests')
-      .select('name')
+      .select('name, source')
       .ilike('slug', slug)
       .single()
       .then(({ data, error }) => {
         if (cancelled) return
         if (!error && data?.name) {
           setGuestName(data.name)
+          setGuestSource(data.source ?? '')
         } else {
           // slug provided but not found in DB → not invited
           setNotInvited(true)
@@ -73,5 +75,5 @@ export default function useGuestName() {
     }
   }, [])
 
-  return { guestName, guestSlug, notInvited, loading }
+  return { guestName, guestSlug, guestSource, notInvited, loading }
 }
